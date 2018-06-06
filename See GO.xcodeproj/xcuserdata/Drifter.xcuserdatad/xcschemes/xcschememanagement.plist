@@ -7,7 +7,20 @@
 		<key>See GO.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>FEAD425420C6901300E25996</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FEAD426820C6901600E25996</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

@@ -3,16 +3,18 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92ABC6C29FA81CFA23222EBB /* libPods-See GO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E30200853267F11B7D41C3CC /* libPods-See GO.a */; };
 		FEAD425920C6901400E25996 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAD425820C6901400E25996 /* AppDelegate.swift */; };
-		FEAD425B20C6901400E25996 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAD425A20C6901400E25996 /* ViewController.swift */; };
 		FEAD425E20C6901400E25996 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEAD425C20C6901400E25996 /* Main.storyboard */; };
 		FEAD426020C6901600E25996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEAD425F20C6901600E25996 /* Assets.xcassets */; };
 		FEAD426320C6901600E25996 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEAD426120C6901600E25996 /* LaunchScreen.storyboard */; };
 		FEAD426E20C6901600E25996 /* See_GOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAD426D20C6901600E25996 /* See_GOTests.swift */; };
+		FEC4FC0B20C6AC8B00837F48 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC4FC0A20C6AC8B00837F48 /* MapViewController.swift */; };
+		FEF52F3020C782C1004DF382 /* StoryUploadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF52F2F20C782C0004DF382 /* StoryUploadController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,9 +28,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		444A7605F2CFF3987450794E /* Pods-See GO.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.release.xcconfig"; path = "Pods/Target Support Files/Pods-See GO/Pods-See GO.release.xcconfig"; sourceTree = "<group>"; };
+		90DAFDE9626FF9759E17C62D /* Pods-See GO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.debug.xcconfig"; path = "Pods/Target Support Files/Pods-See GO/Pods-See GO.debug.xcconfig"; sourceTree = "<group>"; };
+		E30200853267F11B7D41C3CC /* libPods-See GO.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-See GO.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEAD425520C6901400E25996 /* See GO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "See GO.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEAD425820C6901400E25996 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FEAD425A20C6901400E25996 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FEAD425D20C6901400E25996 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FEAD425F20C6901600E25996 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FEAD426220C6901600E25996 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -36,6 +40,8 @@
 		FEAD426920C6901600E25996 /* See GOTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "See GOTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEAD426D20C6901600E25996 /* See_GOTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = See_GOTests.swift; sourceTree = "<group>"; };
 		FEAD426F20C6901600E25996 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FEC4FC0A20C6AC8B00837F48 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		FEF52F2F20C782C0004DF382 /* StoryUploadController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryUploadController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92ABC6C29FA81CFA23222EBB /* libPods-See GO.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,12 +63,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5BEF1DB2EB071AB36AA46E52 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E30200853267F11B7D41C3CC /* libPods-See GO.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F6A931D4F279EAAEBD715D34 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				90DAFDE9626FF9759E17C62D /* Pods-See GO.debug.xcconfig */,
+				444A7605F2CFF3987450794E /* Pods-See GO.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		FEAD424C20C6901300E25996 = {
 			isa = PBXGroup;
 			children = (
 				FEAD425720C6901400E25996 /* See GO */,
 				FEAD426C20C6901600E25996 /* See GOTests */,
 				FEAD425620C6901400E25996 /* Products */,
+				F6A931D4F279EAAEBD715D34 /* Pods */,
+				5BEF1DB2EB071AB36AA46E52 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -78,7 +104,8 @@
 			isa = PBXGroup;
 			children = (
 				FEAD425820C6901400E25996 /* AppDelegate.swift */,
-				FEAD425A20C6901400E25996 /* ViewController.swift */,
+				FEC4FC0A20C6AC8B00837F48 /* MapViewController.swift */,
+				FEF52F2F20C782C0004DF382 /* StoryUploadController.swift */,
 				FEAD425C20C6901400E25996 /* Main.storyboard */,
 				FEAD425F20C6901600E25996 /* Assets.xcassets */,
 				FEAD426120C6901600E25996 /* LaunchScreen.storyboard */,
@@ -103,9 +130,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FEAD427220C6901600E25996 /* Build configuration list for PBXNativeTarget "See GO" */;
 			buildPhases = (
+				AB001C1C57D3AED31183E110 /* [CP] Check Pods Manifest.lock */,
 				FEAD425120C6901300E25996 /* Sources */,
 				FEAD425220C6901300E25996 /* Frameworks */,
 				FEAD425320C6901300E25996 /* Resources */,
+				7901BF213A5E151D8C1DA3E7 /* [CP] Embed Pods Frameworks */,
+				CA5F298908A02851D3949F99 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -145,15 +175,17 @@
 				TargetAttributes = {
 					FEAD425420C6901300E25996 = {
 						CreatedOnToolsVersion = 9.4;
+						ProvisioningStyle = Automatic;
 					};
 					FEAD426820C6901600E25996 = {
 						CreatedOnToolsVersion = 9.4;
+						ProvisioningStyle = Automatic;
 						TestTargetID = FEAD425420C6901300E25996;
 					};
 				};
 			};
 			buildConfigurationList = FEAD425020C6901300E25996 /* Build configuration list for PBXProject "See GO" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -191,13 +223,70 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		7901BF213A5E151D8C1DA3E7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AB001C1C57D3AED31183E110 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-See GO-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CA5F298908A02851D3949F99 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		FEAD425120C6901300E25996 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FEAD425B20C6901400E25996 /* ViewController.swift in Sources */,
 				FEAD425920C6901400E25996 /* AppDelegate.swift in Sources */,
+				FEC4FC0B20C6AC8B00837F48 /* MapViewController.swift in Sources */,
+				FEF52F3020C782C1004DF382 /* StoryUploadController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,22 +436,19 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		FEAD427320C6901600E25996 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 90DAFDE9626FF9759E17C62D /* Pods-See GO.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "See GO/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "bored.See-GO";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -372,14 +458,12 @@
 		};
 		FEAD427420C6901600E25996 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 444A7605F2CFF3987450794E /* Pods-See GO.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "See GO/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "bored.See-GO";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -394,11 +478,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "See GOTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "bored.See-GOTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -414,11 +494,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "See GOTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "bored.See-GOTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
