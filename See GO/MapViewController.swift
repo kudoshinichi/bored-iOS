@@ -13,7 +13,7 @@ class MapViewController: UIViewController {
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var mapView: GMSMapView!
-    var zoomLevel: Float = 15.0
+    var zoomLevel: Float = 19.0
     
     // You don't need to modify the default init(nibName:bundle:) method.
     
@@ -29,7 +29,7 @@ class MapViewController: UIViewController {
         locationManager.delegate = self
         
         // A default location to use when location permission is not granted.
-        let defaultLocation = CLLocation(latitude: -33.869405, longitude: 151.199)
+        let defaultLocation = CLLocation(latitude: 1.346313, longitude: 103.841332)
         
         self.view .layoutIfNeeded()
         // Create a map.
@@ -44,24 +44,14 @@ class MapViewController: UIViewController {
         // Add the map to the view, hide it until we've got a location update.
         view.addSubview(mapView)
         mapView.isHidden = true
+        
+        // Test random marker
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(latitude: 1.346313, longitude: 103.841332)
+        marker.title = "Test Marker"
+        marker.snippet = "How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get"
+        marker.map = mapView
     }
-    
-    /**
-     override func loadView() {
-     // Create a GMSCameraPosition that tells the map to display the
-     // coordinate -33.86,151.20 at zoom level 6.
-     let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
-     let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-     view = mapView
-     
-     // Creates a marker in the center of the map.
-     let marker = GMSMarker()
-     marker.position = CLLocationCoordinate2D(latitude: -33.86, longitude: 151.20)
-     marker.title = "Sydney"
-     marker.snippet = "Australia"
-     marker.map = mapView
-     }
-     */
     
 }
 
