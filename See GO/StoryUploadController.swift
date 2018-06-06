@@ -78,8 +78,6 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     
     //MARK: Actions
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
-        print("tapped")
-        /*
         // UIImagePickerController is a view controller that lets a user pick media from their photo library.
         let imagePickerController = UIImagePickerController()
         
@@ -90,7 +88,6 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         imagePickerController.delegate = self
         
         present(imagePickerController, animated: true, completion: nil)
-        */
     }
     
 
