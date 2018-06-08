@@ -17,8 +17,9 @@ struct Story {
     let uri: String
     let views : Int
     let votes : Int
+    let keywords : String
     
-    init(caption: String, featured: Bool, flagged: Bool, location: String, uri: String, views: Int, votes: Int) {
+    init(caption: String, featured: Bool, flagged: Bool, location: String, uri: String, views: Int, votes: Int, keywords: String) {
         //self.ref = nil
         self.caption = caption
         self.featured = featured
@@ -27,9 +28,10 @@ struct Story {
         self.uri = uri
         self.views = views
         self.votes = votes
+        self.keywords = keywords
     }
     
-    /* init?(snapshot: DataSnapshot) {
+    /*init?(snapshot: DataSnapshot) {
         guard
             let value = snapshot.value as? [String: AnyObject],
             let caption = value["Caption"] as? String,
@@ -38,7 +40,8 @@ struct Story {
             let location = value["Location"] as? String,
             let uri = value["URI"] as? String,
             let views = value["Views"] as? Int,
-            let votes = value["Votes"] as? Int
+            let votes = value["Votes"] as? Int,
+            let keywords = value["Keywords"] as? String
             else {
                 return nil
         }
@@ -51,8 +54,9 @@ struct Story {
         self.uri = uri
         self.views = views
         self.votes = votes
-    }
-    */
+        self.keywords = keywords
+    }*/
+ 
     
     func toAnyObject() -> Any {
         return [
@@ -63,6 +67,7 @@ struct Story {
             "URI": uri,
             "Views": views,
             "Votes": votes,
+            "Keywords": keywords,
         ]
     }
 }

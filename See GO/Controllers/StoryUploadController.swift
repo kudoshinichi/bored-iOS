@@ -8,18 +8,26 @@
 import UIKit
 import FirebaseDatabase
 import Firebase
+import CoreLocation
 
-class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
 
     // MARK: Properties
     @IBOutlet weak var hookText: UITextField!
     @IBOutlet weak var captionText: UITextField!
     @IBOutlet weak var photoImageView: UIImageView!
-    @IBOutlet weak var checkLabel: UILabel!
-    @IBOutlet weak var checkCaptionLabel: UILabel!
+    
     // Firebase
     let ref = Database.database().reference(withPath: "stories")
     let locRef = Database.database().reference(withPath: "locations")
+    var items: [Story] = []
+    
+    // Location
+    var location: String = ""
+    var longitude: String = ""
+    var latitude: String = ""
+    var locationKey: String = ""
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,10 +35,33 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         // Handle the text field’s user input through delegate callbacks.
         hookText.delegate = self
         captionText.delegate = self
-
-        // Do any additional setup after loading the view.
+        
+        // Ask for Authorisation from the User.
+        self.locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
     }
 
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        // Location variable
+        location = "\(locValue.latitude),\(locValue.longitude)"
+        longitude = "\(locValue.longitude)"
+        latitude = "\(locValue.latitude)"
+        locationKey = latitude.replacingOccurrences(of: ".", with: "d") + "," + longitude.replacingOccurrences(of: ".", with: "d")
+        print(locationKey)
+        print(location)
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -45,21 +76,8 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
             captionText.resignFirstResponder()
         default: break
         }
-        
         return true
     }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        switch textField{
-        case hookText:
-            checkLabel.text = hookText.text
-        case captionText:
-            checkCaptionLabel.text = captionText.text
-        default: break
-        }
-        
-    }
-    
     
     //MARK: UIImagePickerControllerDelegate
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -92,6 +110,31 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         imagePickerController.delegate = self
         
         present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    @IBAction func squawkStory(_ sender: UIButton) {
+        let storyItem = Story(caption: captionText.text!,
+                                featured: false,
+                                flagged: false,
+                                location: self.location,
+                                uri: "test.uri",
+                                views: 0,
+                                votes: 0,
+                                keywords: hookText.text!)
+        
+        // 3
+        let storyItemRef = self.ref.childByAutoId()
+        let childautoID = storyItemRef.key
+        
+        // 4
+        storyItemRef.setValue(storyItem.toAnyObject())
+        
+        // 5 Add time to another node
+        storyItemRef.child("DateTime").setValue(["time": Int(NSDate().timeIntervalSince1970*1000)])
+        
+        //6 create a location node
+        self.locRef.child(self.locationKey).setValue([childautoID : 0])
+        
     }
     
 
