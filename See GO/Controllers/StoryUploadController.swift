@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import Firebase
 
 class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -15,7 +17,9 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var checkLabel: UILabel!
     @IBOutlet weak var checkCaptionLabel: UILabel!
-    
+    // Firebase
+    let ref = Database.database().reference(withPath: "stories")
+    let locRef = Database.database().reference(withPath: "locations")
     
     override func viewDidLoad() {
         super.viewDidLoad()

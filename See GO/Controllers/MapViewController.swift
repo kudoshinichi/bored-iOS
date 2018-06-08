@@ -7,15 +7,26 @@
 
 import UIKit
 import GoogleMaps
+import Firebase
+import FirebaseDatabase
 
 class MapViewController: UIViewController {
     
+    // MARK: Properties
+    // Google Maps
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var mapView: GMSMapView!
     var zoomLevel: Float = 19.0
+    // Firebase
+    let ref = Database.database().reference(withPath: "stories")
+    let locRef = Database.database().reference(withPath: "locations")
+    // Location strings
+    var location: String = ""
+    var longitude: String = ""
+    var latitude: String = ""
+    var locationKey: String = ""
     
-    // You don't need to modify the default init(nibName:bundle:) method.
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +43,7 @@ class MapViewController: UIViewController {
         let defaultLocation = CLLocation(latitude: 1.346313, longitude: 103.841332)
         
         self.view .layoutIfNeeded()
+        
         // Create a map.
         let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude,
                                               longitude: defaultLocation.coordinate.longitude,
@@ -45,12 +57,16 @@ class MapViewController: UIViewController {
         view.addSubview(mapView)
         mapView.isHidden = true
         
+        
+        //Read location coordinates from Firebase (TODO)
+        
         // Test random marker
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2D(latitude: 1.346313, longitude: 103.841332)
         marker.title = "Test Marker"
         marker.snippet = "How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get"
         marker.map = mapView
+        
     }
     
 }
