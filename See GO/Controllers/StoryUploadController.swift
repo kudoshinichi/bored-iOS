@@ -5,6 +5,8 @@
 //  Created by Hongyi Shen on 6/6/18.
 //
 
+// Subsequent TO-DO: 1. segue back to Map 2. Image storage + URI 3. Camera Picker 4. Refresh Map 5. Hashtags 6. Users 7. Comments
+
 import UIKit
 import FirebaseDatabase
 import Firebase
