@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		92ABC6C29FA81CFA23222EBB /* libPods-See GO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E30200853267F11B7D41C3CC /* libPods-See GO.a */; };
 		FE7F26B820C7DA8100F085A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE7F26B720C7DA8100F085A7 /* GoogleService-Info.plist */; };
-		FE9DFF3D20CA394900279C6B /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DFF3C20CA394900279C6B /* Story.swift */; };
+		FE9DFF4120CA60BF00279C6B /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DFF4020CA60BE00279C6B /* Story.swift */; };
 		FEAD425920C6901400E25996 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAD425820C6901400E25996 /* AppDelegate.swift */; };
 		FEAD425E20C6901400E25996 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEAD425C20C6901400E25996 /* Main.storyboard */; };
 		FEAD426020C6901600E25996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEAD425F20C6901600E25996 /* Assets.xcassets */; };
@@ -34,7 +34,7 @@
 		90DAFDE9626FF9759E17C62D /* Pods-See GO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.debug.xcconfig"; path = "Pods/Target Support Files/Pods-See GO/Pods-See GO.debug.xcconfig"; sourceTree = "<group>"; };
 		E30200853267F11B7D41C3CC /* libPods-See GO.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-See GO.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE7F26B720C7DA8100F085A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		FE9DFF3C20CA394900279C6B /* Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
+		FE9DFF4020CA60BE00279C6B /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
 		FEAD425520C6901400E25996 /* See GO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "See GO.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEAD425820C6901400E25996 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FEAD425D20C6901400E25996 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -96,7 +96,7 @@
 		FE9DFF3B20CA393200279C6B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				FE9DFF3C20CA394900279C6B /* Story.swift */,
+				FE9DFF4020CA60BE00279C6B /* Story.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -310,7 +310,7 @@
 				FEAD425920C6901400E25996 /* AppDelegate.swift in Sources */,
 				FEC4FC0B20C6AC8B00837F48 /* MapViewController.swift in Sources */,
 				FEF52F3020C782C1004DF382 /* StoryUploadController.swift in Sources */,
-				FE9DFF3D20CA394900279C6B /* Story.swift in Sources */,
+				FE9DFF4120CA60BF00279C6B /* Story.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

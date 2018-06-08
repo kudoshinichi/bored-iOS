@@ -18,9 +18,13 @@ class MapViewController: UIViewController {
     var currentLocation: CLLocation?
     var mapView: GMSMapView!
     var zoomLevel: Float = 19.0
+    
     // Firebase
-    let ref = Database.database().reference(withPath: "stories")
-    let locRef = Database.database().reference(withPath: "locations")
+    var ref: DatabaseReference!
+    var stoRef: DatabaseReference!
+    var locRef: DatabaseReference!
+    
+    
     // Location strings
     var location: String = ""
     var longitude: String = ""
@@ -30,6 +34,10 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ref = Database.database().reference()
+        stoRef = Database.database().reference(withPath: "stories")
+        locRef = Database.database().reference(withPath: "locations")
         
         // Initialize the location manager.
         locationManager = CLLocationManager()
@@ -57,15 +65,24 @@ class MapViewController: UIViewController {
         view.addSubview(mapView)
         mapView.isHidden = true
         
-        
-        //Read location coordinates from Firebase (TODO)
-        
-        // Test random marker
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: 1.346313, longitude: 103.841332)
-        marker.title = "Test Marker"
-        marker.snippet = "How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get. How long can this get"
-        marker.map = mapView
+        //Read location coordinates from Firebase + add markers onto map
+        ref.child("locations").observeSingleEvent(of: .value, with: { (snapshot) in
+            for child in snapshot.children{
+                let valueD = child as! DataSnapshot
+                let keyD = valueD.key
+                let key = keyD.replacingOccurrences(of: "d", with: ".")
+                let locationArray = key.split(separator:",")
+                let latitude: String = String(locationArray[0])
+                let longitude: String = String(locationArray[1])
+                
+                // adding marker to map
+                let marker = GMSMarker()
+                marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
+                marker.title = "Test Marker"
+                marker.snippet = "Nothing cool yet"
+                marker.map = self.mapView
+            }
+        })
         
     }
     

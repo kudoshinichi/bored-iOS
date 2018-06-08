@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 
 struct Story {
-    let ref: DatabaseReference?
+    //let ref: DatabaseReference?
     let caption: String
     var featured: Bool
     var flagged: Bool
@@ -19,7 +19,7 @@ struct Story {
     let votes : Int
     
     init(caption: String, featured: Bool, flagged: Bool, location: String, uri: String, views: Int, votes: Int) {
-        self.ref = nil
+        //self.ref = nil
         self.caption = caption
         self.featured = featured
         self.flagged = flagged
@@ -29,7 +29,7 @@ struct Story {
         self.votes = votes
     }
     
-    init?(snapshot: DataSnapshot) {
+    /* init?(snapshot: DataSnapshot) {
         guard
             let value = snapshot.value as? [String: AnyObject],
             let caption = value["Caption"] as? String,
@@ -52,6 +52,7 @@ struct Story {
         self.views = views
         self.votes = votes
     }
+    */
     
     func toAnyObject() -> Any {
         return [
