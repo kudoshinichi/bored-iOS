@@ -64,7 +64,11 @@
                         <viewLayoutGuide key="safeArea" id="8pI-9J-ugd"/>
                     </view>
                     <navigationItem key="navigationItem" title="Add Squawk" id="pg6-3i-fWT">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="aBI-do-iQu"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="aBI-do-iQu">
+                            <connections>
+                                <segue destination="6iu-Ob-GHa" kind="unwind" unwindAction="unwindToMainScreenWithSegue:" id="LOT-GZ-aV6"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Squawk" id="ZQn-77-hga">
                             <connections>
                                 <segue destination="6iu-Ob-GHa" kind="unwind" unwindAction="unwindToMainScreenWithSegue:" id="7GT-2y-TrT"/>

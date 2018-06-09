@@ -5,12 +5,15 @@
 //  Created by Hongyi Shen on 6/6/18.
 //
 
-// Subsequent TO-DO: 2. Image storage + URI 3. Camera Picker 5. Prevent empty stories 6. Users [ 7. Comments 8. Hashtag and Hasthtag search ]
+// Subsequent TO-DO: 0. Cancel Button (removes stored image) 2. Image storage URI in database
+// 3. Camera Picker 5. Prevent empty stories 6. Show Story
+// [6. Users 7. Comments 8. Hashtag and Hasthtag search ]
 
 import UIKit
 import FirebaseDatabase
 import Firebase
 import CoreLocation
+import FirebaseStorage
 import os.log
 
 class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
@@ -22,14 +25,17 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     @IBOutlet weak var squawkButton: UIBarButtonItem!
     
     
-    // Firebase
+    // Database
     let ref = Database.database().reference(withPath: "stories")
     let locRef = Database.database().reference(withPath: "locations")
     var items: [Story] = []
-    // Get a reference to the storage service using the default Firebase App
+    
+    // Storage
     let storage = Storage.storage()
-    
-    
+    var imagePath: String = ""
+    var imageNameS: String = ""
+    var imageURL: String = "" // download url for database
+
     // Location
     var location: String = ""
     var longitude: String = ""
@@ -102,8 +108,54 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         // Set photoImageView to display the selected image.
         photoImageView.image = selectedImage
         
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let imageUrl          = info[UIImagePickerControllerImageURL] as? NSURL
+        let imageName         = imageUrl?.lastPathComponent
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+        let localPath         = photoURL.appendingPathComponent(imageName!)
+        
+        if !FileManager.default.fileExists(atPath: localPath!.path) {
+            do {
+                try UIImageJPEGRepresentation(image, 1.0)?.write(to: localPath!)
+                print("file saved")
+            }catch {
+                print("error saving file")
+            }
+        }
+        else {
+            print("file already exists")
+        }
+        
+        imagePath = localPath!.absoluteString
+        imageNameS = imageName!
+        
         // Dismiss the picker.
         dismiss(animated: true, completion: nil)
+        
+        //MARK: Store Image to Firebase Storage
+        
+        // get file from local disk with path
+        let localFile = URL(string: imagePath)!
+        // Create a reference to the file you want to upload
+        let storageRef = storage.reference()
+        let storeRef = storageRef.child(imageNameS)
+        let uploadTask = storeRef.putFile(from: localFile, metadata: nil) { metadata, error in
+            guard let metadata = metadata else {
+                // Uh-oh, an error occurred!
+                return
+            }
+            
+            // Metadata contains file metadata such as size, content-type.
+            let size = metadata.size
+            // You can also access to download URL after upload.
+            storageRef.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                    // Uh-oh, an error occurred!
+                    return
+                }
+            }
+        }
     }
     
     //MARK: Navigation
@@ -116,27 +168,26 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
             return
         }
         
+
+        //MARK: Add Squawk to Firebase
         let storyItem = Story(caption: captionText.text!,
                               featured: false,
                               flagged: false,
                               location: self.location,
-                              uri: "test.uri",
+                              uri: "self.imageURL",
                               views: 0,
                               votes: 0,
                               keywords: hookText.text!)
-        
-        // 3
         let storyItemRef = self.ref.childByAutoId()
         let childautoID = storyItemRef.key
-        
-        // 4
         storyItemRef.setValue(storyItem.toAnyObject())
         
-        // 5 Add time to another node
+        // Add time to another node
         storyItemRef.child("DateTime").setValue(["time": Int(NSDate().timeIntervalSince1970*1000)])
         
-        //6 create a location node
+        // Create a location node
         self.locRef.child(self.locationKey).setValue([childautoID : 0])
+        
         
     }
     
