@@ -4,7 +4,7 @@
 //
 //  Created by Hongyi Shen on 5/6/18.
 //
-// Subsequent TO-DO: 1. Marker Title and Snippet 2. Aesthetic
+// Subsequent TO-DO: 1. Marker Title and Snippet 2. Aesthetic and Colours
 
 import UIKit
 import GoogleMaps
@@ -59,7 +59,7 @@ class MapViewController: UIViewController {
         mapView.isHidden = true
         
         //Read location coordinates from Firebase + add markers onto map
-        ref.child("locations").observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("locations").observe(.value, with: { snapshot in
             for child in snapshot.children{
                 let valueD = child as! DataSnapshot
                 let keyD = valueD.key

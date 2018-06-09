@@ -5,7 +5,7 @@
 //  Created by Hongyi Shen on 6/6/18.
 //
 
-// Subsequent TO-DO: 1. segue back to Map 2. Image storage + URI 3. Camera Picker 4. Refresh Map 5. Prevent empty stories 5. Hashtags 6. Users 7. Comments
+// Subsequent TO-DO: 2. Image storage + URI 3. Camera Picker 5. Prevent empty stories 6. Users [ 7. Comments 8. Hashtag and Hasthtag search ]
 
 import UIKit
 import FirebaseDatabase
@@ -26,6 +26,9 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     let ref = Database.database().reference(withPath: "stories")
     let locRef = Database.database().reference(withPath: "locations")
     var items: [Story] = []
+    // Get a reference to the storage service using the default Firebase App
+    let storage = Storage.storage()
+    
     
     // Location
     var location: String = ""
