@@ -4,6 +4,7 @@
 //
 //  Created by Hongyi Shen on 5/6/18.
 //
+// Subsequent TO-DO: 1. Marker Title and Snippet 2. Aesthetic
 
 import UIKit
 import GoogleMaps
@@ -23,14 +24,6 @@ class MapViewController: UIViewController {
     var ref: DatabaseReference!
     var stoRef: DatabaseReference!
     var locRef: DatabaseReference!
-    
-    
-    // Location strings
-    var location: String = ""
-    var longitude: String = ""
-    var latitude: String = ""
-    var locationKey: String = ""
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,7 +79,15 @@ class MapViewController: UIViewController {
         
     }
     
+    // Unwind segue
+    @IBAction func unwindToMainScreen(segue: UIStoryboardSegue) {
+        print("Unwind segue to main screen triggered!")
+    }
+    
 }
+
+
+
 
 // Delegates to handle events for the location manager.
 extension MapViewController: CLLocationManagerDelegate {

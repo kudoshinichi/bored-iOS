@@ -5,12 +5,13 @@
 //  Created by Hongyi Shen on 6/6/18.
 //
 
-// Subsequent TO-DO: 1. segue back to Map 2. Image storage + URI 3. Camera Picker 4. Refresh Map 5. Hashtags 6. Users 7. Comments
+// Subsequent TO-DO: 1. segue back to Map 2. Image storage + URI 3. Camera Picker 4. Refresh Map 5. Prevent empty stories 5. Hashtags 6. Users 7. Comments
 
 import UIKit
 import FirebaseDatabase
 import Firebase
 import CoreLocation
+import os.log
 
 class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
 
@@ -18,6 +19,8 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     @IBOutlet weak var hookText: UITextField!
     @IBOutlet weak var captionText: UITextField!
     @IBOutlet weak var photoImageView: UIImageView!
+    @IBOutlet weak var squawkButton: UIBarButtonItem!
+    
     
     // Firebase
     let ref = Database.database().reference(withPath: "stories")
@@ -100,29 +103,24 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         dismiss(animated: true, completion: nil)
     }
     
-    //MARK: Actions
-    @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
-        // UIImagePickerController is a view controller that lets a user pick media from their photo library.
-        let imagePickerController = UIImagePickerController()
+    //MARK: Navigation
+    // This method lets you configure a view controller before it's presented.
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        // Configure the destination view controller only when the save button is pressed.
+        guard let button = sender as? UIBarButtonItem, button === squawkButton else {
+            os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
+            return
+        }
         
-        // Only allow photos to be picked, not taken.
-        imagePickerController.sourceType = .photoLibrary
-        
-        // Make sure ViewController is notified when the user picks an image.
-        imagePickerController.delegate = self
-        
-        present(imagePickerController, animated: true, completion: nil)
-    }
-    
-    @IBAction func squawkStory(_ sender: UIButton) {
         let storyItem = Story(caption: captionText.text!,
-                                featured: false,
-                                flagged: false,
-                                location: self.location,
-                                uri: "test.uri",
-                                views: 0,
-                                votes: 0,
-                                keywords: hookText.text!)
+                              featured: false,
+                              flagged: false,
+                              location: self.location,
+                              uri: "test.uri",
+                              views: 0,
+                              votes: 0,
+                              keywords: hookText.text!)
         
         // 3
         let storyItemRef = self.ref.childByAutoId()
@@ -139,7 +137,20 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         
     }
     
-
+    //MARK: Actions
+    @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
+        // UIImagePickerController is a view controller that lets a user pick media from their photo library.
+        let imagePickerController = UIImagePickerController()
+        
+        // Only allow photos to be picked, not taken.
+        imagePickerController.sourceType = .photoLibrary
+        
+        // Make sure ViewController is notified when the user picks an image.
+        imagePickerController.delegate = self
+        
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
     /*
     // MARK: - Navigation
 

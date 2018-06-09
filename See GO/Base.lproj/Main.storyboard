@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Story Upload Controller-->
+        <!--Add Squawk-->
         <scene sceneID="SWh-Lt-Rpe">
             <objects>
                 <viewController id="lJg-l6-HvW" customClass="StoryUploadController" customModule="See_GO" customModuleProvider="target" sceneMemberID="viewController">
@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="tff-Jy-5s5">
-                                <rect key="frame" x="16" y="84" width="343" height="487"/>
+                                <rect key="frame" x="16" y="84" width="343" height="449"/>
                                 <subviews>
                                     <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="343" placeholderIntrinsicHeight="400" image="addImage" translatesAutoresizingMaskIntoConstraints="NO" id="NGp-Xg-tSY">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="400"/>
@@ -43,13 +43,6 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oJP-lD-STR">
-                                        <rect key="frame" x="0.0" y="457" width="343" height="30"/>
-                                        <state key="normal" title="Squawk"/>
-                                        <connections>
-                                            <action selector="squawkStory:" destination="lJg-l6-HvW" eventType="touchUpInside" id="ntz-ql-SDx"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="CyJ-MS-Azj" firstAttribute="leading" secondItem="tff-Jy-5s5" secondAttribute="leading" id="MQq-lx-QH8"/>
@@ -57,8 +50,6 @@
                                     <constraint firstItem="whf-t0-hVY" firstAttribute="leading" secondItem="tff-Jy-5s5" secondAttribute="leading" id="V0Y-Yr-jNA"/>
                                     <constraint firstAttribute="trailing" secondItem="whf-t0-hVY" secondAttribute="trailing" id="Ve9-Rp-lMu"/>
                                     <constraint firstItem="NGp-Xg-tSY" firstAttribute="top" secondItem="tff-Jy-5s5" secondAttribute="top" id="hVM-Eh-IC1"/>
-                                    <constraint firstItem="oJP-lD-STR" firstAttribute="leading" secondItem="tff-Jy-5s5" secondAttribute="leading" id="hxn-fB-Bay"/>
-                                    <constraint firstAttribute="trailing" secondItem="oJP-lD-STR" secondAttribute="trailing" id="qdy-29-NWK"/>
                                     <constraint firstAttribute="trailing" secondItem="NGp-Xg-tSY" secondAttribute="trailing" id="vY7-Bh-3xD"/>
                                     <constraint firstAttribute="trailing" secondItem="CyJ-MS-Azj" secondAttribute="trailing" id="z5z-8k-upu"/>
                                 </constraints>
@@ -72,20 +63,30 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8pI-9J-ugd"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Add Squawk" id="pg6-3i-fWT">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="aBI-do-iQu"/>
+                        <barButtonItem key="rightBarButtonItem" title="Squawk" id="ZQn-77-hga">
+                            <connections>
+                                <segue destination="6iu-Ob-GHa" kind="unwind" unwindAction="unwindToMainScreenWithSegue:" id="7GT-2y-TrT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="captionText" destination="whf-t0-hVY" id="eCD-Xw-Ztz"/>
                         <outlet property="hookText" destination="CyJ-MS-Azj" id="V8u-Og-haW"/>
                         <outlet property="photoImageView" destination="NGp-Xg-tSY" id="4Eq-Ne-01f"/>
+                        <outlet property="squawkButton" destination="ZQn-77-hga" id="cYS-6F-JbS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aoz-w6-994" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="6iu-Ob-GHa" userLabel="Exit" sceneMemberID="exit"/>
                 <tapGestureRecognizer id="EuL-CT-7vg">
                     <connections>
                         <action selector="selectImageFromPhotoLibrary:" destination="lJg-l6-HvW" id="2OM-QF-mNu"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1664.8" y="-684.10794602698661"/>
+            <point key="canvasLocation" x="2604" y="-684.10794602698661"/>
         </scene>
         <!--Map-->
         <scene sceneID="tne-QT-ifu">
@@ -100,7 +101,7 @@
                     <navigationItem key="navigationItem" title="Map" id="xfr-Y2-hHN">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="zUl-67-I4s">
                             <connections>
-                                <segue destination="lJg-l6-HvW" kind="show" id="xnB-8L-cuo"/>
+                                <segue destination="pgF-RN-W0K" kind="presentation" identifier="AddItem" id="xnB-8L-cuo"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -126,6 +127,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dNu-Sd-uoW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="56.799999999999997" y="-663.41829085457277"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="cZp-Xy-M0g">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pgF-RN-W0K" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="zI0-VD-h1U">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="lJg-l6-HvW" kind="relationship" relationship="rootViewController" id="qhI-pW-0n5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r5a-Q5-KCV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1664.8" y="-684.10794602698661"/>
         </scene>
     </scenes>
     <resources>
