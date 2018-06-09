@@ -5,7 +5,7 @@
 //  Created by Hongyi Shen on 6/6/18.
 //
 
-// Subsequent TO-DO: 0. Cancel Button (removes stored image) 2. Image storage URI in database
+// Subsequent TO-DO: 0. Cancel Button (removes stored image.. also change image?) 2. Image storage URI in database
 // 3. Camera Picker 5. Prevent empty stories 6. Show Story
 // [6. Users 7. Comments 8. Hashtag and Hasthtag search ]
 
@@ -130,9 +130,6 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         imagePath = localPath!.absoluteString
         imageNameS = imageName!
         
-        // Dismiss the picker.
-        dismiss(animated: true, completion: nil)
-        
         //MARK: Store Image to Firebase Storage
         
         // get file from local disk with path
@@ -148,14 +145,21 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
             
             // Metadata contains file metadata such as size, content-type.
             let size = metadata.size
+            
             // You can also access to download URL after upload.
-            storageRef.downloadURL { (url, error) in
+            storeRef.downloadURL { (url, error) in
                 guard let downloadURL = url else {
                     // Uh-oh, an error occurred!
                     return
                 }
+                
+                self.imageURL = downloadURL.absoluteString
+                print(self.imageURL)
             }
         }
+        
+        // Dismiss the picker.
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: Navigation
@@ -165,16 +169,30 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         // Configure the destination view controller only when the save button is pressed.
         guard let button = sender as? UIBarButtonItem, button === squawkButton else {
             os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
+            
+            
+            let storageRef = storage.reference()
+            let storeRef = storageRef.child(imageNameS)
+            // Delete the file
+            storeRef.delete { error in
+                if let error = error {
+                    // Uh-oh, an error occurred!
+                } else {
+                    // File deleted successfully
+                    print("deleted successfully")
+                }
+            }
+            
+            
             return
         }
-        
 
         //MARK: Add Squawk to Firebase
         let storyItem = Story(caption: captionText.text!,
                               featured: false,
                               flagged: false,
                               location: self.location,
-                              uri: "self.imageURL",
+                              uri: self.imageURL,
                               views: 0,
                               votes: 0,
                               keywords: hookText.text!)
