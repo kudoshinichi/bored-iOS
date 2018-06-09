@@ -4,7 +4,7 @@
 //
 //  Created by Hongyi Shen on 5/6/18.
 //
-// Subsequent TO-DO: 1. Marker Title and Snippet 2. Aesthetic and Colours
+// Subsequent TO-DO: 1. Marker Snippet 2. Marker Colours and Aesthetic
 
 import UIKit
 import GoogleMaps
@@ -71,8 +71,7 @@ class MapViewController: UIViewController {
                 // adding marker to map
                 let marker = GMSMarker()
                 marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
-                marker.title = "Test Marker"
-                marker.snippet = "Nothing cool yet"
+                marker.snippet = "In X meters, this squawk contains... Tap again to open"
                 marker.map = self.mapView
             }
         })
