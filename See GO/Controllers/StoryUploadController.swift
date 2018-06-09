@@ -4,8 +4,7 @@
 //
 //  Created by Hongyi Shen on 6/6/18.
 //
-
-// Subsequent TO-DO: 0. Cancel Button (removes stored image.. also change image?) 2. Image storage URI in database
+// TO-DO: 0. Removes stored image when change image 1. Duplicate story at one location, one gets removed 2. Do dispatch queue A) for imagePicker (imageURL), and add to Firebase B) Cancel story only works after url?
 // 3. Camera Picker 5. Prevent empty stories 6. Show Story
 // [6. Users 7. Comments 8. Hashtag and Hasthtag search ]
 
@@ -98,7 +97,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         // Dismiss the picker if the user canceled.
         dismiss(animated: true, completion: nil)
     }
-    
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // The info dictionary may contain multiple representations of the image. You want to use the original.
         guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else {
@@ -211,6 +210,24 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     
     //MARK: Actions
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
+        
+        let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+            self.openCamera()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
+            self.openGallery()
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func openCamera() {
+        print("Camera")
+    }
+    
+    func openGallery() {
+        print("Gallery")
         // UIImagePickerController is a view controller that lets a user pick media from their photo library.
         let imagePickerController = UIImagePickerController()
         
@@ -222,6 +239,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         
         present(imagePickerController, animated: true, completion: nil)
     }
+    
     
     /*
     // MARK: - Navigation
