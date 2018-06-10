@@ -6,7 +6,7 @@
 //
 // TO-DO: 0. Removes stored image when change image 1. Duplicate story at one location, one gets removed 2. Do dispatch queue A) for imagePicker (imageURL), and add to Firebase B) Cancel story only works after url?
 // 3. Camera Picker 5. Prevent empty stories 6. Show Story
-// [6. Users 7. Comments 8. Hashtag and Hasthtag search ]
+// [6. Users 7. Comments 8. Hashtag and Hasthtag search]
 
 import UIKit
 import FirebaseDatabase
@@ -182,7 +182,6 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
                 }
             }
             
-            
             return
         }
 
@@ -224,6 +223,13 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     
     func openCamera() {
         print("Camera")
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.delegate = self
+            imagePickerController.sourceType = .camera;
+            imagePickerController.allowsEditing = false
+            present(imagePickerController, animated: true, completion: nil)
+        }
     }
     
     func openGallery() {
