@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		92ABC6C29FA81CFA23222EBB /* libPods-See GO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E30200853267F11B7D41C3CC /* libPods-See GO.a */; };
+		F8D2DA661601110F059C1B66 /* libPods-See GO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEF74089B555C3B99FB4934 /* libPods-See GO.a */; };
 		FE7F26B820C7DA8100F085A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE7F26B720C7DA8100F085A7 /* GoogleService-Info.plist */; };
 		FE9DFF4120CA60BF00279C6B /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DFF4020CA60BE00279C6B /* Story.swift */; };
 		FEAD425920C6901400E25996 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAD425820C6901400E25996 /* AppDelegate.swift */; };
@@ -30,9 +30,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		444A7605F2CFF3987450794E /* Pods-See GO.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.release.xcconfig"; path = "Pods/Target Support Files/Pods-See GO/Pods-See GO.release.xcconfig"; sourceTree = "<group>"; };
-		90DAFDE9626FF9759E17C62D /* Pods-See GO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.debug.xcconfig"; path = "Pods/Target Support Files/Pods-See GO/Pods-See GO.debug.xcconfig"; sourceTree = "<group>"; };
-		E30200853267F11B7D41C3CC /* libPods-See GO.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-See GO.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C24C157A8925C147696B418 /* Pods-See GO.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.release.xcconfig"; path = "Pods/Target Support Files/Pods-See GO/Pods-See GO.release.xcconfig"; sourceTree = "<group>"; };
+		8DE0E4485C52A368CCC2AF51 /* Pods-See GO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.debug.xcconfig"; path = "Pods/Target Support Files/Pods-See GO/Pods-See GO.debug.xcconfig"; sourceTree = "<group>"; };
+		BCEF74089B555C3B99FB4934 /* libPods-See GO.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-See GO.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE7F26B720C7DA8100F085A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE9DFF4020CA60BE00279C6B /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
 		FEAD425520C6901400E25996 /* See GO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "See GO.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92ABC6C29FA81CFA23222EBB /* libPods-See GO.a in Frameworks */,
+				F8D2DA661601110F059C1B66 /* libPods-See GO.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,21 +67,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5BEF1DB2EB071AB36AA46E52 /* Frameworks */ = {
+		62F173BE106F5C1F1DEBEC55 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E30200853267F11B7D41C3CC /* libPods-See GO.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		F6A931D4F279EAAEBD715D34 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				90DAFDE9626FF9759E17C62D /* Pods-See GO.debug.xcconfig */,
-				444A7605F2CFF3987450794E /* Pods-See GO.release.xcconfig */,
+				8DE0E4485C52A368CCC2AF51 /* Pods-See GO.debug.xcconfig */,
+				7C24C157A8925C147696B418 /* Pods-See GO.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		D0CE34002349ADF435E40E02 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BCEF74089B555C3B99FB4934 /* libPods-See GO.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		FE9DFF3A20CA391900279C6B /* Controllers */ = {
@@ -107,8 +107,8 @@
 				FEAD425720C6901400E25996 /* See GO */,
 				FEAD426C20C6901600E25996 /* See GOTests */,
 				FEAD425620C6901400E25996 /* Products */,
-				F6A931D4F279EAAEBD715D34 /* Pods */,
-				5BEF1DB2EB071AB36AA46E52 /* Frameworks */,
+				62F173BE106F5C1F1DEBEC55 /* Pods */,
+				D0CE34002349ADF435E40E02 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -152,12 +152,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FEAD427220C6901600E25996 /* Build configuration list for PBXNativeTarget "See GO" */;
 			buildPhases = (
-				AB001C1C57D3AED31183E110 /* [CP] Check Pods Manifest.lock */,
+				0CDAB0466B9FAE76CCD328D1 /* [CP] Check Pods Manifest.lock */,
 				FEAD425120C6901300E25996 /* Sources */,
 				FEAD425220C6901300E25996 /* Frameworks */,
 				FEAD425320C6901300E25996 /* Resources */,
-				7901BF213A5E151D8C1DA3E7 /* [CP] Embed Pods Frameworks */,
-				CA5F298908A02851D3949F99 /* [CP] Copy Pods Resources */,
+				AC49CD3513C47EA88C4B8E17 /* [CP] Embed Pods Frameworks */,
+				B2CC964185F1041B0F081668 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -247,22 +247,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7901BF213A5E151D8C1DA3E7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AB001C1C57D3AED31183E110 /* [CP] Check Pods Manifest.lock */ = {
+		0CDAB0466B9FAE76CCD328D1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -280,7 +265,22 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CA5F298908A02851D3949F99 /* [CP] Copy Pods Resources */ = {
+		AC49CD3513C47EA88C4B8E17 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B2CC964185F1041B0F081668 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -467,7 +467,7 @@
 		};
 		FEAD427320C6901600E25996 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 90DAFDE9626FF9759E17C62D /* Pods-See GO.debug.xcconfig */;
+			baseConfigurationReference = 8DE0E4485C52A368CCC2AF51 /* Pods-See GO.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -482,7 +482,7 @@
 		};
 		FEAD427420C6901600E25996 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 444A7605F2CFF3987450794E /* Pods-See GO.release.xcconfig */;
+			baseConfigurationReference = 7C24C157A8925C147696B418 /* Pods-See GO.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

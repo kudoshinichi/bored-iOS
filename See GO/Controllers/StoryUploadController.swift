@@ -229,6 +229,8 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
             imagePickerController.sourceType = .camera;
             imagePickerController.allowsEditing = false
             present(imagePickerController, animated: true, completion: nil)
+        } else {
+            print("No camera on device")
         }
     }
     

@@ -25,6 +25,9 @@ class MapViewController: UIViewController {
     var stoRef: DatabaseReference!
     var locRef: DatabaseReference!
     
+    // Location
+    var userLocation: CLLocation?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,24 +61,6 @@ class MapViewController: UIViewController {
         view.addSubview(mapView)
         mapView.isHidden = true
         
-        //Read location coordinates from Firebase + add markers onto map
-        ref.child("locations").observe(.value, with: { snapshot in
-            for child in snapshot.children{
-                let valueD = child as! DataSnapshot
-                let keyD = valueD.key
-                let key = keyD.replacingOccurrences(of: "d", with: ".")
-                let locationArray = key.split(separator:",")
-                let latitude: String = String(locationArray[0])
-                let longitude: String = String(locationArray[1])
-                
-                // adding marker to map
-                let marker = GMSMarker()
-                marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
-                marker.snippet = "In X meters, this squawk contains... Tap again to open"
-                marker.map = self.mapView
-            }
-        })
-        
     }
     
     // Unwind segue
@@ -106,6 +91,38 @@ extension MapViewController: CLLocationManagerDelegate {
         } else {
             mapView.animate(to: camera)
         }
+        
+        userLocation = locations.last!
+        
+        //Read location coordinates from Firebase + add markers onto map
+        ref.child("locations").observe(.value, with: { snapshot in
+            for child in snapshot.children{
+                let valueD = child as! DataSnapshot
+                let keyD = valueD.key
+                let key = keyD.replacingOccurrences(of: "d", with: ".")
+                let locationArray = key.split(separator:",")
+                let latitude: String = String(locationArray[0])
+                let longitude: String = String(locationArray[1])
+                
+                // adding marker to map
+                let marker = GMSMarker()
+                let storyLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
+                marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
+                marker.map = self.mapView
+                
+                let distanceMetres = (self.userLocation?.distance(from: storyLocation))!
+                print(String(distanceMetres))
+                
+                if distanceMetres > 500.0 {
+                    marker.icon = GMSMarker.markerImage(with: .yellow)
+                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
+                } else {
+                    marker.icon = GMSMarker.markerImage(with: .cyan)
+                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap again to open"
+                    
+                }
+            }
+        })
     }
     
     // Handle authorization for the location manager.
