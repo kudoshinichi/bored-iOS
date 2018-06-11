@@ -11,7 +11,7 @@ import GoogleMaps
 import Firebase
 import FirebaseDatabase
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, GMSMapViewDelegate {
     
     // MARK: Properties
     // Google Maps
@@ -53,6 +53,8 @@ class MapViewController: UIViewController {
                                               longitude: defaultLocation.coordinate.longitude,
                                               zoom: zoomLevel)
         mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
+        mapView.delegate = self
+        //self.view = mapView
         mapView.settings.myLocationButton = true
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.isMyLocationEnabled = true
@@ -70,7 +72,10 @@ class MapViewController: UIViewController {
     
 }
 
-
+//MARK: MapViewDelegate
+func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+    print("You tapped the infowindow! :o")
+}
 
 
 // Delegates to handle events for the location manager.
@@ -94,6 +99,8 @@ extension MapViewController: CLLocationManagerDelegate {
         
         userLocation = locations.last!
         
+        mapView.clear()
+        
         //Read location coordinates from Firebase + add markers onto map
         ref.child("locations").observe(.value, with: { snapshot in
             for child in snapshot.children{
@@ -114,10 +121,10 @@ extension MapViewController: CLLocationManagerDelegate {
                 print(String(distanceMetres))
                 
                 if distanceMetres > 500.0 {
-                    marker.icon = GMSMarker.markerImage(with: .yellow)
+                    marker.icon = GMSMarker.markerImage(with: .purple)
                     marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
                 } else {
-                    marker.icon = GMSMarker.markerImage(with: .cyan)
+                    marker.icon = GMSMarker.markerImage(with: .green)
                     marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap again to open"
                     
                 }
