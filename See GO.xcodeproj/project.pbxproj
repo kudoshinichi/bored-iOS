@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F8D2DA661601110F059C1B66 /* libPods-See GO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEF74089B555C3B99FB4934 /* libPods-See GO.a */; };
-		FE7F26B820C7DA8100F085A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE7F26B720C7DA8100F085A7 /* GoogleService-Info.plist */; };
+		FE4AE5DB20D0875D0078600D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE4AE5DA20D0875D0078600D /* GoogleService-Info.plist */; };
 		FE9DFF4120CA60BF00279C6B /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DFF4020CA60BE00279C6B /* Story.swift */; };
 		FEAD425920C6901400E25996 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAD425820C6901400E25996 /* AppDelegate.swift */; };
 		FEAD425E20C6901400E25996 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEAD425C20C6901400E25996 /* Main.storyboard */; };
@@ -33,7 +33,7 @@
 		7C24C157A8925C147696B418 /* Pods-See GO.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.release.xcconfig"; path = "Pods/Target Support Files/Pods-See GO/Pods-See GO.release.xcconfig"; sourceTree = "<group>"; };
 		8DE0E4485C52A368CCC2AF51 /* Pods-See GO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.debug.xcconfig"; path = "Pods/Target Support Files/Pods-See GO/Pods-See GO.debug.xcconfig"; sourceTree = "<group>"; };
 		BCEF74089B555C3B99FB4934 /* libPods-See GO.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-See GO.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FE7F26B720C7DA8100F085A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FE4AE5DA20D0875D0078600D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE9DFF4020CA60BE00279C6B /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
 		FEAD425520C6901400E25996 /* See GO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "See GO.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEAD425820C6901400E25996 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 				FEAD425F20C6901600E25996 /* Assets.xcassets */,
 				FEAD426120C6901600E25996 /* LaunchScreen.storyboard */,
 				FEAD426420C6901600E25996 /* Info.plist */,
-				FE7F26B720C7DA8100F085A7 /* GoogleService-Info.plist */,
+				FE4AE5DA20D0875D0078600D /* GoogleService-Info.plist */,
 			);
 			path = "See GO";
 			sourceTree = "<group>";
@@ -231,7 +231,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEAD426320C6901600E25996 /* LaunchScreen.storyboard in Resources */,
-				FE7F26B820C7DA8100F085A7 /* GoogleService-Info.plist in Resources */,
+				FE4AE5DB20D0875D0078600D /* GoogleService-Info.plist in Resources */,
 				FEAD426020C6901600E25996 /* Assets.xcassets in Resources */,
 				FEAD425E20C6901400E25996 /* Main.storyboard in Resources */,
 			);
