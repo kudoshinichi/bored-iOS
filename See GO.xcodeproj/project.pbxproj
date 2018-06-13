@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F8D2DA661601110F059C1B66 /* libPods-See GO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEF74089B555C3B99FB4934 /* libPods-See GO.a */; };
+		50AF754841200CA088E56AE0 /* Pods_See_GO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85058F78710A4A82AD828B04 /* Pods_See_GO.framework */; };
+		A15E5FE23F47226FECF6BB7C /* Pods_See_GOTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC61CAAB05329165AFEA3C0 /* Pods_See_GOTests.framework */; };
 		FE4AE5DB20D0875D0078600D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE4AE5DA20D0875D0078600D /* GoogleService-Info.plist */; };
 		FE9DFF4120CA60BF00279C6B /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DFF4020CA60BE00279C6B /* Story.swift */; };
 		FEAD425920C6901400E25996 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAD425820C6901400E25996 /* AppDelegate.swift */; };
@@ -31,8 +32,11 @@
 
 /* Begin PBXFileReference section */
 		7C24C157A8925C147696B418 /* Pods-See GO.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.release.xcconfig"; path = "Pods/Target Support Files/Pods-See GO/Pods-See GO.release.xcconfig"; sourceTree = "<group>"; };
+		7EC61CAAB05329165AFEA3C0 /* Pods_See_GOTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_See_GOTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		84D4B53BDEB29E614729FF46 /* Pods-See GOTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GOTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-See GOTests/Pods-See GOTests.debug.xcconfig"; sourceTree = "<group>"; };
+		85058F78710A4A82AD828B04 /* Pods_See_GO.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_See_GO.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DE0E4485C52A368CCC2AF51 /* Pods-See GO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.debug.xcconfig"; path = "Pods/Target Support Files/Pods-See GO/Pods-See GO.debug.xcconfig"; sourceTree = "<group>"; };
-		BCEF74089B555C3B99FB4934 /* libPods-See GO.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-See GO.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8C5AD56DA8649E2D273A0BF /* Pods-See GOTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GOTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-See GOTests/Pods-See GOTests.release.xcconfig"; sourceTree = "<group>"; };
 		FE4AE5DA20D0875D0078600D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE9DFF4020CA60BE00279C6B /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
 		FEAD425520C6901400E25996 /* See GO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "See GO.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,7 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8D2DA661601110F059C1B66 /* libPods-See GO.a in Frameworks */,
+				50AF754841200CA088E56AE0 /* Pods_See_GO.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A15E5FE23F47226FECF6BB7C /* Pods_See_GOTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +77,8 @@
 			children = (
 				8DE0E4485C52A368CCC2AF51 /* Pods-See GO.debug.xcconfig */,
 				7C24C157A8925C147696B418 /* Pods-See GO.release.xcconfig */,
+				84D4B53BDEB29E614729FF46 /* Pods-See GOTests.debug.xcconfig */,
+				E8C5AD56DA8649E2D273A0BF /* Pods-See GOTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -79,7 +86,8 @@
 		D0CE34002349ADF435E40E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BCEF74089B555C3B99FB4934 /* libPods-See GO.a */,
+				85058F78710A4A82AD828B04 /* Pods_See_GO.framework */,
+				7EC61CAAB05329165AFEA3C0 /* Pods_See_GOTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -172,6 +180,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FEAD427520C6901600E25996 /* Build configuration list for PBXNativeTarget "See GOTests" */;
 			buildPhases = (
+				B7C87F4427108475533BC637 /* [CP] Check Pods Manifest.lock */,
 				FEAD426520C6901600E25996 /* Sources */,
 				FEAD426620C6901600E25996 /* Frameworks */,
 				FEAD426720C6901600E25996 /* Resources */,
@@ -271,9 +280,18 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -288,16 +306,32 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-resources.sh",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
-				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B7C87F4427108475533BC637 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-See GOTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -472,6 +506,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "See GO/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bored.See-GO";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -487,6 +522,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "See GO/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bored.See-GO";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -497,11 +533,13 @@
 		};
 		FEAD427620C6901600E25996 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84D4B53BDEB29E614729FF46 /* Pods-See GOTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "See GOTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "bored.See-GOTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -513,11 +551,13 @@
 		};
 		FEAD427720C6901600E25996 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E8C5AD56DA8649E2D273A0BF /* Pods-See GOTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "See GOTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "bored.See-GOTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -11,8 +11,7 @@ import GoogleMaps
 import Firebase
 import FirebaseDatabase
 
-class MapViewController: UIViewController, GMSMapViewDelegate {
-    
+class MapViewController: UIViewController {
     // MARK: Properties
     // Google Maps
     var locationManager = CLLocationManager()
@@ -71,11 +70,25 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     
 }
 
-//MARK: MapViewDelegate
-func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-    print("You tapped the infowindow! :o")
+extension MapViewController: GMSMapViewDelegate {
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        print("TapTapTap")
+        marker.title = "You selected me!"
+        marker.snippet = "Erm ok..."
+        // true means that the default behaviour will not happen. false means that the default
+        // behaviour still gets executed. In this case the default behaviour is to show the
+        // marker info window. If you click on the tap info window your line below will print.
+        return false
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        print("You tapped at \(coordinate.latitude), \(coordinate.longitude)")
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        print("You tapped the infowindow! :o")
+    }
 }
-
 
 // Delegates to handle events for the location manager.
 extension MapViewController: CLLocationManagerDelegate {
