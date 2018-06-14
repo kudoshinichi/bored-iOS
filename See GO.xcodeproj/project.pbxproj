@@ -16,6 +16,7 @@
 		FEAD426020C6901600E25996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEAD425F20C6901600E25996 /* Assets.xcassets */; };
 		FEAD426320C6901600E25996 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEAD426120C6901600E25996 /* LaunchScreen.storyboard */; };
 		FEAD426E20C6901600E25996 /* See_GOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAD426D20C6901600E25996 /* See_GOTests.swift */; };
+		FEC0AB3920D20ABE00B64D2F /* ShowStoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC0AB3820D20ABE00B64D2F /* ShowStoryController.swift */; };
 		FEC4FC0B20C6AC8B00837F48 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC4FC0A20C6AC8B00837F48 /* MapViewController.swift */; };
 		FEF52F3020C782C1004DF382 /* StoryUploadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF52F2F20C782C0004DF382 /* StoryUploadController.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +49,7 @@
 		FEAD426920C6901600E25996 /* See GOTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "See GOTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEAD426D20C6901600E25996 /* See_GOTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = See_GOTests.swift; sourceTree = "<group>"; };
 		FEAD426F20C6901600E25996 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FEC0AB3820D20ABE00B64D2F /* ShowStoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowStoryController.swift; sourceTree = "<group>"; };
 		FEC4FC0A20C6AC8B00837F48 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		FEF52F2F20C782C0004DF382 /* StoryUploadController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryUploadController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -97,6 +99,7 @@
 			children = (
 				FEC4FC0A20C6AC8B00837F48 /* MapViewController.swift */,
 				FEF52F2F20C782C0004DF382 /* StoryUploadController.swift */,
+				FEC0AB3820D20ABE00B64D2F /* ShowStoryController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -184,6 +187,8 @@
 				FEAD426520C6901600E25996 /* Sources */,
 				FEAD426620C6901600E25996 /* Frameworks */,
 				FEAD426720C6901600E25996 /* Resources */,
+				2D70654DF176C89273D08F78 /* [CP] Embed Pods Frameworks */,
+				B2A8B1F3D6A20FCE7A7996E3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -274,6 +279,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		2D70654DF176C89273D08F78 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GOTests/Pods-See GOTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AC49CD3513C47EA88C4B8E17 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -296,6 +316,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B2A8B1F3D6A20FCE7A7996E3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GOTests/Pods-See GOTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B2CC964185F1041B0F081668 /* [CP] Copy Pods Resources */ = {
@@ -342,6 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEAD425920C6901400E25996 /* AppDelegate.swift in Sources */,
+				FEC0AB3920D20ABE00B64D2F /* ShowStoryController.swift in Sources */,
 				FEC4FC0B20C6AC8B00837F48 /* MapViewController.swift in Sources */,
 				FEF52F3020C782C1004DF382 /* StoryUploadController.swift in Sources */,
 				FE9DFF4120CA60BF00279C6B /* Story.swift in Sources */,

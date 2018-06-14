@@ -24,8 +24,9 @@ class MapViewController: UIViewController {
     var stoRef: DatabaseReference!
     var locRef: DatabaseReference!
     
-    // Location
+    // Others
     var userLocation: CLLocation?
+    var keywords: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,8 +74,8 @@ class MapViewController: UIViewController {
 extension MapViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         print("TapTapTap")
-        marker.title = "You selected me!"
-        marker.snippet = "Erm ok..."
+        // marker.title = "You selected me!"
+        // marker.snippet = "Erm ok..."
         // true means that the default behaviour will not happen. false means that the default
         // behaviour still gets executed. In this case the default behaviour is to show the
         // marker info window. If you click on the tap info window your line below will print.
@@ -87,6 +88,7 @@ extension MapViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         print("You tapped the infowindow! :o")
+        self .performSegue(withIdentifier: "ShowStorySegue", sender: self)
     }
 }
 
@@ -123,6 +125,26 @@ extension MapViewController: CLLocationManagerDelegate {
                 let latitude: String = String(locationArray[0])
                 let longitude: String = String(locationArray[1])
                 
+                //let value1 = valueD.value
+                //print(value1)
+                // This gives -L-H4On_Yd5cMmlI3Qv1" = 0
+                
+                // HOW TO READ STORY KEY
+                
+                
+                //let keywords = (snapshot.value as? NSDictionary)?[keyD] as? String ?? ""
+                //print(keywords)
+                
+                //NEW THING GET STORY KEY
+                /*self.ref.child(keyD).observe(.value, with: { snapshot in
+                    for child in snapshot.children{
+                        let value = child as! DataSnapshot
+                        let storyKey = value.key
+                        print (storyKey)
+                    }
+                })*/
+                // apparently there are no "children"
+                
                 // adding marker to map
                 let marker = GMSMarker()
                 let storyLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
@@ -135,11 +157,31 @@ extension MapViewController: CLLocationManagerDelegate {
                 if distanceMetres > 500.0 {
                     marker.icon = GMSMarker.markerImage(with: .purple)
                     marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
+                    
                 } else {
                     marker.icon = GMSMarker.markerImage(with: .green)
-                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap again to open"
+                    
+                    // if have keywords
+                    /* self.stoRef.observe(.value, with: { snapshot in
+                        let value = snapshot.key as? String //= "Optional("stories")"
+                        print(value)
+                        //let username = value?["Keywords"] as? String
+                        //print(username)
+                        
+                        //let keywords = (snapshot.value as? NSDictionary)?["Caption"] as? String
+                        //print(keywords)
+                        //print(self.keywords)
+                    }) */
+                    
+                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap me to open!"
                     
                 }
+                
+                //if it is near
+                //  make it green
+                //  tap me to open
+                //  if it
+                
             }
         })
     }
