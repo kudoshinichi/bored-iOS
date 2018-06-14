@@ -22,18 +22,17 @@ class MapViewController: UIViewController {
     // Firebase
     var ref: DatabaseReference!
     var stoRef: DatabaseReference!
-    var locRef: DatabaseReference!
     
     // Others
     var userLocation: CLLocation?
-    var keywords: String?
+    var keywords: String = ""
+    var storyKey: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         ref = Database.database().reference()
         stoRef = Database.database().reference(withPath: "stories")
-        locRef = Database.database().reference(withPath: "locations")
         
         // Initialize the location manager.
         locationManager = CLLocationManager()
@@ -125,25 +124,11 @@ extension MapViewController: CLLocationManagerDelegate {
                 let latitude: String = String(locationArray[0])
                 let longitude: String = String(locationArray[1])
                 
-                //let value1 = valueD.value
-                //print(value1)
-                // This gives -L-H4On_Yd5cMmlI3Qv1" = 0
-                
-                // HOW TO READ STORY KEY
-                
-                
-                //let keywords = (snapshot.value as? NSDictionary)?[keyD] as? String ?? ""
-                //print(keywords)
-                
-                //NEW THING GET STORY KEY
-                /*self.ref.child(keyD).observe(.value, with: { snapshot in
-                    for child in snapshot.children{
-                        let value = child as! DataSnapshot
-                        let storyKey = value.key
-                        print (storyKey)
-                    }
-                })*/
-                // apparently there are no "children"
+                for grandchild in (child as AnyObject).children{
+                    let valueD = grandchild as! DataSnapshot
+                    self.storyKey = valueD.key
+                    print(self.storyKey)
+                }
                 
                 // adding marker to map
                 let marker = GMSMarker()
@@ -156,32 +141,32 @@ extension MapViewController: CLLocationManagerDelegate {
                 
                 if distanceMetres > 500.0 {
                     marker.icon = GMSMarker.markerImage(with: .purple)
-                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
+                    
+                    self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
+                        var keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
+                        print(keywords)
+                        if keywords == nil {
+                            marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
+                        } else {
+                            self.keywords = keywords!
+                            marker.snippet = "In " + String(Int(distanceMetres)) + "m, a squawk contains \"" + self.keywords + "\"."
+                        }
+                    })
                     
                 } else {
                     marker.icon = GMSMarker.markerImage(with: .green)
                     
-                    // if have keywords
-                    /* self.stoRef.observe(.value, with: { snapshot in
-                        let value = snapshot.key as? String //= "Optional("stories")"
-                        print(value)
-                        //let username = value?["Keywords"] as? String
-                        //print(username)
-                        
-                        //let keywords = (snapshot.value as? NSDictionary)?["Caption"] as? String
-                        //print(keywords)
-                        //print(self.keywords)
-                    }) */
-                    
-                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap me to open!"
-                    
+                    self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
+                        var keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
+                        print(keywords)
+                        if keywords == nil {
+                             marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap me to open!"
+                        } else {
+                            self.keywords = keywords!
+                            marker.snippet = "In " + String(Int(distanceMetres)) + "m, a squawk contains \"" + self.keywords + "\". Tap me to open!"
+                        }
+                    })
                 }
-                
-                //if it is near
-                //  make it green
-                //  tap me to open
-                //  if it
-                
             }
         })
     }
