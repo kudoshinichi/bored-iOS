@@ -12,6 +12,7 @@ target 'See GO' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
+  pod 'FirebaseUI/Storage'
   target 'See GOTests' do
     inherit! :search_paths
     # Pods for testing

@@ -8,12 +8,15 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
+import FirebaseStorage
+import FirebaseStorageUI
 
 class ShowStoryController: UIViewController, UITextViewDelegate {
 
     //MARK: Properties
     var storyKey: String = ""
     var ref: DatabaseReference!
+    let storage = Storage.storage()
     
     var keywords: String?
     var caption: String?
@@ -22,10 +25,12 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
     var dateTime: Int?
     var views: Int = 0
     var votes: Int = 0
+    var URL: String?
     
     @IBOutlet weak var captionText: UITextView!
     @IBOutlet weak var voteText: UITextView!
     @IBOutlet weak var viewText: UITextView!
+    @IBOutlet weak var storyImage: UIImageView!
     
     
     override func viewDidLoad() {
@@ -37,6 +42,7 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
         
         getInfoFromDatabase{ (success) -> Void in
             if success {
+                self.loadImage()
                 self.loadInfoOntoUI()
             }
         }
@@ -52,6 +58,7 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
          self.caption = (snapshot.value as? NSDictionary)?["Caption"] as! String
          self.views = (snapshot.value as? NSDictionary)?["Views"] as! Int
          self.votes = (snapshot.value as? NSDictionary)?["Votes"] as! Int
+         self.URL = (snapshot.value as? NSDictionary)?["URI"] as! String
          //self.featured = (snapshot.value as? NSDictionary)?["Featured"] as! Bool
          //self.flagged = (snapshot.value as? NSDictionary)?["Flagged"] as! Bool
          
@@ -62,6 +69,12 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
         completion(true)
         })
         
+    }
+    
+    func loadImage() {
+        let reference = storage.reference(forURL: self.URL!)
+        let placeholderImage = UIImage(named: "fetching.png")
+        storyImage.sd_setImage(with: reference, placeholderImage: placeholderImage)
     }
     
     func loadInfoOntoUI() {
