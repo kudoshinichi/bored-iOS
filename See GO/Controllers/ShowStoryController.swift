@@ -6,35 +6,76 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseDatabase
 
-class ShowStoryController: UIViewController {
+class ShowStoryController: UIViewController, UITextViewDelegate {
 
     //MARK: Properties
     var storyKey: String = ""
+    var ref: DatabaseReference!
+    
+    var keywords: String?
+    var caption: String?
+    var featured: Bool?
+    var flagged: Bool?
+    var dateTime: Int?
+    var views: Int = 0
+    var votes: Int = 0
+    
+    @IBOutlet weak var captionText: UITextView!
+    @IBOutlet weak var voteText: UITextView!
+    @IBOutlet weak var viewText: UITextView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("hi" + storyKey)
-
-        // Do any additional setup after loading the view.
+        ref = Database.database().reference()
+        
+        print("hi " + storyKey)
+        
+        getInfoFromDatabase{ (success) -> Void in
+            if success {
+                self.loadInfoOntoUI()
+            }
+        }
+        
+        captionText.delegate = self
+        voteText.delegate = self
+        viewText.delegate = self
+        
     }
 
+    func getInfoFromDatabase(completion: @escaping (_ success: Bool) -> Void) {
+        ref.child("stories").child(storyKey).observe(.value, with: { snapshot in
+         self.caption = (snapshot.value as? NSDictionary)?["Caption"] as! String
+         self.views = (snapshot.value as? NSDictionary)?["Views"] as! Int
+         self.votes = (snapshot.value as? NSDictionary)?["Votes"] as! Int
+         //self.featured = (snapshot.value as? NSDictionary)?["Featured"] as! Bool
+         //self.flagged = (snapshot.value as? NSDictionary)?["Flagged"] as! Bool
+         
+         print(self.views)
+         print(self.votes)
+         print(self.caption)
+            
+        completion(true)
+        })
+        
+    }
+    
+    func loadInfoOntoUI() {
+        captionText.text = self.caption
+        print(self.caption)
+        viewText.text = String(views)
+        voteText.text = String(votes)
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -71,7 +71,6 @@ class MapViewController: UIViewController {
         if segue.destination is ShowStoryController
         {
             let vc = segue.destination as? ShowStoryController
-            
             vc?.storyKey = showStoryKey
         }
     }
@@ -145,7 +144,7 @@ extension MapViewController: CLLocationManagerDelegate {
                     marker.icon = GMSMarker.markerImage(with: .purple)
                     
                     self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
-                        var keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
+                        let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
                         if keywords == nil {
                             marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
                         } else {
@@ -158,7 +157,7 @@ extension MapViewController: CLLocationManagerDelegate {
                     marker.icon = GMSMarker.markerImage(with: .green)
                     
                     self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
-                        var keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
+                        let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
                         if keywords == nil {
                              marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap me to open!"
                         } else {
