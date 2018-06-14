@@ -9,8 +9,14 @@ import UIKit
 
 class ShowStoryController: UIViewController {
 
+    //MARK: Properties
+    var storyKey: String = ""
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("hi" + storyKey)
 
         // Do any additional setup after loading the view.
     }

@@ -4,7 +4,7 @@
 //
 //  Created by Hongyi Shen on 5/6/18.
 //
-// Subsequent TO-DO: 1. Marker Snippet 2. Marker Colours and Aesthetic
+// Subsequent TO-DO: 1. Info Window segue 2. Marker Aesthetic
 
 import UIKit
 import GoogleMaps
@@ -13,26 +13,24 @@ import FirebaseDatabase
 
 class MapViewController: UIViewController {
     // MARK: Properties
+    
     // Google Maps
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var mapView: GMSMapView!
     var zoomLevel: Float = 19.0
-    
     // Firebase
     var ref: DatabaseReference!
-    var stoRef: DatabaseReference!
-    
     // Others
     var userLocation: CLLocation?
     var keywords: String = ""
     var storyKey: String = ""
+    var showStoryKey: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         ref = Database.database().reference()
-        stoRef = Database.database().reference(withPath: "stories")
         
         // Initialize the location manager.
         locationManager = CLLocationManager()
@@ -68,25 +66,25 @@ class MapViewController: UIViewController {
         print("Unwind segue to main screen triggered!")
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.destination is ShowStoryController
+        {
+            let vc = segue.destination as? ShowStoryController
+            
+            vc?.storyKey = showStoryKey
+        }
+    }
+    
 }
 
+// Delegate to handle events for Google Map View
 extension MapViewController: GMSMapViewDelegate {
-    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        print("TapTapTap")
-        // marker.title = "You selected me!"
-        // marker.snippet = "Erm ok..."
-        // true means that the default behaviour will not happen. false means that the default
-        // behaviour still gets executed. In this case the default behaviour is to show the
-        // marker info window. If you click on the tap info window your line below will print.
-        return false
-    }
-    
-    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        print("You tapped at \(coordinate.latitude), \(coordinate.longitude)")
-    }
-    
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         print("You tapped the infowindow! :o")
+        // gets storyKey of this marker
+        print(marker.userData)
+        showStoryKey = marker.userData as! String
         self .performSegue(withIdentifier: "ShowStorySegue", sender: self)
     }
 }
@@ -127,11 +125,15 @@ extension MapViewController: CLLocationManagerDelegate {
                 for grandchild in (child as AnyObject).children{
                     let valueD = grandchild as! DataSnapshot
                     self.storyKey = valueD.key
-                    print(self.storyKey)
+                    //print(self.storyKey)
                 }
                 
                 // adding marker to map
                 let marker = GMSMarker()
+                
+                marker.userData = self.storyKey
+                print(marker.userData)
+                
                 let storyLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
                 marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
                 marker.map = self.mapView
@@ -144,7 +146,6 @@ extension MapViewController: CLLocationManagerDelegate {
                     
                     self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
                         var keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
-                        print(keywords)
                         if keywords == nil {
                             marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
                         } else {
@@ -158,7 +159,6 @@ extension MapViewController: CLLocationManagerDelegate {
                     
                     self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
                         var keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
-                        print(keywords)
                         if keywords == nil {
                              marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap me to open!"
                         } else {
