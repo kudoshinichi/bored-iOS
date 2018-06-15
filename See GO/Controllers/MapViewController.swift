@@ -165,7 +165,7 @@ extension MapViewController: CLLocationManagerDelegate {
                             marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
                         } else {
                             self.keywords = keywords!
-                            marker.snippet = "In " + String(Int(distanceMetres)) + "m, a squawk contains \"" + self.keywords + "\"."
+                            marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + self.keywords + "\"."
                         }
                     })
                     
@@ -175,10 +175,10 @@ extension MapViewController: CLLocationManagerDelegate {
                     self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
                         let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
                         if keywords == nil {
-                             marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap me to open!"
+                             marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap to open!"
                         } else {
                             self.keywords = keywords!
-                            marker.snippet = "In " + String(Int(distanceMetres)) + "m, a squawk contains \"" + self.keywords + "\". Tap me to open!"
+                            marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + self.keywords + "\". Tap to open!"
                         }
                     })
                 }

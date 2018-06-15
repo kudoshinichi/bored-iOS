@@ -4,7 +4,7 @@
 //
 //  Created by Hongyi Shen on 14/6/18.
 //
-// To-Do: 1. Upvote/Report/Share functions 7. Comments
+// To-Do: 1. Upvote/Report/Share functions 2. Update views 7. Comments
 
 import UIKit
 import Firebase
@@ -53,8 +53,8 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
         voteText.delegate = self
         viewText.delegate = self
         
-        wing0.isHidden = true
-        wing1.isHidden = true
+        wing0.alpha = 0
+        wing1.alpha = 0
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         tap.numberOfTapsRequired = 2
@@ -72,9 +72,11 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
          //self.featured = (snapshot.value as? NSDictionary)?["Featured"] as! Bool
          //self.flagged = (snapshot.value as? NSDictionary)?["Flagged"] as! Bool
          
-         print(self.views)
-         print(self.votes)
-         print(self.caption)
+            print(self.views)
+            //self.views = self.views + 1
+            //print(self.views)
+            //let childUpdates = ["/stories/\(self.storyKey)/Views": self.views]
+            //self.ref.updateChildValues(childUpdates)
             
         completion(true)
         })
@@ -96,7 +98,8 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
     
     // MARK: Actions
     @IBAction func reportStory(_ sender: Any) {
-        //ref.child("stories").child(storyKey).setValue(["Flagged" : true])
+        let childUpdates = ["/stories/\(storyKey)/Flagged": true]
+        ref.updateChildValues(childUpdates)
     }
     
     @IBAction func shareStory(_ sender: Any) {
@@ -115,11 +118,13 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
     @objc func doubleTapped() {
         // do something here
         print("TapTap")
-        wing0.isHidden = false
-        wing1.isHidden = false
+        wing0.alpha = 1
+        wing1.alpha = 1
         votes = votes + 1
         print(String(votes))
-        //ref.child("stories").child(storyKey).setValue(["Votes" : self.votes])
+        //let childUpdates = ["/stories/\(storyKey)/Votes": self.votes]
+        //ref.updateChildValues(childUpdates)
+        
     }
     
     override func didReceiveMemoryWarning() {
