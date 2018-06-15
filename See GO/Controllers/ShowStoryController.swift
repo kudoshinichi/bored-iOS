@@ -4,6 +4,7 @@
 //
 //  Created by Hongyi Shen on 14/6/18.
 //
+// To-Do: 1. Upvote/Report/Share functions 7. Comments
 
 import UIKit
 import Firebase
@@ -31,7 +32,8 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var voteText: UITextView!
     @IBOutlet weak var viewText: UITextView!
     @IBOutlet weak var storyImage: UIImageView!
-    
+    @IBOutlet weak var wing0: UIImageView!
+    @IBOutlet weak var wing1: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +52,14 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
         captionText.delegate = self
         voteText.delegate = self
         viewText.delegate = self
+        
+        wing0.isHidden = true
+        wing1.isHidden = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+        tap.numberOfTapsRequired = 2
+        self.storyImage.isUserInteractionEnabled = true
+        self.storyImage.addGestureRecognizer(tap)
         
     }
 
@@ -84,6 +94,33 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
         voteText.text = String(votes)
     }
     
+    // MARK: Actions
+    @IBAction func reportStory(_ sender: Any) {
+        //ref.child("stories").child(storyKey).setValue(["Flagged" : true])
+    }
+    
+    @IBAction func shareStory(_ sender: Any) {
+        //Set the default sharing message.
+        let message = "Omg cool squawk on See GO"
+        //Set the link to share.
+        if let link = NSURL(string: "http://yoururl.com")
+        {
+            let objectsToShare = [message,link] as [Any]
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            activityVC.excludedActivityTypes = [UIActivityType.airDrop, UIActivityType.addToReadingList]
+            self.present(activityVC, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func doubleTapped() {
+        // do something here
+        print("TapTap")
+        wing0.isHidden = false
+        wing1.isHidden = false
+        votes = votes + 1
+        print(String(votes))
+        //ref.child("stories").child(storyKey).setValue(["Votes" : self.votes])
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -4,7 +4,8 @@
 //
 //  Created by Hongyi Shen on 5/6/18.
 //
-// Subsequent TO-DO: 1. Info Window segue 2. Marker Aesthetic
+// Subsequent TO-DO: 1. Not all markers ShowStory 2. Marker Aesthetic
+// [6. Users (reddit and stackoverflow) 8. Hashtag and Hasthtag search]
 
 import UIKit
 import GoogleMaps

@@ -134,6 +134,7 @@
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vB6-aK-u6n">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="528"/>
+                                                <gestureRecognizers/>
                                             </imageView>
                                             <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="caption" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="9mp-1k-5y4">
                                                 <rect key="frame" x="0.0" y="528" width="414" height="50"/>
@@ -153,9 +154,15 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KwM-Kq-Ucl">
                                                         <rect key="frame" x="0.0" y="0.0" width="165" height="25"/>
                                                         <state key="normal" image="report"/>
+                                                        <connections>
+                                                            <action selector="reportStory:" destination="fWR-oY-FKc" eventType="touchUpInside" id="zAN-ON-2ty"/>
+                                                        </connections>
                                                     </button>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wing0" translatesAutoresizingMaskIntoConstraints="NO" id="3ny-nX-fdK">
                                                         <rect key="frame" x="165" y="0.0" width="17" height="25"/>
+                                                        <accessibility key="accessibilityConfiguration">
+                                                            <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                                                        </accessibility>
                                                     </imageView>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="votes" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EPd-3i-DQX">
                                                         <rect key="frame" x="182" y="0.0" width="50" height="25"/>
@@ -171,10 +178,16 @@
                                                     </textView>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wing1" translatesAutoresizingMaskIntoConstraints="NO" id="vEE-NQ-Jka">
                                                         <rect key="frame" x="232" y="0.0" width="17" height="25"/>
+                                                        <accessibility key="accessibilityConfiguration">
+                                                            <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                                                        </accessibility>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OJA-oM-KzJ">
                                                         <rect key="frame" x="249" y="0.0" width="165" height="25"/>
                                                         <state key="normal" image="share"/>
+                                                        <connections>
+                                                            <action selector="shareStory:" destination="fWR-oY-FKc" eventType="touchUpInside" id="mcQ-P5-ZSL"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -225,6 +238,8 @@
                         <outlet property="storyImage" destination="vB6-aK-u6n" id="oQS-Vn-dBg"/>
                         <outlet property="viewText" destination="KJn-JI-exr" id="B3Q-IU-eM8"/>
                         <outlet property="voteText" destination="EPd-3i-DQX" id="k3c-AZ-US4"/>
+                        <outlet property="wing0" destination="3ny-nX-fdK" id="V5S-Js-aXK"/>
+                        <outlet property="wing1" destination="vEE-NQ-Jka" id="mkg-Bd-sul"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tMx-XF-kjo" userLabel="First Responder" sceneMemberID="firstResponder"/>
