@@ -4,7 +4,7 @@
 //
 //  Created by Hongyi Shen on 14/6/18.
 //
-// To-Do: 1. Upvote/Report/Share functions 2. Update views 7. Comments
+// To-Do: 7. Comments
 
 import UIKit
 import Firebase
@@ -64,7 +64,7 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
     }
 
     func getInfoFromDatabase(completion: @escaping (_ success: Bool) -> Void) {
-        ref.child("stories").child(storyKey).observe(.value, with: { snapshot in
+        ref.child("stories").child(storyKey).observeSingleEvent(of: .value, with: { (snapshot) in
          self.caption = (snapshot.value as? NSDictionary)?["Caption"] as! String
          self.views = (snapshot.value as? NSDictionary)?["Views"] as! Int
          self.votes = (snapshot.value as? NSDictionary)?["Votes"] as! Int
@@ -73,10 +73,10 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
          //self.flagged = (snapshot.value as? NSDictionary)?["Flagged"] as! Bool
          
             print(self.views)
-            //self.views = self.views + 1
-            //print(self.views)
-            //let childUpdates = ["/stories/\(self.storyKey)/Views": self.views]
-            //self.ref.updateChildValues(childUpdates)
+            self.views += 1
+            print(self.views)
+            let childUpdates = ["/stories/\(self.storyKey)/Views": self.views]
+            self.ref.updateChildValues(childUpdates)
             
         completion(true)
         })
@@ -92,14 +92,21 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
     func loadInfoOntoUI() {
         captionText.text = self.caption
         print(self.caption)
-        viewText.text = String(views)
+        viewText.text = String(views) + " views"
         voteText.text = String(votes)
     }
     
     // MARK: Actions
     @IBAction func reportStory(_ sender: Any) {
-        let childUpdates = ["/stories/\(storyKey)/Flagged": true]
-        ref.updateChildValues(childUpdates)
+        
+        let alert = UIAlertController(title: "You are about to flag this image", message: "This action cannot be undone.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            let childUpdates = ["/stories/\(self.storyKey)/Flagged": true]
+            self.ref.updateChildValues(childUpdates)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+        
     }
     
     @IBAction func shareStory(_ sender: Any) {
@@ -122,9 +129,9 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
         wing1.alpha = 1
         votes = votes + 1
         print(String(votes))
-        //let childUpdates = ["/stories/\(storyKey)/Votes": self.votes]
-        //ref.updateChildValues(childUpdates)
-        
+        let childUpdates = ["/stories/\(storyKey)/Votes": self.votes]
+        ref.updateChildValues(childUpdates)
+        voteText.text = String(self.votes)
     }
     
     override func didReceiveMemoryWarning() {
