@@ -103,7 +103,7 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
         //Set the default sharing message.
         let message = "Omg cool squawk on See GO"
         //Set the link to share.
-        if let link = NSURL(string: "http://yoururl.com")
+        if let link = NSURL(string: "http://projectboredinc.wordpress.com/story/" + storyKey)
         {
             let objectsToShare = [message,link] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)

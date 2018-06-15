@@ -4,7 +4,7 @@
 //
 //  Created by Hongyi Shen on 5/6/18.
 //
-// Subsequent TO-DO: 1. Not all markers ShowStory 2. Marker Aesthetic
+// Subsequent TO-DO: 2. Marker Aesthetic
 // [6. Users (reddit and stackoverflow) 8. Hashtag and Hasthtag search]
 
 import UIKit
@@ -27,6 +27,7 @@ class MapViewController: UIViewController {
     var keywords: String = ""
     var storyKey: String = ""
     var showStoryKey: String = ""
+    var isNear: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,9 +84,13 @@ extension MapViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         print("You tapped the infowindow! :o")
         // gets storyKey of this marker
-        print(marker.userData)
-        showStoryKey = marker.userData as! String
-        self .performSegue(withIdentifier: "ShowStorySegue", sender: self)
+        let data = marker.userData as! NSDictionary
+        let key1 = data["key"]
+        let near1 = data["near"] as! Bool
+        if near1 {
+            showStoryKey = key1 as! String
+            self .performSegue(withIdentifier: "ShowStorySegue", sender: self)
+        }
     }
 }
 
@@ -131,9 +136,6 @@ extension MapViewController: CLLocationManagerDelegate {
                 // adding marker to map
                 let marker = GMSMarker()
                 
-                marker.userData = self.storyKey
-                print(marker.userData)
-                
                 let storyLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
                 marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
                 marker.map = self.mapView
@@ -141,7 +143,20 @@ extension MapViewController: CLLocationManagerDelegate {
                 let distanceMetres = (self.userLocation?.distance(from: storyLocation))!
                 print(String(distanceMetres))
                 
-                if distanceMetres > 500.0 {
+                if distanceMetres <= 500.0 {
+                    self.isNear = true
+                } else {
+                    self.isNear = false
+                }
+                
+                marker.userData = ["key": self.storyKey, "near": self.isNear]
+                let data = marker.userData as! NSDictionary
+                let key1 = data["key"]
+                let near1 = data["near"]
+                print(key1)
+                print(near1)
+                
+                if !self.isNear {
                     marker.icon = GMSMarker.markerImage(with: .purple)
                     
                     self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
