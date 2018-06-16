@@ -99,7 +99,7 @@ class ShowStoryController: UIViewController, UITextViewDelegate {
     // MARK: Actions
     @IBAction func reportStory(_ sender: Any) {
         
-        let alert = UIAlertController(title: "You are about to flag this image", message: "This action cannot be undone.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Flag squawk?", message: "This action cannot be undone.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
             let childUpdates = ["/stories/\(self.storyKey)/Flagged": true]
             self.ref.updateChildValues(childUpdates)

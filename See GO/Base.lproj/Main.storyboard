@@ -67,12 +67,12 @@
                     <navigationItem key="navigationItem" title="Add Squawk" id="pg6-3i-fWT">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="aBI-do-iQu">
                             <connections>
-                                <segue destination="6iu-Ob-GHa" kind="unwind" unwindAction="unwindToMainScreenWithSegue:" id="LOT-GZ-aV6"/>
+                                <action selector="cancelSquawk:" destination="lJg-l6-HvW" id="UvU-Rf-FS7"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Squawk" id="ZQn-77-hga">
                             <connections>
-                                <segue destination="6iu-Ob-GHa" kind="unwind" unwindAction="unwindToMainScreenWithSegue:" id="7GT-2y-TrT"/>
+                                <action selector="addSquawk:" destination="lJg-l6-HvW" id="GmP-WV-ib9"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -80,7 +80,7 @@
                         <outlet property="captionText" destination="whf-t0-hVY" id="eCD-Xw-Ztz"/>
                         <outlet property="hookText" destination="CyJ-MS-Azj" id="V8u-Og-haW"/>
                         <outlet property="photoImageView" destination="NGp-Xg-tSY" id="4Eq-Ne-01f"/>
-                        <outlet property="squawkButton" destination="ZQn-77-hga" id="cYS-6F-JbS"/>
+                        <segue destination="6iu-Ob-GHa" kind="unwind" identifier="squawkBackToMap" unwindAction="unwindToMainScreenWithSegue:" id="JWc-Vg-1fp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aoz-w6-994" userLabel="First Responder" sceneMemberID="firstResponder"/>

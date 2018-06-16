@@ -5,11 +5,7 @@
 //  Created by Hongyi Shen on 6/6/18.
 //
 // TO-DO: *technically solved under 2* 0. Removes stored image when change image
-// 2. *TEST TMR* Do dispatch queue A) for imagePicker (imageURL), and add to Firebase B) Cancel story only works after url?
-// Test and see if it's slow hmmm (can ask lik hern how the uploads thingum work?)
-// Test first, but actually need not hmmmm... if i can just if success, no can't
 // 3. Camera Picker (untested)
-// 5. *TMR* Prevent empty stories
 
 import UIKit
 import FirebaseDatabase
@@ -128,41 +124,13 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         imagePath = localPath!.absoluteString
         imageNameS = imageName!
         
+        storetoStorage()
+        
         // Dismiss the picker.
         dismiss(animated: true, completion: nil)
     }
     
-    //MARK: Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        guard let button = sender as? UIBarButtonItem, button == squawkButton else {
-            os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
-            /*
-            Code to remove image from storage.. technically not necessary if i only store image much later?
-             
-            let storageRef = storage.reference()
-            let storeRef = storageRef.child(imageNameS)
-            // Delete the file
-            storeRef.delete { error in
-                if let error = error {
-                    // Uh-oh, an error occurred!
-                } else {
-                    // File deleted successfully
-                    print("deleted successfully")
-                }
-            } */
-            return
-        }
-        
-        // When squawk button pressed, add to Database only after storage is successful
-        storetoStorage{ (success) -> Void in
-            if success {
-                self.addtoDatabase()
-            }
-        }
-    }
-    
-    func storetoStorage(completion: @escaping (_ success: Bool) -> Void) {
+    func storetoStorage() {
         //MARK: Store Image to Firebase Storage
         
         // get file from local disk with path
@@ -186,7 +154,6 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
                 }
                 self.imageURL = downloadURL.absoluteString
                 print(self.imageURL)
-                completion(true)
             }
         }
     }
@@ -213,6 +180,60 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     }
     
     //MARK: Actions
+    @IBAction func addSquawk(_ sender: UIBarButtonItem) {
+        // When squawk button pressed, add to Database only after 1) fields completed and 2) storage is successful
+        
+        guard hookText.text != "", captionText.text != "", imageNameS != "" else {
+            // if some fields are incomplete, UIAlertView pops out to alert
+            let alert = UIAlertController(title: "Missing fields", message: "No image, hook or caption detected. Check again?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+            
+            return
+        }
+        guard imageURL != "" else {
+            let alert = UIAlertController(title: "Database error", message: "Try again?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+            
+            return
+        }
+        
+        print("can add to database")
+        addtoDatabase()
+        
+        self.performSegue(withIdentifier: "squawkBackToMap", sender: self)
+    }
+    
+    @IBAction func cancelSquawk(_ sender: UIBarButtonItem) {
+        
+        // alert to confirm
+        let alert = UIAlertController(title: "Cancel squawk?", message: "If you come back again, all data will be lost.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            // deletes image from storage if it is uploaded
+            if self.imageURL != "" {
+                let storageRef = self.storage.reference()
+                let storeRef = storageRef.child(self.imageNameS)
+                // Delete the file
+                storeRef.delete { error in
+                    if let error = error {
+                        // Uh-oh, an error occurred!
+                    } else {
+                        // File deleted successfully
+                        print("deleted successfully")
+                    }
+                }
+            } else {
+                print("nothing to delete")
+            }
+            // unwind segue
+            self.performSegue(withIdentifier: "squawkBackToMap", sender: self)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
         
         let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
