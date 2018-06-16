@@ -4,8 +4,9 @@
 //
 //  Created by Hongyi Shen on 6/6/18.
 //
-// TO-DO: *technically solved under 2* 0. Removes stored image when change image
-// 3. Camera Picker (untested)
+// TO-DO: 0. Removes stored image when change image
+// 3. Camera Picker (untested on simulator; unsure if there's better code)
+// 4. might have (hopefully only rare) issue when changing image and current image is still being uploaded (see Note)
 
 import UIKit
 import FirebaseDatabase
@@ -30,7 +31,8 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     // Storage
     let storage = Storage.storage()
     var imagePath: String = ""
-    var imageNameS: String = ""
+    var imageNameS: String = "" // for storage or stored image
+    var imageNameD: String = "" // for deleting when change image is prompted (to avoid conflict)
     var imageURL: String = "" // download url for database
     var imageChosen: Bool = false
 
@@ -126,6 +128,8 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         
         storetoStorage()
         
+        imageChosen = true
+        
         // Dismiss the picker.
         dismiss(animated: true, completion: nil)
     }
@@ -212,17 +216,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
             // deletes image from storage if it is uploaded
             if self.imageURL != "" {
-                let storageRef = self.storage.reference()
-                let storeRef = storageRef.child(self.imageNameS)
-                // Delete the file
-                storeRef.delete { error in
-                    if let error = error {
-                        // Uh-oh, an error occurred!
-                    } else {
-                        // File deleted successfully
-                        print("deleted successfully")
-                    }
-                }
+                self.deleteStorageImage(imageNameHolder: self.imageNameS)
             } else {
                 print("nothing to delete")
             }
@@ -236,6 +230,31 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
         
+        guard !imageChosen else {
+            print("image chosen")
+            
+            let alert = UIAlertController(title: "Change Image?", message: "Changing image means current image will be lost.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+                // Change image takes place where previous image is deleted from database
+                self.imageNameD = self.imageNameS
+                self.deleteStorageImage(imageNameHolder: self.imageNameD)
+                // NOTE: still unsure how to deal with case where previous image is still being uploaded but is changed
+                // currently the image just doesn't get deleted and stays in database.. hope this doesn't happen often? :/
+                
+                self.photoImageView.image = UIImage(named: "addImage")
+                
+                self.pickImage()
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+            
+            return
+        }
+        
+        pickImage()
+    }
+    
+    func pickImage() {
         let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
             self.openCamera()
@@ -272,6 +291,21 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         imagePickerController.delegate = self
         
         present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    func deleteStorageImage(imageNameHolder: String){
+        // tested that if imageNameHolder = "", nothing gets deleted
+        let storageRef = self.storage.reference()
+        let storeRef = storageRef.child(imageNameHolder)
+        // Delete the file
+        storeRef.delete { error in
+            if let error = error {
+                // Uh-oh, an error occurred!
+            } else {
+                // File deleted successfully
+                print("deleted successfully")
+            }
+        }
     }
 
 }
