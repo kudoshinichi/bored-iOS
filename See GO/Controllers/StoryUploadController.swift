@@ -4,8 +4,12 @@
 //
 //  Created by Hongyi Shen on 6/6/18.
 //
-// TO-DO: 0. Removes stored image when change image 1. Duplicate story at one location, one gets removed 2. Do dispatch queue A) for imagePicker (imageURL), and add to Firebase B) Cancel story only works after url?
-// 3. Camera Picker (untested) 5. Prevent empty stories
+// TO-DO: *technically solved under 2* 0. Removes stored image when change image
+// 2. *TEST TMR* Do dispatch queue A) for imagePicker (imageURL), and add to Firebase B) Cancel story only works after url?
+// Test and see if it's slow hmmm (can ask lik hern how the uploads thingum work?)
+// Test first, but actually need not hmmmm... if i can just if success, no can't
+// 3. Camera Picker (untested)
+// 5. *TMR* Prevent empty stories
 
 import UIKit
 import FirebaseDatabase
@@ -22,7 +26,6 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var squawkButton: UIBarButtonItem!
     
-    
     // Database
     let ref = Database.database().reference(withPath: "stories")
     let locRef = Database.database().reference(withPath: "locations")
@@ -33,6 +36,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     var imagePath: String = ""
     var imageNameS: String = ""
     var imageURL: String = "" // download url for database
+    var imageChosen: Bool = false
 
     // Location
     var location: String = ""
@@ -44,16 +48,12 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Handle the text field’s user input through delegate callbacks.
         hookText.delegate = self
         captionText.delegate = self
         
-        // Ask for Authorisation from the User.
+        // Location
         self.locationManager.requestAlwaysAuthorization()
-        
-        // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
-        
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -61,7 +61,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         }
     }
 
-    
+    // gets location to be used in database
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         // Location variable
@@ -72,7 +72,6 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         print(locationKey)
         print(location)
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -97,6 +96,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         dismiss(animated: true, completion: nil)
     }
 
+    // after picking photo, gets photo details (for use when uploading to database and storage later)
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // The info dictionary may contain multiple representations of the image. You want to use the original.
         guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else {
@@ -128,47 +128,18 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         imagePath = localPath!.absoluteString
         imageNameS = imageName!
         
-        //MARK: Store Image to Firebase Storage
-        
-        // get file from local disk with path
-        let localFile = URL(string: imagePath)!
-        // Create a reference to the file you want to upload
-        let storageRef = storage.reference()
-        let storeRef = storageRef.child(imageNameS)
-        let uploadTask = storeRef.putFile(from: localFile, metadata: nil) { metadata, error in
-            guard let metadata = metadata else {
-                // Uh-oh, an error occurred!
-                return
-            }
-            
-            // Metadata contains file metadata such as size, content-type.
-            let size = metadata.size
-            
-            // You can also access to download URL after upload.
-            storeRef.downloadURL { (url, error) in
-                guard let downloadURL = url else {
-                    // Uh-oh, an error occurred!
-                    return
-                }
-                
-                self.imageURL = downloadURL.absoluteString
-                print(self.imageURL)
-            }
-        }
-        
         // Dismiss the picker.
         dismiss(animated: true, completion: nil)
     }
     
     //MARK: Navigation
-    // This method lets you configure a view controller before it's presented.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        // Configure the destination view controller only when the save button is pressed.
-        guard let button = sender as? UIBarButtonItem, button === squawkButton else {
+        guard let button = sender as? UIBarButtonItem, button == squawkButton else {
             os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
-            
-            
+            /*
+            Code to remove image from storage.. technically not necessary if i only store image much later?
+             
             let storageRef = storage.reference()
             let storeRef = storageRef.child(imageNameS)
             // Delete the file
@@ -179,16 +150,54 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
                     // File deleted successfully
                     print("deleted successfully")
                 }
-            }
-            
+            } */
             return
         }
-
+        
+        // When squawk button pressed, add to Database only after storage is successful
+        storetoStorage{ (success) -> Void in
+            if success {
+                self.addtoDatabase()
+            }
+        }
+    }
+    
+    func storetoStorage(completion: @escaping (_ success: Bool) -> Void) {
+        //MARK: Store Image to Firebase Storage
+        
+        // get file from local disk with path
+        let localFile = URL(string: imagePath)!
+        let storageRef = storage.reference()
+        let storeRef = storageRef.child(imageNameS)
+        
+        let uploadTask = storeRef.putFile(from: localFile, metadata: nil) { metadata, error in
+            guard let metadata = metadata else {
+                // Uh-oh, an error occurred!
+                return
+            }
+            
+            // Metadata contains file metadata such as size, content-type.
+            let size = metadata.size
+            
+            storeRef.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                    // Uh-oh, an error occurred!
+                    return
+                }
+                self.imageURL = downloadURL.absoluteString
+                print(self.imageURL)
+                completion(true)
+            }
+        }
+    }
+    
+    func addtoDatabase(){
         //MARK: Add Squawk to Firebase
         let storyItem = Story(caption: captionText.text!,
                               featured: false,
                               flagged: false,
                               location: self.location,
+                              time: Int(NSDate().timeIntervalSince1970*1000),
                               uri: self.imageURL,
                               views: 0,
                               votes: 0,
@@ -197,12 +206,9 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         let childautoID = storyItemRef.key
         storyItemRef.setValue(storyItem.toAnyObject())
         
-        // Add time to another node
-        storyItemRef.child("DateTime").setValue(["time": Int(NSDate().timeIntervalSince1970*1000)])
-        
         // Create a location node
-        self.locRef.child(self.locationKey).setValue([childautoID : 0])
         
+        self.locRef.child(self.locationKey).updateChildValues([childautoID : 0])
         
     }
     
@@ -246,16 +252,5 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         
         present(imagePickerController, animated: true, completion: nil)
     }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

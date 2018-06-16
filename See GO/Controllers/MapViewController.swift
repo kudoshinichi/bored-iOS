@@ -5,7 +5,9 @@
 //  Created by Hongyi Shen on 5/6/18.
 //
 // Subsequent TO-DO: 2. Marker Aesthetic
-// [6. Users (reddit and stackoverflow) 8. Hashtag and Hasthtag search]
+// 3. Multiple stories
+// [6. Users (reddit and stackoverflow, voting & read system)
+// 8. Hashtag and Hasthtag search]
 
 import UIKit
 import GoogleMaps

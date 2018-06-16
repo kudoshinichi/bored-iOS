@@ -4,7 +4,7 @@
 //
 //  Created by Hongyi Shen on 14/6/18.
 //
-// To-Do: 7. Comments
+// To-Do: 1. Date field 7. Comments (textEdit + tableview)
 
 import UIKit
 import Firebase

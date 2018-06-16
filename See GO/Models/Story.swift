@@ -14,17 +14,19 @@ struct Story {
     var featured: Bool
     var flagged: Bool
     let location: String
+    let time : Int
     let uri: String
     let views : Int
     let votes : Int
     let keywords : String
     
-    init(caption: String, featured: Bool, flagged: Bool, location: String, uri: String, views: Int, votes: Int, keywords: String) {
+    init(caption: String, featured: Bool, flagged: Bool, location: String, time: Int, uri: String, views: Int, votes: Int, keywords: String) {
         //self.ref = nil
         self.caption = caption
         self.featured = featured
         self.flagged = flagged
         self.location = location
+        self.time = time
         self.uri = uri
         self.views = views
         self.votes = votes
@@ -64,6 +66,7 @@ struct Story {
             "Featured": featured,
             "Flagged": flagged,
             "Location": location,
+            "Time": time,
             "URI": uri,
             "Views": views,
             "Votes": votes,
