@@ -4,7 +4,7 @@
 //
 //  Created by Hongyi Shen on 6/6/18.
 //
-// TO-DO: 0. Removes stored image when change image
+// TO-DO:
 // 3. Camera Picker (untested on simulator; unsure if there's better code)
 // 4. might have (hopefully only rare) issue when changing image and current image is still being uploaded (see Note)
 

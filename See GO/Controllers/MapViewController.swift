@@ -5,7 +5,7 @@
 //  Created by Hongyi Shen on 5/6/18.
 //
 // Subsequent TO-DO:
-// 3. Multiple stories *
+// 3. Multiple stories * (uhm keywords don't get seeen)
 // [6. Users (reddit and stackoverflow, voting & read system)
 // 2. Marker Aesthetic
 // 8. Hashtag and Hasthtag search]
@@ -31,6 +31,7 @@ class MapViewController: UIViewController {
     var storyKey: String = ""
     var showStoryKey: String = ""
     var isNear: Bool = false
+    var storyKeyArray: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,11 +72,14 @@ class MapViewController: UIViewController {
         print("Unwind segue to main screen triggered!")
     }
     
+    // Before segue to showStory, set showStory storyKey variable
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-        if segue.destination is ShowStoryController
+        //if segue.destination is ShowStoryController
+        if segue.destination is StoryTableViewController
         {
-            let vc = segue.destination as? ShowStoryController
+            //let vc = segue.destination as? ShowStoryController
+            let vc = segue.destination as? StoryTableViewController
             vc?.storyKey = showStoryKey
         }
     }
@@ -92,7 +96,7 @@ extension MapViewController: GMSMapViewDelegate {
         let near1 = data["near"] as! Bool
         if near1 {
             showStoryKey = key1 as! String
-            self .performSegue(withIdentifier: "ShowStorySegue", sender: self)
+            self .performSegue(withIdentifier: "ShowStoryTableSegue", sender: self)
         }
     }
 }
@@ -129,16 +133,34 @@ extension MapViewController: CLLocationManagerDelegate {
                 let locationArray = key.split(separator:",")
                 let latitude: String = String(locationArray[0])
                 let longitude: String = String(locationArray[1])
+                let count = valueD.childrenCount
+                print(String(count) + " stories")
                 
+                self.storyKeyArray = []
+                
+                // get storyKey(s)
                 for grandchild in (child as AnyObject).children{
                     let valueD = grandchild as! DataSnapshot
-                    self.storyKey = valueD.key
-                    //print(self.storyKey)
+                    if count == 1 {
+                        self.storyKey = valueD.key
+                        //print(self.storyKey)
+                    } else {
+                        // join storykeys into more than one
+                        
+                        self.storyKeyArray.append(valueD.key)
+                        let string = self.storyKeyArray.joined(separator: ",")
+                        self.storyKey = string
+                        // add indiv keys into srray
+                        // add keys together with comma
+                        //var array = [1,2,3]
+                        //self.storyKey =
+                    }
                 }
                 
                 // adding marker to map
                 let marker = GMSMarker()
                 
+                // get distance
                 let storyLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
                 marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
                 marker.map = self.mapView
@@ -152,6 +174,7 @@ extension MapViewController: CLLocationManagerDelegate {
                     self.isNear = false
                 }
                 
+                // Loads into userData
                 marker.userData = ["key": self.storyKey, "near": self.isNear]
                 let data = marker.userData as! NSDictionary
                 let key1 = data["key"]
@@ -162,29 +185,39 @@ extension MapViewController: CLLocationManagerDelegate {
                 if !self.isNear {
                     marker.icon = GMSMarker.markerImage(with: .purple)
                     
-                    self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
-                        let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
-                        if keywords == nil {
-                            marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
-                        } else {
-                            self.keywords = keywords!
-                            marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + self.keywords + "\"."
-                        }
-                    })
+                    if count == 1 {
+                        self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
+                            let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
+                            if keywords == nil {
+                                marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
+                            } else {
+                                self.keywords = keywords!
+                                marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + self.keywords + "\"."
+                            }
+                        })
+                    } else {
+                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
+                    }
                     
                 } else {
                     marker.icon = GMSMarker.markerImage(with: .green)
                     
-                    self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
-                        let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
-                        if keywords == nil {
-                             marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap to open!"
-                        } else {
-                            self.keywords = keywords!
-                            marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + self.keywords + "\". Tap to open!"
-                        }
-                    })
+                    if count == 1 {
+                        self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
+                            let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
+                            if keywords == nil {
+                                marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap to open!"
+                            } else {
+                                self.keywords = keywords!
+                                marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + self.keywords + "\". Tap to open!"
+                            }
+                        })
+                    } else {
+                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
+                    }
+                    
                 }
+                
             }
         })
     }

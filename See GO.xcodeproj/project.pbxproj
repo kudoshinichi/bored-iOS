@@ -19,6 +19,8 @@
 		FEC0AB3920D20ABE00B64D2F /* ShowStoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC0AB3820D20ABE00B64D2F /* ShowStoryController.swift */; };
 		FEC4FC0B20C6AC8B00837F48 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC4FC0A20C6AC8B00837F48 /* MapViewController.swift */; };
 		FEF52F3020C782C1004DF382 /* StoryUploadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF52F2F20C782C0004DF382 /* StoryUploadController.swift */; };
+		FEF546D620D65FB5004B2313 /* StoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF546D520D65FB5004B2313 /* StoryTableViewCell.swift */; };
+		FEF546D820D66653004B2313 /* StoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF546D720D66653004B2313 /* StoryTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,8 @@
 		FEC0AB3820D20ABE00B64D2F /* ShowStoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowStoryController.swift; sourceTree = "<group>"; };
 		FEC4FC0A20C6AC8B00837F48 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		FEF52F2F20C782C0004DF382 /* StoryUploadController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryUploadController.swift; sourceTree = "<group>"; };
+		FEF546D520D65FB5004B2313 /* StoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryTableViewCell.swift; sourceTree = "<group>"; };
+		FEF546D720D66653004B2313 /* StoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +104,7 @@
 				FEC4FC0A20C6AC8B00837F48 /* MapViewController.swift */,
 				FEF52F2F20C782C0004DF382 /* StoryUploadController.swift */,
 				FEC0AB3820D20ABE00B64D2F /* ShowStoryController.swift */,
+				FEF546D720D66653004B2313 /* StoryTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -108,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				FE9DFF4020CA60BE00279C6B /* Story.swift */,
+				FEF546D520D65FB5004B2313 /* StoryTableViewCell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -379,10 +385,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEAD425920C6901400E25996 /* AppDelegate.swift in Sources */,
+				FEF546D820D66653004B2313 /* StoryTableViewController.swift in Sources */,
 				FEC0AB3920D20ABE00B64D2F /* ShowStoryController.swift in Sources */,
 				FEC4FC0B20C6AC8B00837F48 /* MapViewController.swift in Sources */,
 				FEF52F3020C782C1004DF382 /* StoryUploadController.swift in Sources */,
 				FE9DFF4120CA60BF00279C6B /* Story.swift in Sources */,
+				FEF546D620D65FB5004B2313 /* StoryTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,12 +550,15 @@
 			baseConfigurationReference = 8DE0E4485C52A368CCC2AF51 /* Pods-See GO.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "See GO/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bored.See-GO";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -558,12 +569,15 @@
 			baseConfigurationReference = 7C24C157A8925C147696B418 /* Pods-See GO.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "See GO/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bored.See-GO";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
