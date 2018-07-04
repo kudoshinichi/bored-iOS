@@ -33,6 +33,14 @@ class MapViewController: UIViewController {
     var isNear: Bool = false
     var storyKeyArray: [String] = []
     
+    //search
+    let searchController = UISearchController(searchResultsController: nil)
+    struct hashtagItem {
+        let hashtag: String
+        let location: String
+    }
+    var filteredSquawks = [hashtagItem]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -65,6 +73,13 @@ class MapViewController: UIViewController {
         view.addSubview(mapView)
         mapView.isHidden = true
         
+        //searchController
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Discover Squawks"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        
     }
     
     // Unwind segue
@@ -84,6 +99,38 @@ class MapViewController: UIViewController {
         }
     }
     
+    //Search
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        ref.child("hashtags").observe(.value, with: { snapshot in
+            var hashtagArray = [hashtagItem]()
+            
+            for child in snapshot.children{
+                let hashtagSnap = child as! DataSnapshot
+                let hashtag = hashtagSnap.key
+                print(hashtag)
+                
+                hashtagArray.append(hashtagItem(hashtag: hashtag, location: "location"))
+                print(hashtagArray)
+                
+                self.filteredSquawks = hashtagArray.filter({( hashtag : hashtagItem) -> Bool in
+                    return hashtag.hashtag.lowercased().contains(searchText.lowercased())
+                })
+            }
+        })
+        
+        print(filteredSquawks)
+        print("done")
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
 }
 
 // Delegate to handle events for Google Map View
@@ -99,6 +146,13 @@ extension MapViewController: GMSMapViewDelegate {
             self .performSegue(withIdentifier: "ShowStoryTableSegue", sender: self)
         }
     }
+    
+    func filterSquawks(){
+        if isFiltering(){
+            
+        }
+    }
+    
 }
 
 // Delegates to handle events for the location manager.
@@ -243,6 +297,14 @@ extension MapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationManager.stopUpdatingLocation()
         print("Error: \(error)")
+    }
+}
+
+extension MapViewController: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Delegate
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+
     }
 }
 
