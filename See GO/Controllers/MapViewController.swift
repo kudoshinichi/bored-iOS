@@ -29,11 +29,7 @@ class MapViewController: UIViewController {
     var ref: DatabaseReference!
     // Others
     var userLocation: CLLocation?
-    var keywords: String = ""
-    var storyKey: String = ""
     var showStoryKey: String = ""
-    var isNear: Bool = false
-    var storyKeyArray: [String] = []
     
     //search
     let searchController = UISearchController(searchResultsController: nil)
@@ -178,32 +174,34 @@ extension MapViewController: GMSMapViewDelegate {
         
         let distanceMetres = (self.userLocation?.distance(from: storyLocation))!
         print(String(distanceMetres))
+        var isNear: Bool
+        var snipkeywords: String = ""
         
         if distanceMetres <= 500.0 {
-            self.isNear = true
+            isNear = true
         } else {
-            self.isNear = false
+            isNear = false
         }
         
         // Loads into userData
-        marker.userData = ["key": storyKey, "near": self.isNear]
+        marker.userData = ["key": storyKey, "near": isNear]
         let data = marker.userData as! NSDictionary
         let key1 = data["key"]
         let near1 = data["near"]
         print(key1)
         print(near1)
         
-        if !self.isNear {
+        if !isNear {
             marker.icon = GMSMarker.markerImage(with: .purple)
             
-            if !self.storyKey.contains(",") {
+            if !storyKey.contains(",") {
                 self.ref.child("stories").child(storyKey).observe(.value, with: { snapshot in
                     let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
                     if keywords == nil {
                         marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
                     } else {
-                        self.keywords = keywords!
-                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + self.keywords + "\"."
+                        snipkeywords = keywords!
+                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + snipkeywords + "\"."
                     }
                 })
             } else {
@@ -213,14 +211,14 @@ extension MapViewController: GMSMapViewDelegate {
         } else {
             marker.icon = GMSMarker.markerImage(with: .green)
             
-            if !self.storyKey.contains(",") {
+            if !storyKey.contains(",") {
                 self.ref.child("stories").child(storyKey).observe(.value, with: { snapshot in
                     let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
                     if keywords == nil {
                         marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap to open!"
                     } else {
-                        self.keywords = keywords!
-                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + self.keywords + "\". Tap to open!"
+                        snipkeywords = keywords!
+                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + snipkeywords + "\". Tap to open!"
                     }
                 })
             } else {
@@ -295,20 +293,21 @@ extension MapViewController: CLLocationManagerDelegate {
                 let count = valueD.childrenCount
                 print(String(count) + " stories")
                 
-                self.storyKeyArray = []
+                var storyKeyArray: [String] = []
+                var storyKey: String = ""
                 
                 // get storyKey(s)
                 for grandchild in (child as AnyObject).children{
                     let valueD = grandchild as! DataSnapshot
                     if count == 1 {
-                        self.storyKey = valueD.key
+                        storyKey = valueD.key
                         //print(self.storyKey)
                     } else {
                         // join storykeys into more than one
                         
-                        self.storyKeyArray.append(valueD.key)
-                        let string = self.storyKeyArray.joined(separator: ",")
-                        self.storyKey = string
+                        storyKeyArray.append(valueD.key)
+                        let string = storyKeyArray.joined(separator: ",")
+                        storyKey = string
                         // add indiv keys into srray
                         // add keys together with comma
                         //var array = [1,2,3]
@@ -316,7 +315,7 @@ extension MapViewController: CLLocationManagerDelegate {
                     }
                 }
                 
-                self.addMarker(latitude: latitude, longitude: longitude, storyKey: self.storyKey)
+                self.addMarker(latitude: latitude, longitude: longitude, storyKey: storyKey)
             }
         })
     }
