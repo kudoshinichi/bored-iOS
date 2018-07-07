@@ -8,7 +8,9 @@
 // 3. Multiple stories * (uhm keywords don't get seeen)
 // [6. Users (reddit and stackoverflow, voting & read system)
 // 2. Marker Aesthetic
-// 8. Hashtag and Hasthtag search]
+// 8. Hashtag from story upload
+// 9. Discovery syste: √Hasthtag search, Today, Nearby (tbh a bit useless), My Squawks
+// 10. Search bar idk overall theme hmm
 
 import UIKit
 import GoogleMaps
@@ -37,9 +39,9 @@ class MapViewController: UIViewController {
     let searchController = UISearchController(searchResultsController: nil)
     struct hashtagItem {
         let hashtag: String
-        let location: String
         let latitude: String
         let longitude: String
+        let storyKey: String
     }
     var filteredSquawks = [hashtagItem]()
 
@@ -114,7 +116,6 @@ class MapViewController: UIViewController {
         
         // find hashtag info from database
         var hashtagArray = [hashtagItem]()
-        var location: String = ""
         var storyKey: String = ""
         var hashtag: String = ""
         var latitude: String = ""
@@ -130,14 +131,14 @@ class MapViewController: UIViewController {
                     hashtag = hashtagSnap.key
                     for grandchild in (child as AnyObject).children{
                         let grandchild = grandchild as! DataSnapshot
-                        location = grandchild.value as! String
+                        let location = grandchild.value as! String
                         let locationArray = location.split(separator:",")
                         latitude = String(locationArray[0])
                         longitude = String(locationArray[1])
                         storyKey = grandchild.key
                     }
                     
-                    hashtagArray.append(hashtagItem(hashtag: hashtag, location: location, latitude: latitude, longitude: longitude))
+                    hashtagArray.append(hashtagItem(hashtag: hashtag, latitude: latitude, longitude: longitude, storyKey: storyKey))
                 }
                 group.leave()
             })
@@ -185,7 +186,7 @@ extension MapViewController: GMSMapViewDelegate {
         }
         
         // Loads into userData
-        marker.userData = ["key": self.storyKey, "near": self.isNear]
+        marker.userData = ["key": storyKey, "near": self.isNear]
         let data = marker.userData as! NSDictionary
         let key1 = data["key"]
         let near1 = data["near"]
@@ -196,7 +197,7 @@ extension MapViewController: GMSMapViewDelegate {
             marker.icon = GMSMarker.markerImage(with: .purple)
             
             if !self.storyKey.contains(",") {
-                self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
+                self.ref.child("stories").child(storyKey).observe(.value, with: { snapshot in
                     let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
                     if keywords == nil {
                         marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
@@ -213,7 +214,7 @@ extension MapViewController: GMSMapViewDelegate {
             marker.icon = GMSMarker.markerImage(with: .green)
             
             if !self.storyKey.contains(",") {
-                self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
+                self.ref.child("stories").child(storyKey).observe(.value, with: { snapshot in
                     let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
                     if keywords == nil {
                         marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap to open!"
@@ -227,7 +228,6 @@ extension MapViewController: GMSMapViewDelegate {
             }
             
         }
-        
         
     }
     
@@ -250,12 +250,9 @@ extension MapViewController: GMSMapViewDelegate {
             mapView.clear()
             
             for hashtagItem in filteredSquawks{
-                /*let marker = GMSMarker()
-                marker.position = CLLocationCoordinate2D(latitude: Double(hashtagItem.latitude)!, longitude: Double(hashtagItem.latitude)!)
-                marker.map = self.mapView*/
                 
+                addMarker(latitude: hashtagItem.latitude, longitude: hashtagItem.longitude, storyKey: hashtagItem.storyKey)
             }
-            
             
             // search footer
         }
@@ -320,70 +317,6 @@ extension MapViewController: CLLocationManagerDelegate {
                 }
                 
                 self.addMarker(latitude: latitude, longitude: longitude, storyKey: self.storyKey)
-                
-                /*
-                // adding marker to map
-                let marker = GMSMarker()
-                
-                // get distance
-                let storyLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
-                marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
-                marker.map = self.mapView
-                
-                let distanceMetres = (self.userLocation?.distance(from: storyLocation))!
-                print(String(distanceMetres))
-                
-                if distanceMetres <= 500.0 {
-                    self.isNear = true
-                } else {
-                    self.isNear = false
-                }
-                
-                // Loads into userData
-                marker.userData = ["key": self.storyKey, "near": self.isNear]
-                let data = marker.userData as! NSDictionary
-                let key1 = data["key"]
-                let near1 = data["near"]
-                print(key1)
-                print(near1)
-                
-                if !self.isNear {
-                    marker.icon = GMSMarker.markerImage(with: .purple)
-                    
-                    if count == 1 {
-                        self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
-                            let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
-                            if keywords == nil {
-                                marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
-                            } else {
-                                self.keywords = keywords!
-                                marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + self.keywords + "\"."
-                            }
-                        })
-                    } else {
-                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
-                    }
-                    
-                } else {
-                    marker.icon = GMSMarker.markerImage(with: .green)
-                    
-                    if count == 1 {
-                        self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
-                            let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
-                            if keywords == nil {
-                                marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap to open!"
-                            } else {
-                                self.keywords = keywords!
-                                marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + self.keywords + "\". Tap to open!"
-                            }
-                        })
-                    } else {
-                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
-                    }
-                    
-                }
- */
-                
             }
         })
     }
@@ -423,6 +356,11 @@ extension MapViewController: CLLocationManagerDelegate {
 extension MapViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        mapView.clear()
+        // TO-DO: refresh map i guess?
     }
     
     // MARK: - UISearchBar Delegate
