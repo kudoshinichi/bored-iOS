@@ -16,7 +16,7 @@ import Firebase
 import FirebaseDatabase
 
 class MapViewController: UIViewController {
-    // MARK: Properties
+// MARK: Properties
     
     // Google Maps
     var locationManager = CLLocationManager()
@@ -38,6 +38,8 @@ class MapViewController: UIViewController {
     struct hashtagItem {
         let hashtag: String
         let location: String
+        let latitude: String
+        let longitude: String
     }
     var filteredSquawks = [hashtagItem]()
 
@@ -74,11 +76,14 @@ class MapViewController: UIViewController {
         mapView.isHidden = true
         
         //searchController
-        searchController.searchResultsUpdater = self
+        //searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Discover Squawks"
         navigationItem.searchController = searchController
         definesPresentationContext = true
+        // Setup the Scope Bar/
+        searchController.searchBar.scopeButtonTitles = ["Top", "Today", "Nearby", "My Squawks"]
+        searchController.searchBar.delegate = self
         
     }
     
@@ -106,25 +111,53 @@ class MapViewController: UIViewController {
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        ref.child("hashtags").observe(.value, with: { snapshot in
-            var hashtagArray = [hashtagItem]()
-            
-            for child in snapshot.children{
-                let hashtagSnap = child as! DataSnapshot
-                let hashtag = hashtagSnap.key
-                print(hashtag)
-                
-                hashtagArray.append(hashtagItem(hashtag: hashtag, location: "location"))
-                print(hashtagArray)
-                
-                self.filteredSquawks = hashtagArray.filter({( hashtag : hashtagItem) -> Bool in
-                    return hashtag.hashtag.lowercased().contains(searchText.lowercased())
-                })
-            }
-        })
         
-        print(filteredSquawks)
-        print("done")
+        // find hashtag info from database
+        var hashtagArray = [hashtagItem]()
+        var location: String = ""
+        var storyKey: String = ""
+        var hashtag: String = ""
+        var latitude: String = ""
+        var longitude: String = ""
+        
+        let group = DispatchGroup()
+        group.enter()
+        DispatchQueue.main.async {
+            self.ref.child("hashtags").observe(.value, with: { snapshot in
+                // gets hashtag, relevant storyKeys and locations
+                for child in snapshot.children{
+                    let hashtagSnap = child as! DataSnapshot
+                    hashtag = hashtagSnap.key
+                    for grandchild in (child as AnyObject).children{
+                        let grandchild = grandchild as! DataSnapshot
+                        location = grandchild.value as! String
+                        let locationArray = location.split(separator:",")
+                        latitude = String(locationArray[0])
+                        longitude = String(locationArray[1])
+                        storyKey = grandchild.key
+                    }
+                    
+                    hashtagArray.append(hashtagItem(hashtag: hashtag, location: location, latitude: latitude, longitude: longitude))
+                }
+                group.leave()
+            })
+        }
+        
+        group.notify(queue: .main) {
+            // see if hashtag in search field exists in database
+            print("after database")
+            self.filteredSquawks = hashtagArray.filter({( hashtag : hashtagItem) -> Bool in
+                return hashtag.hashtag.lowercased().contains(searchText.lowercased())
+            })
+            print(self.filteredSquawks)
+            
+            self.mapFilterSquawks()
+            
+            // there are various scopes
+            
+        }
+
+        
     }
     
     func isFiltering() -> Bool {
@@ -133,8 +166,72 @@ class MapViewController: UIViewController {
     
 }
 
-// Delegate to handle events for Google Map View
+// MARK: Map Delegate to handle events for Google Map View
 extension MapViewController: GMSMapViewDelegate {
+    
+    func addMarker(latitude: String, longitude: String, storyKey: String){
+        let marker = GMSMarker()
+        let storyLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
+        marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
+        marker.map = self.mapView
+        
+        let distanceMetres = (self.userLocation?.distance(from: storyLocation))!
+        print(String(distanceMetres))
+        
+        if distanceMetres <= 500.0 {
+            self.isNear = true
+        } else {
+            self.isNear = false
+        }
+        
+        // Loads into userData
+        marker.userData = ["key": self.storyKey, "near": self.isNear]
+        let data = marker.userData as! NSDictionary
+        let key1 = data["key"]
+        let near1 = data["near"]
+        print(key1)
+        print(near1)
+        
+        if !self.isNear {
+            marker.icon = GMSMarker.markerImage(with: .purple)
+            
+            if !self.storyKey.contains(",") {
+                self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
+                    let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
+                    if keywords == nil {
+                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
+                    } else {
+                        self.keywords = keywords!
+                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + self.keywords + "\"."
+                    }
+                })
+            } else {
+                marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
+            }
+            
+        } else {
+            marker.icon = GMSMarker.markerImage(with: .green)
+            
+            if !self.storyKey.contains(",") {
+                self.ref.child("stories").child(self.storyKey).observe(.value, with: { snapshot in
+                    let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
+                    if keywords == nil {
+                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap to open!"
+                    } else {
+                        self.keywords = keywords!
+                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + self.keywords + "\". Tap to open!"
+                    }
+                })
+            } else {
+                marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
+            }
+            
+        }
+        
+        
+    }
+    
+    
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         print("You tapped the infowindow! :o")
         // gets storyKey of this marker
@@ -147,9 +244,20 @@ extension MapViewController: GMSMapViewDelegate {
         }
     }
     
-    func filterSquawks(){
+    func mapFilterSquawks(){
         if isFiltering(){
+            // if hashtag exists in database, (clear map first) get location and story key so that can add marker
+            mapView.clear()
             
+            for hashtagItem in filteredSquawks{
+                /*let marker = GMSMarker()
+                marker.position = CLLocationCoordinate2D(latitude: Double(hashtagItem.latitude)!, longitude: Double(hashtagItem.latitude)!)
+                marker.map = self.mapView*/
+                
+            }
+            
+            
+            // search footer
         }
     }
     
@@ -211,6 +319,9 @@ extension MapViewController: CLLocationManagerDelegate {
                     }
                 }
                 
+                self.addMarker(latitude: latitude, longitude: longitude, storyKey: self.storyKey)
+                
+                /*
                 // adding marker to map
                 let marker = GMSMarker()
                 
@@ -271,6 +382,7 @@ extension MapViewController: CLLocationManagerDelegate {
                     }
                     
                 }
+ */
                 
             }
         })
@@ -300,11 +412,22 @@ extension MapViewController: CLLocationManagerDelegate {
     }
 }
 
-extension MapViewController: UISearchResultsUpdating {
+/*extension MapViewController: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
 
+    }
+}*/
+
+extension MapViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    // MARK: - UISearchBar Delegate
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
     }
 }
 
