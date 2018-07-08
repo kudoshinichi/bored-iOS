@@ -80,7 +80,7 @@ class MapViewController: UIViewController {
         navigationItem.searchController = searchController
         definesPresentationContext = true
         // Setup the Scope Bar/
-        searchController.searchBar.scopeButtonTitles = ["Top", "Today", "Nearby", "My Squawks"]
+        searchController.searchBar.scopeButtonTitles = ["Today", "Top", "Hashtag", "My Squawks"]
         searchController.searchBar.delegate = self
         
     }
@@ -108,57 +108,93 @@ class MapViewController: UIViewController {
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
-    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+    func filterContentForSearchText(_ searchText: String, scope: String = "Top") {
         
-        // find hashtag info from database
         var hashtagArray = [hashtagItem]()
         var storyKey: String = ""
         var hashtag: String = ""
         var latitude: String = ""
         var longitude: String = ""
         
-        let group = DispatchGroup()
-        group.enter()
-        DispatchQueue.main.async {
-            self.ref.child("hashtags").observe(.value, with: { snapshot in
-                // gets hashtag, relevant storyKeys and locations
-                for child in snapshot.children{
-                    let hashtagSnap = child as! DataSnapshot
-                    hashtag = hashtagSnap.key
-                    for grandchild in (child as AnyObject).children{
-                        let grandchild = grandchild as! DataSnapshot
-                        let location = grandchild.value as! String
-                        let locationArray = location.split(separator:",")
-                        latitude = String(locationArray[0])
-                        longitude = String(locationArray[1])
-                        storyKey = grandchild.key
-                    }
-                    
-                    hashtagArray.append(hashtagItem(hashtag: hashtag, latitude: latitude, longitude: longitude, storyKey: storyKey))
+        if searchBarIsEmpty() {
+            if scope == "Today"{
+                print("today")
+                let timeInterval = NSDate().timeIntervalSince1970
+                print(timeInterval)
+                // get today's time
+                
+                // get story's time
+                // compare time for each story and get bool
+                /*
+                let group = DispatchGroup()
+                group.enter()
+                DispatchQueue.main.async {
+                    self.ref.child("hashtags").observe(.value, with: { snapshot in
+                        // gets relevant storyKeys and locations
+                        for child in snapshot.children{
+                            
+                        }
+                        group.leave()
+                    })
+                }*/
+                
+                // start filtering
+                
+            } else if scope == "Top" {
+                print("top")
+                
+            } else if scope == "My Squawks" {
+                print("mine")
+                
+            }
+        } else {
+            if scope == "Hashtag" {
+            
+                // find hashtag info from database
+                let group = DispatchGroup()
+                group.enter()
+                DispatchQueue.main.async {
+                    self.ref.child("hashtags").observe(.value, with: { snapshot in
+                        // gets hashtag, relevant storyKeys and locations
+                        for child in snapshot.children{
+                            let hashtagSnap = child as! DataSnapshot
+                            hashtag = hashtagSnap.key
+                            for grandchild in (child as AnyObject).children{
+                                let grandchild = grandchild as! DataSnapshot
+                                let location = grandchild.value as! String
+                                let locationArray = location.split(separator:",")
+                                latitude = String(locationArray[0])
+                                longitude = String(locationArray[1])
+                                storyKey = grandchild.key
+                            }
+                            hashtagArray.append(hashtagItem(hashtag: hashtag, latitude: latitude, longitude: longitude, storyKey: storyKey))
+                        }
+                        group.leave()
+                    })
                 }
-                group.leave()
-            })
+                
+                group.notify(queue: .main) {
+                    print("after database")
+                    self.filteredSquawks = hashtagArray.filter({( hashtag : hashtagItem) -> Bool in
+                        return hashtag.hashtag.lowercased().contains(searchText.lowercased())
+                    })
+                    print(self.filteredSquawks)
+                    
+                    // RAWR can possibly pass variables
+                    self.mapFilterSquawks()
+                }
+                
+            } else {
+                searchController.searchBar.text = nil
+                searchController.searchBar.placeholder = "Please select Hashtag tab."
+            }
         }
-        
-        group.notify(queue: .main) {
-            // see if hashtag in search field exists in database
-            print("after database")
-            self.filteredSquawks = hashtagArray.filter({( hashtag : hashtagItem) -> Bool in
-                return hashtag.hashtag.lowercased().contains(searchText.lowercased())
-            })
-            print(self.filteredSquawks)
-            
-            self.mapFilterSquawks()
-            
-            // there are various scopes
-            
-        }
-
         
     }
     
     func isFiltering() -> Bool {
-        return searchController.isActive && !searchBarIsEmpty()
+        let searchBarScopeIsFiltering = searchController.searchBar.selectedScopeButtonIndex != 0
+        return searchController.isActive && (!searchBarIsEmpty() || searchBarScopeIsFiltering)
     }
     
 }
@@ -344,25 +380,20 @@ extension MapViewController: CLLocationManagerDelegate {
     }
 }
 
-/*extension MapViewController: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
-
-    }
-}*/
-
+// MARK: - UISearchBar Delegate
 extension MapViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        filterContentForSearchText(searchController.searchBar.text!)
+        let searchBar = searchController.searchBar
+        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
+        filterContentForSearchText(searchController.searchBar.text!, scope: scope)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         mapView.clear()
+        searchController.searchBar.placeholder = "Discover Squawks"
         // TO-DO: refresh map i guess?
     }
     
-    // MARK: - UISearchBar Delegate
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
     }
