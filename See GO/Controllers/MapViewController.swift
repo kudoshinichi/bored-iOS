@@ -9,7 +9,8 @@
 // [6. Users (reddit and stackoverflow, voting & read system)
 // 2. Marker Aesthetic
 // 8. Hashtag from story upload
-// 9. Discovery syste: √Hasthtag search, Today, Nearby (tbh a bit useless), My Squawks
+// 9. Discovery syste: √Hasthtag search, √Today, My Squawks
+// 9.1 Search footer (tbc)
 // 10. Search bar idk overall theme hmm
 
 import UIKit
@@ -80,7 +81,7 @@ class MapViewController: UIViewController {
         navigationItem.searchController = searchController
         definesPresentationContext = true
         // Setup the Scope Bar/
-        searchController.searchBar.scopeButtonTitles = ["Today", "Top", "Hashtag", "My Squawks"]
+        searchController.searchBar.scopeButtonTitles = ["Top", "Today", "Hashtag", "My Squawks"]
         searchController.searchBar.delegate = self
         
     }
@@ -119,26 +120,37 @@ class MapViewController: UIViewController {
         if searchBarIsEmpty() {
             if scope == "Today"{
                 print("today")
-                let timeInterval = NSDate().timeIntervalSince1970
+                
+                let timeInterval = NSDate().timeIntervalSince1970 * 1000
                 print(timeInterval)
-                // get today's time
+                mapView.clear()
                 
-                // get story's time
-                // compare time for each story and get bool
-                /*
-                let group = DispatchGroup()
-                group.enter()
-                DispatchQueue.main.async {
-                    self.ref.child("hashtags").observe(.value, with: { snapshot in
-                        // gets relevant storyKeys and locations
-                        for child in snapshot.children{
-                            
+                self.ref.child("stories").observe(.value, with: { snapshot in
+                    for child in snapshot.children{
+                        let snapshot1 = child as! DataSnapshot
+                        let storytime = (snapshot1.value as? NSDictionary)?["Time"] as! Int
+                        print("break")
+                        let timediff = Int(timeInterval) - storytime
+                        
+                        // check if it's within 24h (i.e. 86 400 000 ms)
+                        if timediff<86400000 {
+                            let group = DispatchGroup()
+                            group.enter()
+                            DispatchQueue.main.async {
+                                storyKey = snapshot1.key
+                                print(storyKey)
+                                let location = (snapshot1.value as? NSDictionary)?["Location"] as! String
+                                let locationArray = location.split(separator:",")
+                                latitude = String(locationArray[0])
+                                longitude = String(locationArray[1])
+                                group.leave()
+                            }
+                            group.notify(queue: .main) {
+                                self.addMarker(latitude: latitude, longitude: longitude, storyKey: storyKey)
+                            }
                         }
-                        group.leave()
-                    })
-                }*/
-                
-                // start filtering
+                    }
+                })
                 
             } else if scope == "Top" {
                 print("top")
@@ -179,8 +191,6 @@ class MapViewController: UIViewController {
                         return hashtag.hashtag.lowercased().contains(searchText.lowercased())
                     })
                     print(self.filteredSquawks)
-                    
-                    // RAWR can possibly pass variables
                     self.mapFilterSquawks()
                 }
                 
@@ -190,11 +200,6 @@ class MapViewController: UIViewController {
             }
         }
         
-    }
-    
-    func isFiltering() -> Bool {
-        let searchBarScopeIsFiltering = searchController.searchBar.selectedScopeButtonIndex != 0
-        return searchController.isActive && (!searchBarIsEmpty() || searchBarScopeIsFiltering)
     }
     
 }
@@ -279,16 +284,9 @@ extension MapViewController: GMSMapViewDelegate {
     }
     
     func mapFilterSquawks(){
-        if isFiltering(){
-            // if hashtag exists in database, (clear map first) get location and story key so that can add marker
-            mapView.clear()
-            
-            for hashtagItem in filteredSquawks{
-                
-                addMarker(latitude: hashtagItem.latitude, longitude: hashtagItem.longitude, storyKey: hashtagItem.storyKey)
-            }
-            
-            // search footer
+        mapView.clear()
+        for hashtagItem in filteredSquawks{
+            addMarker(latitude: hashtagItem.latitude, longitude: hashtagItem.longitude, storyKey: hashtagItem.storyKey)
         }
     }
     
