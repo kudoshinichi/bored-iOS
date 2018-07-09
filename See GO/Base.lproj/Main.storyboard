@@ -105,7 +105,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Map" id="xfr-Y2-hHN">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="zUl-67-I4s">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="zUl-67-I4s">
                             <connections>
                                 <segue destination="pgF-RN-W0K" kind="presentation" identifier="AddItem" id="xnB-8L-cuo"/>
                             </connections>
@@ -364,7 +364,6 @@
         <!--Navigation Controller-->
         <scene sceneID="1Uo-4A-Qf1">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dNu-Sd-uoW" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eef-CV-D1q" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="00n-yf-69O">
@@ -376,6 +375,7 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="cnv-s0-pwV"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dNu-Sd-uoW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="56.799999999999997" y="-663.41829085457277"/>
         </scene>
@@ -406,7 +406,7 @@
                                                     <constraint firstAttribute="height" constant="40" id="Xow-rK-2y2"/>
                                                 </constraints>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits" textContentType="username"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rmz-i1-2HU">
@@ -416,7 +416,7 @@
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="v0z-0W-VHW"/>
                                                 </constraints>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits" textContentType="email"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4gd-Js-heK">
@@ -426,7 +426,7 @@
                                                     <constraint firstAttribute="height" constant="40" id="X5H-BL-vGf"/>
                                                 </constraints>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits" textContentType="password"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qg3-hl-sBg">
@@ -435,6 +435,9 @@
                                                     <constraint firstAttribute="height" constant="30" id="HOZ-QX-r2a"/>
                                                 </constraints>
                                                 <state key="normal" title="Create Account"/>
+                                                <connections>
+                                                    <action selector="createAccount:" destination="joX-Dy-sSE" eventType="touchUpInside" id="e8Q-tH-unZ"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -487,6 +490,11 @@
                         <viewLayoutGuide key="safeArea" id="Ta0-MB-Z6c"/>
                     </view>
                     <navigationItem key="navigationItem" id="oOE-4b-gul"/>
+                    <connections>
+                        <outlet property="emailText" destination="Rmz-i1-2HU" id="8Kw-YU-YU1"/>
+                        <outlet property="passwordText" destination="4gd-Js-heK" id="t8D-dV-xQY"/>
+                        <outlet property="usernameText" destination="EZ9-6C-Ng7" id="ym4-KH-IhD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5tC-zY-7QD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

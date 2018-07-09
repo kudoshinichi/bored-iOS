@@ -10,6 +10,7 @@ target 'See GO' do
   # Pods for See GO
   pod 'GoogleMaps'
   pod 'Firebase/Core'
+  pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
   pod 'FirebaseUI/Storage'

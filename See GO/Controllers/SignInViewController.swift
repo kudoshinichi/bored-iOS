@@ -6,51 +6,64 @@
 //
 
 import UIKit
-//import FirebaseAuthUI
-//import FirebaseGoogleAuthUI
+import Firebase
+import FirebaseAuth
 
 
-class SignInViewController: UIViewController {
 
+
+class SignInViewController: UIViewController, UITextFieldDelegate {
     
+    // MARK: Properties
+    @IBOutlet weak var usernameText: UITextField!
+    @IBOutlet weak var emailText: UITextField!
+    @IBOutlet weak var passwordText: UITextField!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        /*
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            // ...
+        }
+        */
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        // Auth.auth().removeStateDidChangeListener(handle!)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
-        let authUI = FUIAuth.defaultAuthUI()
-        // You need to adopt a FUIAuthDelegate protocol to receive callback
-        authUI?.delegate = self as! FUIAuthDelegate
         
-        let providers: [FUIAuthProvider] = [
-            FUIGoogleAuth()
-        ]
-        authUI?.providers = providers
-        
-        
-        let authViewController = authUI?.authViewController()
- */
+        usernameText.delegate = self
+        emailText.delegate = self
+        passwordText.delegate = self
+
         
     }
-
+    
+    // MARK: Actions
+    @IBAction func createAccount(_ sender: Any) {
+        
+        guard emailText.text != "", passwordText.text != "", usernameText.text != "" else {
+            
+            // if some fields are incomplete, UIAlertView pops out to alert
+            let alert = UIAlertController(title: "Missing fields", message: "No email, password, or username. Check again?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+            
+            return
+        }
+        
+        Auth.auth().createUser(withEmail: emailText.text!, password: passwordText.text!) { (authResult, error) in
+            // ...
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-/*
-    func application(_ app: UIApplication, open url: URL,
-                     options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
-        let sourceApplication = options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String?
-        if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
-            return true
-        }
-        // other URL handling goes here.
-        return false
-    }
-    
-    func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
-        // handle user and error as necessary
-    }
- */
+
 
 }
