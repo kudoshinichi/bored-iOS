@@ -10,7 +10,6 @@
 		538A80E2F561A87BC873FAD3 /* Pods_See_GOTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D43534B2BF517AB98A85BF4D /* Pods_See_GOTests.framework */; };
 		E2554543D3D0EAB7623428EC /* Pods_See_GO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5966869139B8B51B6F3F3D17 /* Pods_See_GO.framework */; };
 		FE08FC2C20F39CB200D76A09 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE08FC2B20F39CB200D76A09 /* GoogleService-Info.plist */; };
-		FE5E7E6C20F2061300270313 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5E7E6B20F2061300270313 /* LoginViewController.swift */; };
 		FE9DFF4120CA60BF00279C6B /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DFF4020CA60BE00279C6B /* Story.swift */; };
 		FEAD425920C6901400E25996 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAD425820C6901400E25996 /* AppDelegate.swift */; };
 		FEAD425E20C6901400E25996 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEAD425C20C6901400E25996 /* Main.storyboard */; };
@@ -42,7 +41,6 @@
 		D43534B2BF517AB98A85BF4D /* Pods_See_GOTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_See_GOTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9E033EF70164D7A39F60ED8 /* Pods-See GOTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GOTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-See GOTests/Pods-See GOTests.release.xcconfig"; sourceTree = "<group>"; };
 		FE08FC2B20F39CB200D76A09 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		FE5E7E6B20F2061300270313 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FE9DFF4020CA60BE00279C6B /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
 		FEAD425520C6901400E25996 /* See GO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "See GO.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEAD425820C6901400E25996 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 				FEF52F2F20C782C0004DF382 /* StoryUploadController.swift */,
 				FEC0AB3820D20ABE00B64D2F /* ShowStoryController.swift */,
 				FEF546D720D66653004B2313 /* StoryTableViewController.swift */,
-				FE5E7E6B20F2061300270313 /* LoginViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -391,7 +388,6 @@
 				FEF546D820D66653004B2313 /* StoryTableViewController.swift in Sources */,
 				FEC0AB3920D20ABE00B64D2F /* ShowStoryController.swift in Sources */,
 				FEC4FC0B20C6AC8B00837F48 /* MapViewController.swift in Sources */,
-				FE5E7E6C20F2061300270313 /* LoginViewController.swift in Sources */,
 				FEF52F3020C782C1004DF382 /* StoryUploadController.swift in Sources */,
 				FE9DFF4120CA60BF00279C6B /* Story.swift in Sources */,
 				FEF546D620D65FB5004B2313 /* StoryTableViewCell.swift in Sources */,
