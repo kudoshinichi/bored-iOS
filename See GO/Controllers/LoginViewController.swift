@@ -1,5 +1,5 @@
 //
-//  SignInViewController.swift
+//  LoginViewController.swift
 //  See GO
 //
 //  Created by Hongyi Shen on 8/7/18.
@@ -7,12 +7,10 @@
 
 import UIKit
 import Firebase
-import FirebaseAuth
 
+var handle: AuthStateDidChangeListenerHandle?
 
-
-
-class SignInViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: Properties
     @IBOutlet weak var usernameText: UITextField!
@@ -20,16 +18,16 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordText: UITextField!
     
     override func viewWillAppear(_ animated: Bool) {
-        /*
+        
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             // ...
         }
-        */
+        
 
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        // Auth.auth().removeStateDidChangeListener(handle!)
+        Auth.auth().removeStateDidChangeListener(handle!)
     }
     
     override func viewDidLoad() {
@@ -38,7 +36,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         usernameText.delegate = self
         emailText.delegate = self
         passwordText.delegate = self
-
         
     }
     
@@ -55,8 +52,24 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        Auth.auth().createUser(withEmail: emailText.text!, password: passwordText.text!) { (authResult, error) in
-            // ...
+        let emailTextD = self.emailText.text!
+        let passwordTextD = self.passwordText.text
+        
+        let group = DispatchGroup()
+        group.enter()
+        DispatchQueue.main.async {
+            Auth.auth().createUser(withEmail: emailTextD, password: passwordTextD!) { (authResult, error) in
+                // ...
+            }
+            
+            Auth.auth().signIn(withEmail: emailTextD, password: passwordTextD!) { (user, error) in
+                // ...
+            }
+            group.leave()
+        }
+        
+        group.notify(queue: .main){
+            self.performSegue(withIdentifier: "LogInToMap", sender: nil)
         }
     }
     
