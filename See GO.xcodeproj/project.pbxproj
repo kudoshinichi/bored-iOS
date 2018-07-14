@@ -109,8 +109,8 @@
 				FEF52F2F20C782C0004DF382 /* StoryUploadController.swift */,
 				FEC0AB3820D20ABE00B64D2F /* ShowStoryController.swift */,
 				FEF546D720D66653004B2313 /* StoryTableViewController.swift */,
-				FE01AD7C20F972EF00705CE1 /* LoginViewController.swift */,
 				FE01AD7E20F9734900705CE1 /* SignUpViewController.swift */,
+				FE01AD7C20F972EF00705CE1 /* LoginViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

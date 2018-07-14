@@ -35,8 +35,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: Actions
-    @IBAction func LoginAccount(_ sender: Any) {
-        
+    @IBAction func LoginAction(_ sender: Any) {
         let email = emailText.text
         let password = passwordText.text
         
@@ -45,13 +44,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         guard emailText.text != "", passwordText.text != "" else {
             // if some fields are incomplete, UIAlertView pops out to alert
-            let alert = UIAlertController(title: "Missing fields", message: "No email, password, or username. Check again?", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Missing fields", message: "No email/username or password. Check again?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
             self.present(alert, animated: true)
             
             return
         }
-        
         
         let group = DispatchGroup()
         group.enter()
@@ -66,10 +64,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             self.performSegue(withIdentifier: "LoginToMap", sender: nil)
         }
         
+        print ("cool")
+        
     }
-    
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
