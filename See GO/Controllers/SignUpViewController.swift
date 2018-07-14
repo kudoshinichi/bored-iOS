@@ -42,8 +42,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     // MARK: Actions
     @IBAction func createAccount(_ sender: Any) {
         
-        //check if email exists alr
-        
         guard emailText.text != "", passwordText.text != "", usernameText.text != "" else {
             let alert = UIAlertController(title: "Missing fields", message: "No email, password, or username. Check again?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
@@ -71,22 +69,35 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         let emailTextD = self.emailText.text!
         let passwordTextD = self.passwordText.text
         
-        let group = DispatchGroup()
-        group.enter()
-        DispatchQueue.main.async {
-            Auth.auth().createUser(withEmail: emailTextD, password: passwordTextD!) { (authResult, error) in
-                // ...
-            }
+        Auth.auth().createUser(withEmail: emailTextD, password: passwordTextD!) { (authResult, error) in
             
-            Auth.auth().signIn(withEmail: emailTextD, password: passwordTextD!) { (user, error) in
-                // ...
+            if (error != nil){
+                if let errCode = AuthErrorCode(rawValue: error!._code) {
+                    
+                    print(errCode)
+                    
+                    switch errCode {
+                        
+                    case AuthErrorCode.emailAlreadyInUse:
+                        print("in use")
+                        let alert = UIAlertController(title: "Email Already In Use", message: "A user already exists under this email. Try logging in?", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+                        self.present(alert, animated: true)
+                        
+                    default:
+                        print("Create User Error: \(error)")
+                    }
+                }
+            } else {
+                Auth.auth().signIn(withEmail: emailTextD, password: passwordTextD!) { (user, error) in
+                    // ... RAWR: add to database
+                }
+                
+                self.performSegue(withIdentifier: "SignUpToMap", sender: nil)
+                
             }
-            group.leave()
         }
-        
-        group.notify(queue: .main){
-            self.performSegue(withIdentifier: "SignUpToMap", sender: nil)
-        }
+         
     }
     
     func isValidEmail(testStr:String) -> Bool {
@@ -98,10 +109,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     func isValidPassword(testStr:String?) -> Bool {
         guard testStr != nil else { return false }
-        
-        // at least one digit
-        // at least one lowercase
-        // 8 characters total
+        // at least one digit && at least one lowercase && 8 characters total
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", "(?=.*[0-9])(?=.*[a-z]).{8,}")
         return passwordTest.evaluate(with: testStr)
     }

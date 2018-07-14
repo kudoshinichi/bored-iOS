@@ -4,6 +4,7 @@
 //
 //  Created by Hongyi Shen on 13/7/18.
 //
+// TODO: make password hidden
 
 import UIKit
 import Firebase
@@ -42,6 +43,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         print(email)
         print(password)
         
+        // TODO: allow login by username
+        
         guard emailText.text != "", passwordText.text != "" else {
             // if some fields are incomplete, UIAlertView pops out to alert
             let alert = UIAlertController(title: "Missing fields", message: "No email/username or password. Check again?", preferredStyle: .alert)
@@ -51,21 +54,56 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        let group = DispatchGroup()
-        group.enter()
-        DispatchQueue.main.async {
-            Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
-                // ...
+        guard isValidEmail(testStr: emailText.text!) else {
+            let alert = UIAlertController(title: "Invalid Email", message: "Try again?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+            
+            return
+        }
+       
+        Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
+            if (error != nil) {
+                
+                if let errCode = AuthErrorCode(rawValue: error!._code) {
+                    
+                    switch errCode {
+                        
+                    case AuthErrorCode.userNotFound:
+                        let alert = UIAlertController(title: "User Not Found", message: "User does not exist or may have been deleted. Try signing up?", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+                        self.present(alert, animated: true)
+                        
+                    case AuthErrorCode.userDisabled:
+                        let alert = UIAlertController(title: "User Disabled", message: "Contact us with this error.", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+                        self.present(alert, animated: true)
+                        
+                    case AuthErrorCode.wrongPassword:
+                        let alert = UIAlertController(title: "Wrong Password", message: "Try again? Or try 'Forgot Your Password'?", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+                        self.present(alert, animated: true)
+                        
+                    default:
+                        print("Create User Error: \(error)")
+                    }
+                    
+                }
+                
+            } else {
+                self.performSegue(withIdentifier: "LoginToMap", sender: nil)
+                print ("cool")
             }
-            group.leave()
         }
         
-        group.notify(queue: .main){
-            self.performSegue(withIdentifier: "LoginToMap", sender: nil)
-        }
         
-        print ("cool")
+    }
+    
+    func isValidEmail(testStr:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: testStr)
     }
     
     override func didReceiveMemoryWarning() {
