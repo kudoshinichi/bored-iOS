@@ -17,6 +17,21 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var passwordText: UITextField!
     
+    // Database
+    var userRef : DatabaseReference!
+    struct userItem {
+        let admin: Bool
+        let username: String
+        let uid: String
+        
+        func toAnyObject() -> Any {
+            return [
+                "Admin": admin,
+                "Username": username,
+            ]
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
@@ -32,6 +47,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        userRef = Database.database().reference(withPath: "users")
         
         usernameText.delegate = self
         emailText.delegate = self
@@ -68,6 +85,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         let emailTextD = self.emailText.text!
         let passwordTextD = self.passwordText.text
+        let usernameTextD = self.usernameText.text!
         
         Auth.auth().createUser(withEmail: emailTextD, password: passwordTextD!) { (authResult, error) in
             
@@ -89,10 +107,19 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                     }
                 }
             } else {
+                
+                let userID = Auth.auth().currentUser!.uid
+                
+                // Add to database
+                let thisUser = userItem(admin: false, username: usernameTextD, uid: userID)
+                self.userRef.child(usernameTextD).updateChildValues(thisUser.toAnyObject() as! [AnyHashable : Any])
+                
+                // Login
                 Auth.auth().signIn(withEmail: emailTextD, password: passwordTextD!) { (user, error) in
-                    // ... RAWR: add to database
+                    //...
                 }
                 
+                // Open Map
                 self.performSegue(withIdentifier: "SignUpToMap", sender: nil)
                 
             }
