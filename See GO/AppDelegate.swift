@@ -27,6 +27,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use Firebase library to configure APIs
         FirebaseApp.configure()
         
+        let user = Auth.auth().currentUser;
+        let userSignedIn: Bool = (user != nil)
+        
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        
+        if userSignedIn{
+            let mapScreen = storyBoard.instantiateViewController(withIdentifier: "MapViewNavControl")
+            self.window?.rootViewController = mapScreen
+            
+        } else {
+            let signupScreen = storyBoard.instantiateViewController(withIdentifier: "SignUpVC")
+            self.window?.rootViewController = signupScreen
+        }
+        
+        
+        
         return true
     }
 
