@@ -6,8 +6,21 @@
 //
 
 import UIKit
+import Firebase
 
 class StoryTableViewController: UITableViewController {
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            // ...
+        }
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+    }
     
     //MARK: Properties
     var storyKey: String = ""

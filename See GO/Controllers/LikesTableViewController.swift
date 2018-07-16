@@ -6,9 +6,22 @@
 //
 
 import UIKit
+import Firebase
 
 class LikesTableViewController: UITableViewController {
 
+    override func viewWillAppear(_ animated: Bool) {
+        
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            // ...
+        }
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

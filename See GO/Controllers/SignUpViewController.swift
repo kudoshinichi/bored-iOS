@@ -19,6 +19,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     // Database
     var userRef : DatabaseReference!
+    var featuresRef: DatabaseReference!
     struct userItem {
         let admin: Bool
         let username: String
@@ -48,6 +49,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         userRef = Database.database().reference(withPath: "users")
+        featuresRef = Database.database().reference(withPath: "features")
         
         usernameText.delegate = self
         emailText.delegate = self
@@ -125,6 +127,28 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
          
     }
+    
+    @IBAction func googleSignUp(_ sender: Any) {
+        
+        let alert = UIAlertController(title: "You discovered a dummy feature!", message: "This feature is still in development. Let our developers know you want it developed by clicking 'I want this!' below. Otherwise, please 'Cancel' ", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "I want this!", style: .default, handler: {(action:UIAlertAction!) in
+            
+            /*
+            self.featuresRef.child("iOS").child("GoogleSignIn").observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                
+                self.featuresRef.child("iOS").child("GoogleSignIn").updateChildValues(<#T##values: [AnyHashable : Any]##[AnyHashable : Any]#>)
+                
+            })*/
+            
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+        
+        //RAWR
+    }
+    
     
     func isValidEmail(testStr:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
