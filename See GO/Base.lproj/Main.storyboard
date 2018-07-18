@@ -104,7 +104,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Map" id="xfr-Y2-hHN">
-                        <barButtonItem key="leftBarButtonItem" image="profile" id="Xaq-HW-iCj">
+                        <barButtonItem key="leftBarButtonItem" image="home" id="Xaq-HW-iCj">
                             <connections>
                                 <segue destination="Vth-DJ-xlj" kind="show" id="dF9-vh-K82"/>
                             </connections>
@@ -132,7 +132,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="StoryTableViewCell" rowHeight="530" id="ff9-Ph-Wni" customClass="StoryTableViewCell" customModule="See_GO" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="StoryTableViewCell" rowHeight="530" id="ff9-Ph-Wni" customClass="StoryTableViewCell" customModule="See_GO" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="530"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ff9-Ph-Wni" id="m9A-kx-gnO">
@@ -753,7 +753,7 @@
                                                 </constraints>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <textInputTraits key="textInputTraits" textContentType="password"/>
+                                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qg3-hl-sBg">
                                                 <rect key="frame" x="32" y="150" width="291" height="30"/>
@@ -879,7 +879,7 @@
                                                 </constraints>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <textInputTraits key="textInputTraits" textContentType="password"/>
+                                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N2t-5j-zKt">
                                                 <rect key="frame" x="32" y="100" width="291" height="40"/>
@@ -951,6 +951,7 @@
         <image name="found" width="94" height="94"/>
         <image name="get_like" width="90" height="90"/>
         <image name="google_login" width="190" height="50"/>
+        <image name="home" width="28" height="28"/>
         <image name="like" width="90" height="90"/>
         <image name="profile" width="28" height="28"/>
         <image name="report" width="32" height="20"/>
@@ -962,6 +963,6 @@
         <image name="wing1" width="17" height="17"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rGd-6U-ZV2"/>
+        <segue reference="q9k-8N-8VU"/>
     </inferredMetricsTieBreakers>
 </document>
