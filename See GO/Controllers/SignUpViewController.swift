@@ -4,18 +4,21 @@
 //
 //  Created by Hongyi Shen on 8/7/18.
 //
+// GOOGLE SIGN IN TO-DO: 1) Database user node + username required.. 2) uhmm.. how to let it prompt you to sign in not just the first time, but like other times too? 3) can't seem to sign out??
 
 import UIKit
 import Firebase
+import GoogleSignIn
 
 var handle: AuthStateDidChangeListenerHandle?
 
-class SignUpViewController: UIViewController, UITextFieldDelegate {
+class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDelegate {
     
     // MARK: Properties
     @IBOutlet weak var usernameText: UITextField!
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var passwordText: UITextField!
+
     
     // Database
     var userRef : DatabaseReference!
@@ -55,6 +58,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         usernameText.delegate = self
         emailText.delegate = self
         passwordText.delegate = self
+        
+        // Google Sign In
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().signIn()
         
     }
     
@@ -132,8 +139,16 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
          
     }
     
+    
+    
     @IBAction func googleSignUp(_ sender: Any) {
         
+        print("clicked")
+        
+        self.performSegue(withIdentifier: "SignUpToMap", sender: nil)
+        
+        
+        /*
         let alert = UIAlertController(title: "You discovered a dummy feature!", message: "This feature is still in development. Let our developers know you want it developed by clicking 'I want this!' below. Otherwise, please 'Cancel' ", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "I want this!", style: .default, handler: {(action:UIAlertAction!) in
             
@@ -149,6 +164,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true)
+ */
         
         //RAWR
     }

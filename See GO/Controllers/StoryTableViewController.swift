@@ -34,15 +34,6 @@ class StoryTableViewController: UITableViewController {
         print(story)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    // Does not highlight cell when it is selected
-    
-
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
