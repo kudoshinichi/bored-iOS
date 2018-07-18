@@ -9,14 +9,19 @@ import UIKit
 import Firebase
 
 class UserProfileViewController: UIViewController {
-
-    override func viewWillAppear(_ animated: Bool) {
-        
-        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            // ...
-        }
-        
-    }
+    
+    // MARK: Properties
+    @IBOutlet weak var usernameText: UILabel!
+    @IBOutlet weak var emailText: UILabel!
+    @IBOutlet weak var peopleReachedText: UILabel!
+    @IBOutlet weak var squawksFoundText: UILabel!
+    @IBOutlet weak var squawksAddText: UILabel!
+    @IBOutlet weak var wingsGivenText: UILabel!
+    @IBOutlet weak var wingsReceivedText: UILabel!
+    
+    // Authentication values
+    var uid: String = ""
+    var email: String = ""
     
     override func viewWillDisappear(_ animated: Bool) {
         Auth.auth().removeStateDidChangeListener(handle!)
@@ -24,24 +29,21 @@ class UserProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if let user = user {
+                self.uid = user.uid
+                self.email = user.email!
+                
+                print(self.uid)
+                print(self.email)
+                
+                self.usernameText.text = self.uid
+                self.emailText.text = self.email
+            }
+        }
 
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

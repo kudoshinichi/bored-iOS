@@ -29,6 +29,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             return [
                 "Admin": admin,
                 "Username": username,
+                "UID": uid,
             ]
         }
     }
@@ -111,9 +112,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                 
                 let userID = Auth.auth().currentUser!.uid
                 
-                // Add to database
+                // Add user to database
                 let thisUser = userItem(admin: false, username: usernameTextD, uid: userID)
-                self.userRef.child(usernameTextD).updateChildValues(thisUser.toAnyObject() as! [AnyHashable : Any])
+                self.userRef.child(userID).updateChildValues(thisUser.toAnyObject() as! [AnyHashable : Any])
                 
                 // Add Username & Email to User Defaults
                 UserDefaults.standard.set(emailTextD, forKey: usernameTextD)

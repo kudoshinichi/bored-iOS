@@ -415,6 +415,15 @@
                         <viewLayoutGuide key="safeArea" id="mY3-Gh-TV6"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Me" image="profile" id="iyK-lb-Ebd"/>
+                    <connections>
+                        <outlet property="emailText" destination="dvP-xN-a8b" id="Ff4-8W-dRd"/>
+                        <outlet property="peopleReachedText" destination="RwJ-ur-Gkg" id="aJ1-Q0-EYP"/>
+                        <outlet property="squawksAddText" destination="01p-P6-S0n" id="lfw-XE-vZs"/>
+                        <outlet property="squawksFoundText" destination="ESr-DQ-tD8" id="vCj-5r-TDk"/>
+                        <outlet property="usernameText" destination="fKr-8S-Lsz" id="C4U-Tl-BpZ"/>
+                        <outlet property="wingsGivenText" destination="nLW-ab-Y1v" id="Eo2-Sa-oZE"/>
+                        <outlet property="wingsReceivedText" destination="40Z-0D-dpu" id="kkQ-vw-A2w"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ehh-zU-lav" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -852,7 +861,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="9e9-wS-lmw">
                                         <rect key="frame" x="0.0" y="250" width="355" height="140"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qfZ-nC-4ka">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email or Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qfZ-nC-4ka">
                                                 <rect key="frame" x="32" y="0.0" width="291" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="QQm-Rr-3ah"/>
