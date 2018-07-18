@@ -115,6 +115,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                 let thisUser = userItem(admin: false, username: usernameTextD, uid: userID)
                 self.userRef.child(usernameTextD).updateChildValues(thisUser.toAnyObject() as! [AnyHashable : Any])
                 
+                // Add Username & Email to User Defaults
+                UserDefaults.standard.set(emailTextD, forKey: usernameTextD)
+                
                 // Login
                 Auth.auth().signIn(withEmail: emailTextD, password: passwordTextD!) { (user, error) in
                     //...
