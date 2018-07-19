@@ -27,6 +27,8 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     var votes: Int = 0
     var URL: String?
     
+    var uid: String = ""
+    
     @IBOutlet weak var storyImage: UIImageView!
     @IBOutlet weak var captionText: UITextView!
     @IBOutlet weak var voteText: UITextView!
@@ -41,8 +43,16 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
         
         self.storyKey = storyKey
         print("transferred " + self.storyKey)
-        // Update cell UI as you wish
         
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if let user = user {
+                self.uid = user.uid
+                
+                print(self.uid)
+            }
+        }
+        
+        // Update cell UI as you wish
         getInfoFromDatabase{ (success) -> Void in
             if success {
                 self.loadImage()
@@ -71,6 +81,8 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
         self.storyImage.addGestureRecognizer(tap)
         
         
+        
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -97,6 +109,9 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
             print(self.views)
             let childUpdates = ["/stories/\(self.storyKey)/Views": self.views]
             self.ref.updateChildValues(childUpdates)
+            
+            let readUpdates = ["/users/\(self.uid)/ReadStories/\(self.storyKey)": self.storyKey]
+            self.ref.updateChildValues(readUpdates)
             
             completion(true)
         })
