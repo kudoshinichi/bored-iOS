@@ -17,7 +17,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
     
-
+    //Google Sign In + Database
+    var uid: String = ""
+    var email: String = ""
+    struct userItem {
+        let admin: Bool
+        let uid: String
+        
+        func toAnyObject() -> Any {
+            return [
+                "Admin": admin,
+                "UID": uid,
+            ]
+        }
+    }
+    var userRef : DatabaseReference!
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         // Override point for customization after application launch.
@@ -64,6 +79,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         }
         
         guard let authentication = user.authentication else { return }
+        
+        
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
                                                        accessToken: authentication.accessToken)
         // ...
@@ -73,9 +90,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 // ...
                 return
             }
-            // User is signed in
-            // ...
+            
+            let googleSignInBefore = UserDefaults.standard.bool(forKey: "googleSignInBefore")
+            
+            if (!googleSignInBefore){
+                handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+                    // User is signed in
+                    if let user = user {
+                        self.uid = user.uid
+                        self.email = user.email!
+                        
+                        print(self.uid)
+                        print(self.email)
+                    }
+                    
+                    let thisUser = userItem(admin: false, uid: self.uid)
+                    self.userRef = Database.database().reference(withPath: "users")
+                    self.userRef.child(self.uid).updateChildValues(thisUser.toAnyObject() as! [AnyHashable : Any])
+                    
+                    UserDefaults.standard.set(true, forKey: "googleSignInBefore")
+                }
+            }
+            
+            // Opens up map
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let mapScreen = storyBoard.instantiateViewController(withIdentifier: "MapViewNavControl")
+            self.window?.rootViewController = mapScreen
         }
+        
+        
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {

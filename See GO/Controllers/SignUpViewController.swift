@@ -4,7 +4,6 @@
 //
 //  Created by Hongyi Shen on 8/7/18.
 //
-// GOOGLE SIGN IN TO-DO: 1) Database user node + username required.. 2) uhmm.. how to let it prompt you to sign in not just the first time, but like other times too? 3) can't seem to sign out??
 
 import UIKit
 import Firebase
@@ -40,9 +39,12 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
     override func viewWillAppear(_ animated: Bool) {
         
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            // ...
+            if let user = user {
+                print("User is signed in.")
+            } else {
+                print("User is signed out.")
+            }
         }
-    
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -61,7 +63,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
         
         // Google Sign In
         GIDSignIn.sharedInstance().uiDelegate = self
-        GIDSignIn.sharedInstance().signIn()
         
     }
     
@@ -144,29 +145,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
     @IBAction func googleSignUp(_ sender: Any) {
         
         print("clicked")
+        GIDSignIn.sharedInstance().signIn()
         
-        self.performSegue(withIdentifier: "SignUpToMap", sender: nil)
-        
-        
-        /*
-        let alert = UIAlertController(title: "You discovered a dummy feature!", message: "This feature is still in development. Let our developers know you want it developed by clicking 'I want this!' below. Otherwise, please 'Cancel' ", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "I want this!", style: .default, handler: {(action:UIAlertAction!) in
-            
-            /*
-            self.featuresRef.child("iOS").child("GoogleSignIn").observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                
-                self.featuresRef.child("iOS").child("GoogleSignIn").updateChildValues(<#T##values: [AnyHashable : Any]##[AnyHashable : Any]#>)
-                
-            })*/
-            
-            
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true)
- */
-        
-        //RAWR
     }
     
     

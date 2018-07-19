@@ -53,6 +53,8 @@ class MapViewController: UIViewController {
                 
                 print(uid)
                 print(email)
+            } else {
+                print("user is signed out")
             }
         }
     }
