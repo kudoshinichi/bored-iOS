@@ -26,6 +26,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     // Database
     let ref = Database.database().reference(withPath: "stories")
     let locRef = Database.database().reference(withPath: "locations")
+    let userRef = Database.database().reference(withPath: "users")
     var items: [Story] = []
     
     // Storage
@@ -43,9 +44,16 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     var locationKey: String = ""
     let locationManager = CLLocationManager()
     
+    //User
+    var uid: String = ""
+    
     override func viewWillAppear(_ animated: Bool) {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            // ...
+            if let user = user {
+                self.uid = user.uid
+                
+                print(self.uid)
+            }
         }
     }
     
@@ -187,9 +195,11 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         let childautoID = storyItemRef.key
         storyItemRef.setValue(storyItem.toAnyObject())
         
-        // Create a location node
-        
+        // Add to location node
         self.locRef.child(self.locationKey).updateChildValues([childautoID : 0])
+        
+        // Add story to user
+        self.userRef.child(self.uid).child("stories").updateChildValues([childautoID: self.location])
         
     }
     
