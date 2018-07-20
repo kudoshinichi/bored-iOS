@@ -45,24 +45,31 @@ class MapViewController: UIViewController {
     var filteredSquawks = [hashtagItem]()
     
     //user info
+    var loadUserInfoGroup = DispatchGroup()
     var uid: String = ""
     
 
+    //MARK: View
     override func viewWillAppear(_ animated: Bool) {
-        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            if let user = user {
-                // The user's ID, unique to the Firebase project.
-                // Do NOT use this value to authenticate with your backend server,
-                // if you have one. Use getTokenWithCompletion:completion: instead.
-                self.uid = user.uid
-                let email = user.email
-                
-                print(self.uid)
-                print(email)
-            } else {
-                print("user is signed out")
+        loadUserInfoGroup.enter()
+        DispatchQueue.main.async {
+            handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+                if let user = user {
+                    // The user's ID, unique to the Firebase project.
+                    // Do NOT use this value to authenticate with your backend server,
+                    // if you have one. Use getTokenWithCompletion:completion: instead.
+                    self.uid = user.uid
+                    let email = user.email
+                    
+                    self.loadUserInfoGroup.leave()
+                    print(self.uid)
+                    print(email)
+                } else {
+                    print("user is signed out")
+                }
             }
         }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -107,17 +114,32 @@ class MapViewController: UIViewController {
         searchController.searchBar.placeholder = "Discover Squawks"
         navigationItem.searchController = searchController
         definesPresentationContext = true
-        // Setup the Scope Bar/
-        searchController.searchBar.scopeButtonTitles = ["Top", "Today", "Hashtag", "My Squawks"]
+        // Setup the Scope Bar
+        searchController.searchBar.scopeButtonTitles = ["Unread", "Today", "Hashtag", "My Squawks"]
         searchController.searchBar.delegate = self
         
     }
+
+    func checkIfRead (untestedStoryKey: String) -> Bool {
+        var isRead: Bool = false
+        self.ref.child("users").child(self.uid).child("ReadStories").observeSingleEvent(of: .value, with: { (snapshot) in
+            if !snapshot.hasChild(untestedStoryKey) {
+                // story is unread
+                isRead = false
+            } else {
+                print(untestedStoryKey)
+                isRead = true
+            }
+        })
+        return isRead
+    }
     
+    //MARK: Navigation
     // Unwind segue
     @IBAction func unwindToMainScreen(segue: UIStoryboardSegue) {
         print("Unwind segue to main screen triggered!")
     }
-    
+
     // Before segue to showStory, set showStory storyKey variable
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
@@ -131,13 +153,13 @@ class MapViewController: UIViewController {
         }
     }
     
-    //Search
+    //MARK: Search
     func searchBarIsEmpty() -> Bool {
         // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
-    func filterContentForSearchText(_ searchText: String, scope: String = "Top") {
+    func filterContentForSearchText(_ searchText: String, scope: String = "Unread") {
         
         var hashtagArray = [hashtagItem]()
         var storyKey: String = ""
@@ -180,8 +202,23 @@ class MapViewController: UIViewController {
                     }
                 })
                 
-            } else if scope == "Top" {
-                print("top")
+            } else if scope == "Unread" {
+                
+                // remove markers for read ones
+                
+                /*
+                 self.loadUserInfoGroup.notify(queue: .main){
+                 if !self.checkIfRead(untestedStoryKey: untestedStoryKey){
+                 // story is unread
+                 storyKey = untestedStoryKey
+                 self.addMarker(latitude: latitude, longitude: longitude, storyKey: storyKey)
+                 } else {
+                 print("story is read")
+                 print("incase i break too early")
+                 }
+                 }*/
+                
+                print("unread")
                 
             } else if scope == "My Squawks" {
                 print("mine")
@@ -347,37 +384,36 @@ extension MapViewController: CLLocationManagerDelegate {
         ref.child("locations").observe(.value, with: { snapshot in
             for child in snapshot.children{
                 let valueD = child as! DataSnapshot
-                let keyD = valueD.key
-                let key = keyD.replacingOccurrences(of: "d", with: ".")
-                let locationArray = key.split(separator:",")
+                let keyD = valueD.key // location with "d"
+                let key = keyD.replacingOccurrences(of: "d", with: ".") // location with "."
+                let locationArray = key.split(separator:",") // splits location into longitude and latitude
                 let latitude: String = String(locationArray[0])
                 let longitude: String = String(locationArray[1])
-                let count = valueD.childrenCount
-                print(String(count) + " stories")
+                let count = valueD.childrenCount // gets number of stories here
+                //print(String(count) + " stories")
                 
                 var storyKeyArray: [String] = []
+                //var untestedStoryKey: String = "" // originally for checking unread immediately
                 var storyKey: String = ""
                 
                 // get storyKey(s)
                 for grandchild in (child as AnyObject).children{
                     let valueD = grandchild as! DataSnapshot
+                    
                     if count == 1 {
                         storyKey = valueD.key
-                        //print(self.storyKey)
+                        
                     } else {
                         // join storykeys into more than one
                         
                         storyKeyArray.append(valueD.key)
                         let string = storyKeyArray.joined(separator: ",")
                         storyKey = string
-                        // add indiv keys into srray
-                        // add keys together with comma
-                        //var array = [1,2,3]
-                        //self.storyKey =
+                        self.addMarker(latitude: latitude, longitude: longitude, storyKey: storyKey)
+                        
+                        
                     }
                 }
-                
-                self.addMarker(latitude: latitude, longitude: longitude, storyKey: storyKey)
             }
         })
     }
