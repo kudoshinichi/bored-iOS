@@ -25,6 +25,7 @@ class StoryTableViewController: UITableViewController {
     //MARK: Properties
     var storyKey: String = ""
     var story = [Substring]()
+    var uid: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +55,7 @@ class StoryTableViewController: UITableViewController {
         
         // Configure the cell...
         let oneStory = story[indexPath.row]
-        cell.load(storyKey: String(oneStory))
+        cell.load(storyKey: String(oneStory), uid: self.uid)
 
         return cell
     }

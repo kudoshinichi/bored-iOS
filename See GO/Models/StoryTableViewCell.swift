@@ -37,19 +37,18 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var wing1: UIImageView!
     
     
-    // If I want to change
-    
-    func load(storyKey: String) {
+    func load(storyKey: String, uid: String) {
         
         self.storyKey = storyKey
+        self.uid = uid
         print("transferred " + self.storyKey)
         
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            if let user = user {
+            /*if let user = user {
                 self.uid = user.uid
                 
                 print(self.uid)
-            }
+            }*/
         }
         
         // Update cell UI as you wish
@@ -72,16 +71,13 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
         voteText.delegate = self
         viewText.delegate = self
         
-        wing0.alpha = 0
-        wing1.alpha = 0
+        self.wing0.alpha = 0
+        self.wing1.alpha = 0
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         tap.numberOfTapsRequired = 2
         self.storyImage.isUserInteractionEnabled = true
         self.storyImage.addGestureRecognizer(tap)
-        
-        
-        
         
     }
 
@@ -114,6 +110,14 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
             self.ref.updateChildValues(readUpdates)
             
             completion(true)
+        })
+        
+        // likes and wings
+        self.ref.child("users").child(self.uid).child("UpvotedStories").observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.hasChild(self.storyKey) {
+                self.wing0.alpha = 1
+                self.wing1.alpha = 1
+            }
         })
         
     }
@@ -157,15 +161,45 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     }
     
     @objc func doubleTapped() {
-        // do something here
         print("TapTap")
-        wing0.alpha = 1
-        wing1.alpha = 1
         
-        votes = votes + 1
-        print(String(votes))
-        let childUpdates = ["/stories/\(storyKey)/Votes": self.votes]
-        ref.updateChildValues(childUpdates)
+        self.ref.child("users").child(self.uid).child("UpvotedStories").observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.hasChild(self.storyKey) {
+                self.wing0.alpha = 0
+                self.wing1.alpha = 0
+                
+                self.votes = self.votes - 1
+                print(String(self.votes))
+                self.voteText.text = String(self.votes)
+                
+                // minus votes to stories
+                let childUpdates = ["/stories/\(self.storyKey)/Votes": self.votes]
+                self.ref.updateChildValues(childUpdates)
+                
+                // remove story from upvotedstories
+                let upvotedUpdates = ["/users/\(self.uid)/UpvotedStories/\(self.storyKey)": self.storyKey]
+                self.ref.child("users").child(self.uid).child("UpvotedStories").child(self.storyKey).removeValue()
+                
+            } else {
+                self.wing0.alpha = 1
+                self.wing1.alpha = 1
+                
+                self.votes = self.votes + 1
+                print(String(self.votes))
+                self.voteText.text = String(self.votes)
+                
+                // add votes to stories
+                let childUpdates = ["/stories/\(self.storyKey)/Votes": self.votes]
+                self.ref.updateChildValues(childUpdates)
+                
+                // add story to upvotedstories
+                let upvotedUpdates = ["/users/\(self.uid)/UpvotedStories/\(self.storyKey)": self.storyKey]
+                self.ref.updateChildValues(upvotedUpdates)
+            }
+        })
+        
+        
+        
         voteText.text = String(self.votes)
     }
     

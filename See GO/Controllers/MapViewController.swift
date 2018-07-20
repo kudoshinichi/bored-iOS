@@ -26,8 +26,10 @@ class MapViewController: UIViewController {
     var currentLocation: CLLocation?
     var mapView: GMSMapView!
     var zoomLevel: Float = 19.0
+    
     // Firebase
     var ref: DatabaseReference!
+    
     // Others
     var userLocation: CLLocation?
     var showStoryKey: String = ""
@@ -41,6 +43,10 @@ class MapViewController: UIViewController {
         let storyKey: String
     }
     var filteredSquawks = [hashtagItem]()
+    
+    //user info
+    var uid: String = ""
+    
 
     override func viewWillAppear(_ animated: Bool) {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
@@ -48,10 +54,10 @@ class MapViewController: UIViewController {
                 // The user's ID, unique to the Firebase project.
                 // Do NOT use this value to authenticate with your backend server,
                 // if you have one. Use getTokenWithCompletion:completion: instead.
-                let uid = user.uid
+                self.uid = user.uid
                 let email = user.email
                 
-                print(uid)
+                print(self.uid)
                 print(email)
             } else {
                 print("user is signed out")
@@ -121,6 +127,7 @@ class MapViewController: UIViewController {
             //let vc = segue.destination as? ShowStoryController
             let vc = segue.destination as? StoryTableViewController
             vc?.storyKey = showStoryKey
+            vc?.uid = self.uid
         }
     }
     
