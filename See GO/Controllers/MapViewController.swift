@@ -238,7 +238,7 @@ class MapViewController: UIViewController {
                                 // check if each story is read
                                 // if all stories in the same location is read, delete the marker
                                 
-                                //TO-DO: RAWR HERE.. doesn't work :( cuz I check this for each storyKey.. unless i declare the marker first..
+                                //TO-DO: RAWR HERE.. doesn't work :( cuz I check this for each storyKey.. unless i declare the marker first.. like a whole new function just to plough through multiple squawk markers...?
                                 
                                 /*
                                 for oneStory in stories {

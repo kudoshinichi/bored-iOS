@@ -39,11 +39,22 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func contactUS(_ sender: Any) {
-        //RAWR
+        //RAWR: cannot test unless on phone
+        let email = "projectbored.inc@gmail.com"
+        if let url = URL(string: "mailto:\(email)") {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
     }
     
     @IBAction func faqButton(_ sender: Any) {
         //RAWR
+        if let url = URL(string: "https://projectboredinc.wordpress.com") {
+            UIApplication.shared.open(url, options: [:])
+        }
     }
     
     @IBAction func logOut(_ sender: Any) {
