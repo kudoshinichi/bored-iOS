@@ -9,7 +9,7 @@ import UIKit
 import GoogleMaps
 import Firebase
 import FirebaseDatabase
-import FirebaseStorageUI
+import FirebaseUI
 import GoogleSignIn
 
 @UIApplicationMain

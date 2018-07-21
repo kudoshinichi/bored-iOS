@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 import FirebaseStorage
-import FirebaseStorageUI
+import FirebaseUI
 
 class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
 
@@ -121,7 +121,6 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                 self.wing1.alpha = 1
             }
         })
-        
     }
     
     func loadImage() {

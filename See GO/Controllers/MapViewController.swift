@@ -26,6 +26,7 @@ class MapViewController: UIViewController {
     var currentLocation: CLLocation?
     var mapView: GMSMapView!
     var zoomLevel: Float = 19.0
+    var markerArray = [GMSMarker]()
     
     // Firebase
     var ref: DatabaseReference!
@@ -211,22 +212,40 @@ class MapViewController: UIViewController {
                 //TO-DO: RAWR HERE
                 
                 // remove markers for read ones
+                var location: String = ""
                 
-                // find read stories storykey
-                // find read stories location
-                // if location count == 1, just delete
-                // if location not 1, then check if other things are read. if at least one of them is not read, will just keep marker
-                
-                /*
-                 self.ref.child("users").child(self.uid).child("ReadStories").observeSingleEvent(of: .value, with: { (snapshot) in
-                 
-                 })*/
-                
-                /*
-                 let marker = GMSMarker(position: position)
-                 marker.map = mapView
-                 ...
-                 marker.map = nil*/
+                // find read stories' location and see if it matches with markers' locations
+                self.ref.child("users").child(self.uid).child("ReadStories").observeSingleEvent(of: .value, with: { (snapshot) in
+                    for child in snapshot.children{
+                        let snapshot = child as! DataSnapshot
+                        location = snapshot.value as! String
+                        print(location)
+                        
+                        // connects Data to Marker on Map
+                        let locationArray = location.split(separator:",") // splits location into longitude and latitude
+                        let latitude: String = String(locationArray[0])
+                        let longitude: String = String(locationArray[1])
+                        let marker = GMSMarker(position: CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!))
+                        
+                        for marker in self.markerArray {
+                            let data = marker.userData as! NSDictionary
+                            let key1 = data["location"] as! String
+                            
+                            if key1 == latitude + "," + longitude {
+                                print("is read")
+                                print(key1)
+                                
+                                marker.map = nil
+                            } else {
+                                print("break")
+                            }
+                        }
+                        
+                        // get userData to see if it contains multiple story (i.e. storyKey contains ",")
+                        // if not just delete
+                        // else split the string and check if read each of them if at least one is not read, just keep marker
+                    }
+                })
                 
                 print("unread")
                 
@@ -287,6 +306,7 @@ extension MapViewController: GMSMapViewDelegate {
         let storyLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
         marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
         marker.map = self.mapView
+        markerArray.append(marker) //RAWR
         
         let distanceMetres = (self.userLocation?.distance(from: storyLocation))!
         print(String(distanceMetres))
@@ -342,6 +362,7 @@ extension MapViewController: GMSMapViewDelegate {
             }
             
         }
+        
         
     }
     
