@@ -127,6 +127,7 @@ class MapViewController: UIViewController {
     func checkIfRead (untestedStoryKey: String) -> Bool {
         var isRead: Bool = false
         self.ref.child("users").child(self.uid).child("ReadStories").observeSingleEvent(of: .value, with: { (snapshot) in
+            print(snapshot)
             if !snapshot.hasChild(untestedStoryKey) {
                 // story is unread
                 isRead = false
@@ -208,37 +209,76 @@ class MapViewController: UIViewController {
                 })
                 
             } else if scope == "Unread" {
-                
-                //TO-DO: RAWR HERE
-                
-                // remove markers for read ones
                 var location: String = ""
                 
                 // find read stories' location and see if it matches with markers' locations
                 self.ref.child("users").child(self.uid).child("ReadStories").observeSingleEvent(of: .value, with: { (snapshot) in
                     for child in snapshot.children{
                         let snapshot = child as! DataSnapshot
-                        location = snapshot.value as! String
-                        print(location)
+                        storyKey = snapshot.key as! String
                         
-                        // connects Data to Marker on Map
-                        let locationArray = location.split(separator:",") // splits location into longitude and latitude
-                        let latitude: String = String(locationArray[0])
-                        let longitude: String = String(locationArray[1])
-                        let marker = GMSMarker(position: CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!))
+                        //location = snapshot.value as! String
+                        //print(location)
                         
                         for marker in self.markerArray {
                             let data = marker.userData as! NSDictionary
-                            let key1 = data["location"] as! String
+                            let markerStoryKey = data["key"] as! String
+                            if markerStoryKey == storyKey {
+                                marker.map = nil
+                                print(markerStoryKey)
+                                print(storyKey)
+                                print("single delete")
+                            } else if markerStoryKey.contains(","){
+                                print(markerStoryKey)
+                                
+                                let stories = markerStoryKey.split(separator: ",")
+                                var boolsArray = [Bool]()
+                                
+                                // break into stories
+                                // check if each story is read
+                                // if all stories in the same location is read, delete the marker
+                                
+                                //TO-DO: RAWR HERE.. doesn't work :( cuz I check this for each storyKey.. unless i declare the marker first..
+                                
+                                /*
+                                for oneStory in stories {
+                                    if self.checkIfRead(untestedStoryKey: String(oneStory)){
+                                        // story is read
+                                        boolsArray.append(true)
+                                    } else {
+                                        // story is unread
+                                        boolsArray.append(false)
+                                    }
+                                    /*
+                                    if oneStory == storyKey {
+                                        print(oneStory)
+                                        print(storyKey)
+                                        // story is read
+                                        boolsArray.append(true)
+                                    } else {
+                                        boolsArray.append(false)
+                                    }*/
+                                }
+                                print(boolsArray)
+                                
+                                if !boolsArray.contains(false){
+                                    print("MULT")
+                                    // all stories are read
+                                    marker.map = nil
+                                }*/
+                            }
                             
-                            if key1 == latitude + "," + longitude {
+                            
+                            /*let markerLocation = data["location"] as! String
+                            
+                            if markerLocation == location {
                                 print("is read")
-                                print(key1)
+                                print(markerLocation)
                                 
                                 marker.map = nil
                             } else {
                                 print("break")
-                            }
+                            }*/
                         }
                         
                         // get userData to see if it contains multiple story (i.e. storyKey contains ",")
@@ -426,7 +466,6 @@ extension MapViewController: CLLocationManagerDelegate {
                 //print(String(count) + " stories")
                 
                 var storyKeyArray: [String] = []
-                //var untestedStoryKey: String = "" // originally for checking unread immediately
                 var storyKey: String = ""
                 
                 // get storyKey(s)
@@ -444,8 +483,8 @@ extension MapViewController: CLLocationManagerDelegate {
                         storyKey = string
                         
                     }
-                    self.addMarker(latitude: latitude, longitude: longitude, storyKey: storyKey)
                 }
+                self.addMarker(latitude: latitude, longitude: longitude, storyKey: storyKey)
             }
         })
     }
