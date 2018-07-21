@@ -28,6 +28,7 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     var URL: String?
     
     var uid: String = ""
+    var location: String = ""
     
     @IBOutlet weak var storyImage: UIImageView!
     @IBOutlet weak var captionText: UITextView!
@@ -37,10 +38,11 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var wing1: UIImageView!
     
     
-    func load(storyKey: String, uid: String) {
+    func load(storyKey: String, uid: String, location: String) {
         
         self.storyKey = storyKey
         self.uid = uid
+        self.location = location
         print("transferred " + self.storyKey)
         
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
@@ -106,7 +108,7 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
             let childUpdates = ["/stories/\(self.storyKey)/Views": self.views]
             self.ref.updateChildValues(childUpdates)
             
-            let readUpdates = ["/users/\(self.uid)/ReadStories/\(self.storyKey)": self.storyKey]
+            let readUpdates = ["/users/\(self.uid)/ReadStories/\(self.storyKey)": self.location]
             self.ref.updateChildValues(readUpdates)
             
             completion(true)
@@ -177,7 +179,7 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                 self.ref.updateChildValues(childUpdates)
                 
                 // remove story from upvotedstories
-                let upvotedUpdates = ["/users/\(self.uid)/UpvotedStories/\(self.storyKey)": self.storyKey]
+                let upvotedUpdates = ["/users/\(self.uid)/UpvotedStories/\(self.storyKey)": self.location]
                 self.ref.child("users").child(self.uid).child("UpvotedStories").child(self.storyKey).removeValue()
                 
             } else {
@@ -193,7 +195,7 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                 self.ref.updateChildValues(childUpdates)
                 
                 // add story to upvotedstories
-                let upvotedUpdates = ["/users/\(self.uid)/UpvotedStories/\(self.storyKey)": self.storyKey]
+                let upvotedUpdates = ["/users/\(self.uid)/UpvotedStories/\(self.storyKey)": self.location]
                 self.ref.updateChildValues(upvotedUpdates)
             }
         })

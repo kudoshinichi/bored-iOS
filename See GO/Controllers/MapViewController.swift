@@ -32,7 +32,10 @@ class MapViewController: UIViewController {
     
     // Others
     var userLocation: CLLocation?
+    
+    // To pass variables to showStory
     var showStoryKey: String = ""
+    var showStoryLocation: String = ""
     
     //search
     let searchController = UISearchController(searchResultsController: nil)
@@ -149,6 +152,7 @@ class MapViewController: UIViewController {
             //let vc = segue.destination as? ShowStoryController
             let vc = segue.destination as? StoryTableViewController
             vc?.storyKey = showStoryKey
+            vc?.storyLocation = showStoryLocation
             vc?.uid = self.uid
         }
     }
@@ -204,19 +208,25 @@ class MapViewController: UIViewController {
                 
             } else if scope == "Unread" {
                 
+                //TO-DO: RAWR HERE
+                
                 // remove markers for read ones
                 
+                // find read stories storykey
+                // find read stories location
+                // if location count == 1, just delete
+                // if location not 1, then check if other things are read. if at least one of them is not read, will just keep marker
+                
                 /*
-                 self.loadUserInfoGroup.notify(queue: .main){
-                 if !self.checkIfRead(untestedStoryKey: untestedStoryKey){
-                 // story is unread
-                 storyKey = untestedStoryKey
-                 self.addMarker(latitude: latitude, longitude: longitude, storyKey: storyKey)
-                 } else {
-                 print("story is read")
-                 print("incase i break too early")
-                 }
-                 }*/
+                 self.ref.child("users").child(self.uid).child("ReadStories").observeSingleEvent(of: .value, with: { (snapshot) in
+                 
+                 })*/
+                
+                /*
+                 let marker = GMSMarker(position: position)
+                 marker.map = mapView
+                 ...
+                 marker.map = nil*/
                 
                 print("unread")
                 
@@ -290,7 +300,7 @@ extension MapViewController: GMSMapViewDelegate {
         }
         
         // Loads into userData
-        marker.userData = ["key": storyKey, "near": isNear]
+        marker.userData = ["key": storyKey, "near": isNear, "location": latitude + "," + longitude]
         let data = marker.userData as! NSDictionary
         let key1 = data["key"]
         let near1 = data["near"]
@@ -342,9 +352,11 @@ extension MapViewController: GMSMapViewDelegate {
         let data = marker.userData as! NSDictionary
         let key1 = data["key"]
         let near1 = data["near"] as! Bool
+        let location1 = data["location"]
         if near1 {
             showStoryKey = key1 as! String
-            self .performSegue(withIdentifier: "ShowStoryTableSegue", sender: self)
+            showStoryLocation = location1 as! String
+            self.performSegue(withIdentifier: "ShowStoryTableSegue", sender: self)
         }
     }
     
@@ -409,10 +421,9 @@ extension MapViewController: CLLocationManagerDelegate {
                         storyKeyArray.append(valueD.key)
                         let string = storyKeyArray.joined(separator: ",")
                         storyKey = string
-                        self.addMarker(latitude: latitude, longitude: longitude, storyKey: storyKey)
-                        
                         
                     }
+                    self.addMarker(latitude: latitude, longitude: longitude, storyKey: storyKey)
                 }
             }
         })
