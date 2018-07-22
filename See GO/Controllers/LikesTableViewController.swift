@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 
 class LikesTableViewController: UITableViewController {
+    var handle: AuthStateDidChangeListenerHandle?
     
     //MARK: Properties
     // Authentication values

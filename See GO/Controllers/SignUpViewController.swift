@@ -9,8 +9,6 @@ import UIKit
 import Firebase
 import GoogleSignIn
 
-var handle: AuthStateDidChangeListenerHandle?
-
 class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDelegate {
     
     // MARK: Properties
@@ -18,6 +16,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var passwordText: UITextField!
 
+    var handle: AuthStateDidChangeListenerHandle?
     
     // Database
     var userRef : DatabaseReference!
@@ -146,6 +145,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
         
         print("clicked")
         GIDSignIn.sharedInstance().signIn()
+        print("clocked")
         
     }
     
@@ -168,6 +168,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     
 }

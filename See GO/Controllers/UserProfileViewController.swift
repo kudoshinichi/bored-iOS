@@ -20,11 +20,12 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var wingsReceivedText: UILabel!
     
     // Authentication values
+    var handle: AuthStateDidChangeListenerHandle?
     var uid: String = ""
     var email: String = ""
     
     override func viewWillDisappear(_ animated: Bool) {
-        Auth.auth().removeStateDidChangeListener(handle!)
+        Auth.auth().removeStateDidChangeListener(self.handle!)
     }
     
     override func viewDidLoad() {

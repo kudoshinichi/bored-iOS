@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
+    var handle: AuthStateDidChangeListenerHandle?
     
     // MARK: Properties
     @IBOutlet weak var emailText: UITextField!

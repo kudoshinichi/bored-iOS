@@ -14,6 +14,7 @@ import GoogleSignIn
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
+    var handle: AuthStateDidChangeListenerHandle?
 
     var window: UIWindow?
     
@@ -74,7 +75,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
         // ...
         if let error = error {
-            // ...
+            print("B")
+            print(error)
             return
         }
         
@@ -87,14 +89,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
             if let error = error {
-                // ...
+                print(authResult)
+                print(error)
                 return
             }
             
             let googleSignInBefore = UserDefaults.standard.bool(forKey: "googleSignInBefore")
             
             if (!googleSignInBefore){
-                handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+                self.handle = Auth.auth().addStateDidChangeListener { (auth, user) in
                     // User is signed in
                     if let user = user {
                         self.uid = user.uid

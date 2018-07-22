@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 
 class StoryTableViewController: UITableViewController {
+    var handle: AuthStateDidChangeListenerHandle?
     
     override func viewWillAppear(_ animated: Bool) {
         

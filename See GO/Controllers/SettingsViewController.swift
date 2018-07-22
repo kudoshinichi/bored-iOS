@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 
 class SettingsViewController: UIViewController {
+    var handle: AuthStateDidChangeListenerHandle?
 
     override func viewWillAppear(_ animated: Bool) {
         

@@ -19,6 +19,7 @@ import Firebase
 import FirebaseDatabase
 
 class MapViewController: UIViewController {
+    var handle: AuthStateDidChangeListenerHandle?
 // MARK: Properties
     
     // Google Maps
@@ -57,7 +58,7 @@ class MapViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         loadUserInfoGroup.enter()
         DispatchQueue.main.async {
-            handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            self.handle = Auth.auth().addStateDidChangeListener { (auth, user) in
                 if let user = user {
                     // The user's ID, unique to the Firebase project.
                     // Do NOT use this value to authenticate with your backend server,

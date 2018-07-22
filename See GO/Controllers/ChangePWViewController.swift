@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 
 class ChangePWViewController: UIViewController, UITextFieldDelegate {
+    var handle: AuthStateDidChangeListenerHandle?
     
     //MARK: Properties
     @IBOutlet weak var oldPW: UITextField!

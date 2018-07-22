@@ -16,6 +16,7 @@ import FirebaseStorage
 import os.log
 
 class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
+    var handle: AuthStateDidChangeListenerHandle?
 
     // MARK: Properties
     @IBOutlet weak var hookText: UITextField!

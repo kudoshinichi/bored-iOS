@@ -12,6 +12,7 @@ import FirebaseStorage
 import FirebaseUI
 
 class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
+    var handle: AuthStateDidChangeListenerHandle?
 
     // MARK: Properties
     var storyKey: String = ""
