@@ -9,13 +9,32 @@ import UIKit
 import Firebase
 
 class LikesTableViewController: UITableViewController {
+    
+    //MARK: Properties
+    // Authentication values
+    var uid: String = ""
+    var email: String = ""
+    var group = DispatchGroup()
+    
+    // Database
+    var storyKeyArray = [String]()
 
     override func viewWillAppear(_ animated: Bool) {
-        
-        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            // ...
-        }
-        
+            handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+                if let user = user {
+                    self.uid = user.uid
+                    self.email = user.email!
+                }
+                
+                let ref = Database.database().reference()
+                ref.child("users").child(self.uid).child("UpvotedStories").observeSingleEvent(of: .value, with: { (snapshot) in
+                    for child in snapshot.children{
+                        let story = child as! DataSnapshot
+                        let storyKey = story.key
+                        self.storyKeyArray.append(storyKey)
+                    }
+                })
+            }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -25,39 +44,36 @@ class LikesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        //return self.storyKeyArray.count
+        return 1
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
+        let cellIdentifier = "LikedSquawksTableViewCell"
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? LikesTableViewCell  else {
+            fatalError("The dequeued cell is not an instance of LikesTableViewCell.")
+        }
+        
         // Configure the cell...
-
+        //let oneStory = self.storyKeyArray[indexPath.row]
+        //cell.load(storyKey: oneStory)
+        
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.

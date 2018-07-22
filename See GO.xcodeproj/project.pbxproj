@@ -121,8 +121,8 @@
 				FE01AD7E20F9734900705CE1 /* SignUpViewController.swift */,
 				FE01AD7C20F972EF00705CE1 /* LoginViewController.swift */,
 				FE8EA78320FB4020005ED431 /* UserProfileViewController.swift */,
-				FE8F71FE20FB5F42006E3B96 /* MySquawksTableViewController.swift */,
 				FE8F720420FB5F7A006E3B96 /* LikesTableViewController.swift */,
+				FE8F71FE20FB5F42006E3B96 /* MySquawksTableViewController.swift */,
 				FE8F720620FB5FA6006E3B96 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
@@ -133,8 +133,8 @@
 			children = (
 				FE9DFF4020CA60BE00279C6B /* Story.swift */,
 				FEF546D520D65FB5004B2313 /* StoryTableViewCell.swift */,
-				FE8F720020FB5F55006E3B96 /* MySquawksTableViewCell.swift */,
 				FE8F720220FB5F66006E3B96 /* LikesTableViewCell.swift */,
+				FE8F720020FB5F55006E3B96 /* MySquawksTableViewCell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

@@ -41,23 +41,28 @@ class MySquawksTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 1
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
+        let cellIdentifier = "MySquawksTableViewCell"
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MySquawksTableViewCell  else {
+            fatalError("The dequeued cell is not an instance of StoryTableViewCell.")
+        }
+        
         // Configure the cell...
-
+        //cell.load(storyKey: String(oneStory), uid: self.uid, location: self.storyLocation)
+        
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.

@@ -9,6 +9,10 @@ import UIKit
 
 class LikesTableViewCell: UITableViewCell {
 
+    func load(storyKey:String){
+        
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
