@@ -34,16 +34,64 @@ class UserProfileViewController: UIViewController {
             if let user = user {
                 self.uid = user.uid
                 self.email = user.email!
-                
-                print(self.uid)
-                print(self.email)
-                
-                self.usernameText.text = self.uid
-                self.emailText.text = self.email
             }
+        
+            let ref = Database.database().reference()
+            ref.child("users").child(self.uid).observe(.value, with: { userSnapshot in
+                ref.child("stories").observe(.value, with: {storySnapshot in
+                    print("SCQ")
+                    self.usernameText.text = userSnapshot.childSnapshot(forPath: "Username").value as? String
+                    self.emailText.text = self.email
+                    self.squawksFoundText.text = String(userSnapshot.childSnapshot(forPath: "ReadStories").childrenCount)
+                    self.squawksAddText.text = String(userSnapshot.childSnapshot(forPath: "stories").childrenCount)
+                    
+                    var reach = 0, flapsGiven = 0, flapsReceived = 0
+                    var stories:[String:Story] = [:]
+                    
+                    // This can be greatly simplified if ReadStories and UpvotedStories are populated faithfully
+                    for child in storySnapshot.children {
+                        if let story = child as? DataSnapshot {
+                            var viewers: Set<String> = Set<String>()
+                            var voters: Set<String> = Set<String>()
+                            for viewerChild in story.childSnapshot(forPath: "Viewers").children {
+                                if let viewer = viewerChild as? DataSnapshot {
+                                    viewers.insert(viewer.key)
+                                }
+                            }
+                            for voterChild in story.childSnapshot(forPath: "Upvoters").children {
+                                if let voter = voterChild as? DataSnapshot {
+                                    voters.insert(voter.key)
+                                }
+                            }
+                            stories[story.key] = Story(
+                                id: story.key,
+                                views: story.childSnapshot(forPath: "Views").value as? Int,
+                                votes: story.childSnapshot(forPath: "Votes").value as? Int,
+                                viewers: viewers,
+                                voters: voters)
+                        }
+                    }
+                    flapsGiven = Int(userSnapshot.childSnapshot(forPath: "UpvotedStories").childrenCount)
+                    for child in userSnapshot.childSnapshot(forPath: "stories").children {
+                        if let writtenStory = child as? DataSnapshot {
+                            let story = stories[writtenStory.key]!
+                            reach += story.views!
+                            flapsReceived += story.votes!
+                        }
+                    }
+                    self.peopleReachedText.text = String(reach)
+                    self.wingsGivenText.text = String(flapsGiven)
+                    self.wingsReceivedText.text = String(flapsReceived)
+                })
+            })
         }
-
     }
     
-
+    struct Story {
+        var id: String?
+        var views: Int?
+        var votes: Int?
+        var viewers: Set<String>
+        var voters: Set<String>
+    }
 }
