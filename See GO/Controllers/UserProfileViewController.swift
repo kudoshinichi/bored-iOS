@@ -39,7 +39,6 @@ class UserProfileViewController: UIViewController {
             let ref = Database.database().reference()
             ref.child("users").child(self.uid).observe(.value, with: { userSnapshot in
                 ref.child("stories").observe(.value, with: {storySnapshot in
-                    print("SCQ")
                     self.usernameText.text = userSnapshot.childSnapshot(forPath: "Username").value as? String
                     self.emailText.text = self.email
                     self.squawksFoundText.text = String(userSnapshot.childSnapshot(forPath: "ReadStories").childrenCount)
