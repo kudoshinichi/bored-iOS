@@ -83,6 +83,8 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.bringSubview(toFront: SearchFooter()) // RAWR TO-DO, how to bring it above GMSMapView
+        
         ref = Database.database().reference()
         
         // Initialize the location manager.

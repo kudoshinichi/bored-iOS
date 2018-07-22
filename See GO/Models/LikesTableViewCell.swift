@@ -9,8 +9,15 @@ import UIKit
 
 class LikesTableViewCell: UITableViewCell {
 
+    //MARK: Properties
+    @IBOutlet weak var storyImage: UIImageView!
+    @IBOutlet weak var hookText: UILabel!
+    @IBOutlet weak var viewText: UILabel!
+    @IBOutlet weak var voteText: UILabel!
+    
+    
     func load(storyKey:String){
-        
+        print(storyKey)
     }
     
     override func awakeFromNib() {

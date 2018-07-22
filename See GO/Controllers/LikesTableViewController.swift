@@ -34,6 +34,10 @@ class LikesTableViewController: UITableViewController {
                         self.storyKeyArray.append(storyKey)
                     }
                 })
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             }
     }
     
@@ -68,8 +72,9 @@ class LikesTableViewController: UITableViewController {
         }
         
         // Configure the cell...
-        //let oneStory = self.storyKeyArray[indexPath.row]
-        //cell.load(storyKey: oneStory)
+        for oneStory in storyKeyArray {
+            cell.load(storyKey: oneStory)
+        }
         
         return cell
     }
