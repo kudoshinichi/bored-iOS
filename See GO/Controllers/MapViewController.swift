@@ -53,7 +53,27 @@ class MapViewController: UIViewController {
     var loadUserInfoGroup = DispatchGroup()
     var uid: String = ""
     
-
+    enum Scope :String {
+        case All
+        case Unread
+        case Today
+        case Hashtag
+        case Mine
+    }
+    let ALL_SCOPES = [Scope.All.rawValue, Scope.Unread.rawValue, Scope.Today.rawValue, Scope.Hashtag.rawValue, Scope.Mine.rawValue]
+    var currentScope: Scope!
+    var hashtagSearchText: String!
+    
+    let MIN_LOCATION_UPDATE_DELAY_MILLIS = 5000
+    var lastLocationUpdate: Int = 0
+    
+    struct StoryMeta {
+        var longitude: String
+        var latitude: String
+        var id: String
+    }
+    var storiesByLocation: [String: [StoryMeta]] = [:]
+    
     //MARK: View
     override func viewWillAppear(_ animated: Bool) {
         loadUserInfoGroup.enter()
@@ -122,9 +142,10 @@ class MapViewController: UIViewController {
         navigationItem.searchController = searchController
         definesPresentationContext = true
         // Setup the Scope Bar
-        searchController.searchBar.scopeButtonTitles = ["Unread", "Today", "Hashtag", "My Squawks"]
+        searchController.searchBar.scopeButtonTitles = ALL_SCOPES
+        currentScope = Scope.All
+        hashtagSearchText = ""
         searchController.searchBar.delegate = self
-        
     }
 
     func checkIfRead (untestedStoryKey: String) -> Bool {
@@ -192,7 +213,7 @@ class MapViewController: UIViewController {
                         let timediff = Int(timeInterval) - storytime
                         
                         // check if it's within 24h (i.e. 86 400 000 ms)
-                        if timediff<86400000 {
+                        if timediff < 24 * 60 * 60 * 1000 {
                             let group = DispatchGroup()
                             group.enter()
                             DispatchQueue.main.async {
@@ -339,11 +360,37 @@ class MapViewController: UIViewController {
         
     }
     
+    func filterStoriesByScope() -> [String: [StoryMeta]] {
+        if currentScope != Scope.Hashtag {
+            searchController.searchBar.text = nil
+            searchController.searchBar.placeholder = "Use search bar in Hashtag tab."
+            hashtagSearchText = ""
+        }
+        switch currentScope! {
+            // TODO(???): Complete implementation
+            case Scope.All:
+                return storiesByLocation
+            case Scope.Unread:
+                let timeInterval = NSDate().timeIntervalSince1970 * 1000
+                print(timeInterval)
+                self.ref.child("stories").observe(.value, with: { snapshot in
+                    return self.storiesByLocation
+                })
+                return storiesByLocation
+            case Scope.Today:
+                var a: [String: [StoryMeta]] = [:]
+                return a
+                //return storiesByLocation
+            case Scope.Hashtag:
+                return storiesByLocation
+            case Scope.Mine:
+                return storiesByLocation
+        }
+    }
 }
 
 // MARK: Map Delegate to handle events for Google Map View
 extension MapViewController: GMSMapViewDelegate {
-    
     func addMarker(latitude: String, longitude: String, storyKey: String){
         let marker = GMSMarker()
         let storyLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
@@ -403,10 +450,7 @@ extension MapViewController: GMSMapViewDelegate {
             } else {
                 marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
             }
-            
         }
-        
-        
     }
     
     
@@ -430,33 +474,28 @@ extension MapViewController: GMSMapViewDelegate {
             addMarker(latitude: hashtagItem.latitude, longitude: hashtagItem.longitude, storyKey: hashtagItem.storyKey)
         }
     }
-    
 }
 
 // Delegates to handle events for the location manager.
 extension MapViewController: CLLocationManagerDelegate {
-    
-    // Handle incoming location events.
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location: CLLocation = locations.last!
-        print("Location: \(location)")
-        
-        let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
-                                              longitude: location.coordinate.longitude,
-                                              zoom: zoomLevel)
-        
-        if mapView.isHidden {
-            mapView.isHidden = false
-            mapView.camera = camera
-        } else {
-            mapView.animate(to: camera)
-        }
-        
-        userLocation = locations.last!
-        
+    func drawSquawks(filteredStoriesByLocation: [String: [StoryMeta]]) {
         mapView.clear()
-        
+        for (key, metas) in filteredStoriesByLocation {
+            var storyKeys: [String] = []
+            for meta in metas {
+                storyKeys.append(meta.id)
+            }
+            let storyKey = storyKeys.joined(separator: ",")
+            print(metas[0].longitude)
+            print(metas[0].latitude)
+            print(storyKey)
+            self.addMarker(latitude: metas[0].latitude, longitude: metas[0].longitude, storyKey: storyKey)
+        }
+    }
+    
+    func shy() {
         //Read location coordinates from Firebase + add markers onto map
+        mapView.clear()
         ref.child("locations").observe(.value, with: { snapshot in
             for child in snapshot.children{
                 let valueD = child as! DataSnapshot
@@ -492,6 +531,49 @@ extension MapViewController: CLLocationManagerDelegate {
         })
     }
     
+    // Handle incoming location events.
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location: CLLocation = locations.last!
+        print("Location: \(location)")
+        
+        let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
+                                              longitude: location.coordinate.longitude,
+                                              zoom: zoomLevel)
+        
+        if mapView.isHidden {
+            mapView.isHidden = false
+            mapView.camera = camera
+        } else {
+            mapView.animate(to: camera)
+        }
+        userLocation = locations.last!
+        
+        let curTime = Int(NSDate().timeIntervalSince1970 * 1000)
+        if curTime - lastLocationUpdate <= MIN_LOCATION_UPDATE_DELAY_MILLIS {
+            return
+        }
+        
+        lastLocationUpdate = curTime
+        storiesByLocation = [:]
+        ref.child("locations").observe(.value, with: { snapshot in
+            for child in snapshot.children  {
+                let valueD = child as! DataSnapshot
+                let keyD = valueD.key // location with "d"
+                let key = keyD.replacingOccurrences(of: "d", with: ".") // location with "."
+                let locationArray = key.split(separator:",") // splits location into longitude and latitude
+                let latitude: String = String(locationArray[0])
+                let longitude: String = String(locationArray[1])
+                self.storiesByLocation[key] = []
+                for grandchild in (child as AnyObject).children {
+                    let valueD = grandchild as! DataSnapshot
+                    self.storiesByLocation[key]!.append(StoryMeta(longitude: longitude, latitude: latitude, id: valueD.key))
+                }
+            }
+            print(self.storiesByLocation.count)
+            self.drawSquawks(filteredStoriesByLocation: self.filterStoriesByScope())
+        })
+    }
+    
     // Handle authorization for the location manager.
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
@@ -521,7 +603,10 @@ extension MapViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let searchBar = searchController.searchBar
         let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
-        filterContentForSearchText(searchController.searchBar.text!, scope: scope)
+        currentScope = Scope(rawValue: searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex])
+        hashtagSearchText = searchController.searchBar.text!
+        drawSquawks(filteredStoriesByLocation: filterStoriesByScope()) // Comment this and uncomment below to revert old behaviour
+        //filterContentForSearchText(searchController.searchBar.text!, scope: scope)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -531,7 +616,10 @@ extension MapViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
+        currentScope = Scope(rawValue: searchBar.scopeButtonTitles![selectedScope])
+        hashtagSearchText = searchBar.text!
+        drawSquawks(filteredStoriesByLocation: filterStoriesByScope()) // Comment this and uncomment below to revert old behaviour
+        //filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
     }
 }
 
