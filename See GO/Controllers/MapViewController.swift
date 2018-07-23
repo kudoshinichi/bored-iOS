@@ -189,203 +189,83 @@ class MapViewController: UIViewController {
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
-    func filterContentForSearchText(_ searchText: String, scope: String = "Unread") {
-        
-        var hashtagArray = [hashtagItem]()
-        var storyKey: String = ""
-        var hashtag: String = ""
-        var latitude: String = ""
-        var longitude: String = ""
-        
-        if searchBarIsEmpty() {
-            if scope == "Today"{
-                print("today")
-                
-                let timeInterval = NSDate().timeIntervalSince1970 * 1000
-                print(timeInterval)
-                mapView.clear()
-                
-                self.ref.child("stories").observe(.value, with: { snapshot in
-                    for child in snapshot.children{
-                        let snapshot1 = child as! DataSnapshot
-                        let storytime = (snapshot1.value as? NSDictionary)?["Time"] as! Int
-                        print("break")
-                        let timediff = Int(timeInterval) - storytime
-                        
-                        // check if it's within 24h (i.e. 86 400 000 ms)
-                        if timediff < 24 * 60 * 60 * 1000 {
-                            let group = DispatchGroup()
-                            group.enter()
-                            DispatchQueue.main.async {
-                                storyKey = snapshot1.key
-                                print(storyKey)
-                                let location = (snapshot1.value as? NSDictionary)?["Location"] as! String
-                                let locationArray = location.split(separator:",")
-                                latitude = String(locationArray[0])
-                                longitude = String(locationArray[1])
-                                group.leave()
-                            }
-                            group.notify(queue: .main) {
-                                self.addMarker(latitude: latitude, longitude: longitude, storyKey: storyKey)
-                            }
-                        }
-                    }
-                })
-                
-            } else if scope == "Unread" {
-                var location: String = ""
-                
-                // find read stories' location and see if it matches with markers' locations
-                self.ref.child("users").child(self.uid).child("ReadStories").observeSingleEvent(of: .value, with: { (snapshot) in
-                    for child in snapshot.children{
-                        let snapshot = child as! DataSnapshot
-                        storyKey = snapshot.key as! String
-                        
-                        //location = snapshot.value as! String
-                        //print(location)
-                        
-                        for marker in self.markerArray {
-                            let data = marker.userData as! NSDictionary
-                            let markerStoryKey = data["key"] as! String
-                            if markerStoryKey == storyKey {
-                                marker.map = nil
-                                print(markerStoryKey)
-                                print(storyKey)
-                                print("single delete")
-                            } else if markerStoryKey.contains(","){
-                                print(markerStoryKey)
-                                
-                                let stories = markerStoryKey.split(separator: ",")
-                                var boolsArray = [Bool]()
-                                
-                                // break into stories
-                                // check if each story is read
-                                // if all stories in the same location is read, delete the marker
-                                
-                                //TO-DO: RAWR HERE.. doesn't work :( cuz I check this for each storyKey.. unless i declare the marker first.. like a whole new function just to plough through multiple squawk markers...?
-                                
-                                /*
-                                for oneStory in stories {
-                                    if self.checkIfRead(untestedStoryKey: String(oneStory)){
-                                        // story is read
-                                        boolsArray.append(true)
-                                    } else {
-                                        // story is unread
-                                        boolsArray.append(false)
-                                    }
-                                    /*
-                                    if oneStory == storyKey {
-                                        print(oneStory)
-                                        print(storyKey)
-                                        // story is read
-                                        boolsArray.append(true)
-                                    } else {
-                                        boolsArray.append(false)
-                                    }*/
-                                }
-                                print(boolsArray)
-                                
-                                if !boolsArray.contains(false){
-                                    print("MULT")
-                                    // all stories are read
-                                    marker.map = nil
-                                }*/
-                            }
-                            
-                            
-                            /*let markerLocation = data["location"] as! String
-                            
-                            if markerLocation == location {
-                                print("is read")
-                                print(markerLocation)
-                                
-                                marker.map = nil
-                            } else {
-                                print("break")
-                            }*/
-                        }
-                        
-                        // get userData to see if it contains multiple story (i.e. storyKey contains ",")
-                        // if not just delete
-                        // else split the string and check if read each of them if at least one is not read, just keep marker
-                    }
-                })
-                
-                print("unread")
-                
-            } else if scope == "My Squawks" {
-                print("mine")
-                
-            }
-        } else {
-            if scope == "Hashtag" {
-            
-                // find hashtag info from database
-                let group = DispatchGroup()
-                group.enter()
-                DispatchQueue.main.async {
-                    self.ref.child("hashtags").observe(.value, with: { snapshot in
-                        // gets hashtag, relevant storyKeys and locations
-                        for child in snapshot.children{
-                            let hashtagSnap = child as! DataSnapshot
-                            hashtag = hashtagSnap.key
-                            for grandchild in (child as AnyObject).children{
-                                let grandchild = grandchild as! DataSnapshot
-                                let location = grandchild.value as! String
-                                let locationArray = location.split(separator:",")
-                                latitude = String(locationArray[0])
-                                longitude = String(locationArray[1])
-                                storyKey = grandchild.key
-                            }
-                            hashtagArray.append(hashtagItem(hashtag: hashtag, latitude: latitude, longitude: longitude, storyKey: storyKey))
-                        }
-                        group.leave()
-                    })
-                }
-                
-                group.notify(queue: .main) {
-                    print("after database")
-                    self.filteredSquawks = hashtagArray.filter({( hashtag : hashtagItem) -> Bool in
-                        return hashtag.hashtag.lowercased().contains(searchText.lowercased())
-                    })
-                    print(self.filteredSquawks)
-                    self.mapFilterSquawks()
-                }
-                
-            } else {
-                searchController.searchBar.text = nil
-                searchController.searchBar.placeholder = "Please select Hashtag tab."
-            }
-        }
-        
-    }
-    
-    func filterStoriesByScope() -> [String: [StoryMeta]] {
+    func filterStoriesByScope() {
         if currentScope != Scope.Hashtag {
             searchController.searchBar.text = nil
             searchController.searchBar.placeholder = "Use search bar in Hashtag tab."
             hashtagSearchText = ""
         }
         switch currentScope! {
-            // TODO(???): Complete implementation
             case Scope.All:
-                return storiesByLocation
+               drawSquawks(filteredStoriesByLocation: storiesByLocation)
             case Scope.Unread:
-                let timeInterval = NSDate().timeIntervalSince1970 * 1000
-                print(timeInterval)
-                self.ref.child("stories").observe(.value, with: { snapshot in
-                    return self.storiesByLocation
+                self.ref.child("users").child(self.uid).child("ReadStories").observe(.value, with: { snapshot in
+                    var readStories: Set<String> = Set()
+                    for child in snapshot.children {
+                        let story = child as! DataSnapshot
+                        readStories.insert(story.key)
+                    }
+                    self.drawSquawks(filteredStoriesByLocation: self.filterStoriesBy(
+                        filter: { (meta: StoryMeta) -> Bool in
+                            return !readStories.contains(meta.id)
+                        }))
                 })
-                return storiesByLocation
             case Scope.Today:
-                var a: [String: [StoryMeta]] = [:]
-                return a
-                //return storiesByLocation
+                let earliestTime = Int(NSDate().timeIntervalSince1970 - 24 * 60 * 60) * 1000
+                self.ref.child("stories").observe(.value, with: { snapshot in
+                    self.drawSquawks(filteredStoriesByLocation: self.filterStoriesBy(
+                        filter: { (meta: StoryMeta) -> Bool in
+                            let story = snapshot.childSnapshot(forPath: meta.id) as! DataSnapshot
+                            let storyTime = (story.value as? NSDictionary)?["Time"] as! Int
+                            return storyTime >= earliestTime
+                        }))
+                })
             case Scope.Hashtag:
-                return storiesByLocation
+                if hashtagSearchText == "" {
+                    drawSquawks(filteredStoriesByLocation: storiesByLocation)
+                } else if hashtagSearchText.contains(".") ||
+                          hashtagSearchText.contains("#") ||
+                          hashtagSearchText.contains("$") ||
+                          hashtagSearchText.contains("[") ||
+                          hashtagSearchText.contains("]")  {
+                    drawSquawks(filteredStoriesByLocation: [:])
+                } else {
+                    self.ref.child("hashtags").child(hashtagSearchText).observe(.value, with: { snapshot in
+                        var hashtagStories: Set<String> = Set()
+                        for child in snapshot.children {
+                            let story = child as! DataSnapshot
+                            hashtagStories.insert(story.key)
+                        }
+                        self.drawSquawks(filteredStoriesByLocation: self.filterStoriesBy(
+                            filter: { (meta: StoryMeta) -> Bool in
+                                return hashtagStories.contains(meta.id)
+                            }))
+                    })
+                }
             case Scope.Mine:
-                return storiesByLocation
+                self.ref.child("users").child(self.uid).child("stories").observe(.value, with: { snapshot in
+                    var writtenStories: Set<String> = Set()
+                    for child in snapshot.children {
+                        let story = child as! DataSnapshot
+                        writtenStories.insert(story.key)
+                    }
+                    self.drawSquawks(filteredStoriesByLocation: self.filterStoriesBy(
+                        filter: { (meta: StoryMeta) -> Bool in
+                            return writtenStories.contains(meta.id)
+                        }))
+                })
         }
+    }
+    
+    func filterStoriesBy(filter: (StoryMeta) -> Bool) -> [String:[StoryMeta]] {
+        var filteredStoriesByLocation: [String:[StoryMeta]] = [:]
+        for (loc, metas) in self.storiesByLocation {
+            let filteredMetas: [StoryMeta] = metas.filter(filter)
+            if filteredMetas.count > 0 {
+                filteredStoriesByLocation[loc] = filteredMetas
+            }
+        }
+        return filteredStoriesByLocation
     }
 }
 
@@ -399,7 +279,6 @@ extension MapViewController: GMSMapViewDelegate {
         markerArray.append(marker) //RAWR
         
         let distanceMetres = (self.userLocation?.distance(from: storyLocation))!
-        print(String(distanceMetres))
         var isNear: Bool
         var snipkeywords: String = ""
         
@@ -414,8 +293,6 @@ extension MapViewController: GMSMapViewDelegate {
         let data = marker.userData as! NSDictionary
         let key1 = data["key"]
         let near1 = data["near"]
-        print(key1)
-        print(near1)
         
         if !isNear {
             marker.icon = GMSMarker.markerImage(with: .purple)
@@ -486,49 +363,8 @@ extension MapViewController: CLLocationManagerDelegate {
                 storyKeys.append(meta.id)
             }
             let storyKey = storyKeys.joined(separator: ",")
-            print(metas[0].longitude)
-            print(metas[0].latitude)
-            print(storyKey)
             self.addMarker(latitude: metas[0].latitude, longitude: metas[0].longitude, storyKey: storyKey)
         }
-    }
-    
-    func shy() {
-        //Read location coordinates from Firebase + add markers onto map
-        mapView.clear()
-        ref.child("locations").observe(.value, with: { snapshot in
-            for child in snapshot.children{
-                let valueD = child as! DataSnapshot
-                let keyD = valueD.key // location with "d"
-                let key = keyD.replacingOccurrences(of: "d", with: ".") // location with "."
-                let locationArray = key.split(separator:",") // splits location into longitude and latitude
-                let latitude: String = String(locationArray[0])
-                let longitude: String = String(locationArray[1])
-                let count = valueD.childrenCount // gets number of stories here
-                //print(String(count) + " stories")
-                
-                var storyKeyArray: [String] = []
-                var storyKey: String = ""
-                
-                // get storyKey(s)
-                for grandchild in (child as AnyObject).children{
-                    let valueD = grandchild as! DataSnapshot
-                    
-                    if count == 1 {
-                        storyKey = valueD.key
-                        
-                    } else {
-                        // join storykeys into more than one
-                        
-                        storyKeyArray.append(valueD.key)
-                        let string = storyKeyArray.joined(separator: ",")
-                        storyKey = string
-                        
-                    }
-                }
-                self.addMarker(latitude: latitude, longitude: longitude, storyKey: storyKey)
-            }
-        })
     }
     
     // Handle incoming location events.
@@ -569,8 +405,7 @@ extension MapViewController: CLLocationManagerDelegate {
                     self.storiesByLocation[key]!.append(StoryMeta(longitude: longitude, latitude: latitude, id: valueD.key))
                 }
             }
-            print(self.storiesByLocation.count)
-            self.drawSquawks(filteredStoriesByLocation: self.filterStoriesByScope())
+            self.filterStoriesByScope()
         })
     }
     
@@ -605,21 +440,16 @@ extension MapViewController: UISearchBarDelegate {
         let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
         currentScope = Scope(rawValue: searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex])
         hashtagSearchText = searchController.searchBar.text!
-        drawSquawks(filteredStoriesByLocation: filterStoriesByScope()) // Comment this and uncomment below to revert old behaviour
-        //filterContentForSearchText(searchController.searchBar.text!, scope: scope)
+        filterStoriesByScope()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        mapView.clear()
         searchController.searchBar.placeholder = "Discover Squawks"
-        // TO-DO: refresh map i guess?
     }
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         currentScope = Scope(rawValue: searchBar.scopeButtonTitles![selectedScope])
         hashtagSearchText = searchBar.text!
-        drawSquawks(filteredStoriesByLocation: filterStoriesByScope()) // Comment this and uncomment below to revert old behaviour
-        //filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
+        filterStoriesByScope()
     }
 }
-
