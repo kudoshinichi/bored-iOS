@@ -21,7 +21,10 @@ class LikesTableViewController: UITableViewController {
     var storyKeyArray = [String]()
 
     override func viewWillAppear(_ animated: Bool) {
-            handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+        let group = DispatchGroup()
+        group.enter()
+        DispatchQueue.main.async {
+            self.handle = Auth.auth().addStateDidChangeListener { (auth, user) in
                 if let user = user {
                     self.uid = user.uid
                     self.email = user.email!
@@ -33,13 +36,19 @@ class LikesTableViewController: UITableViewController {
                         let story = child as! DataSnapshot
                         let storyKey = story.key
                         self.storyKeyArray.append(storyKey)
+                        
+                        print(storyKey)
                     }
+                    group.leave()
                 })
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
             }
+        }
+        
+        group.notify(queue:. main){
+            self.tableView.reloadData()
+            print("hope it works")
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -48,8 +57,6 @@ class LikesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
         
     }
 
@@ -60,20 +67,20 @@ class LikesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return self.storyKeyArray.count
-        return 1
+        return self.storyKeyArray.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "LikedSquawksTableViewCell"
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? LikesTableViewCell  else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? LikesTableViewCell else {
             fatalError("The dequeued cell is not an instance of LikesTableViewCell.")
         }
         
         // Configure the cell...
         for oneStory in storyKeyArray {
+            print(oneStory)
             cell.load(storyKey: oneStory)
         }
         

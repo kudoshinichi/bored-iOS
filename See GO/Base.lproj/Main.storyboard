@@ -461,7 +461,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="VNj-xo-lGf">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="367" height="99.5"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fetching" translatesAutoresizingMaskIntoConstraints="NO" id="SEO-d1-fic">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="99.5"/>
@@ -469,32 +469,32 @@
                                                         <constraint firstAttribute="width" constant="100" id="FV6-OO-C0l"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R7y-Wa-oHf">
-                                                    <rect key="frame" x="102" y="0.0" width="150" height="99.5"/>
+                                                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="Hook" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vqY-mw-IZy">
+                                                    <rect key="frame" x="102" y="0.0" width="130" height="99.5"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="150" id="bej-SC-uVK"/>
+                                                        <constraint firstAttribute="width" constant="130" id="6pS-aY-Vu5"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="found" translatesAutoresizingMaskIntoConstraints="NO" id="apg-W1-crC">
-                                                    <rect key="frame" x="254" y="0.0" width="30" height="99.5"/>
+                                                    <rect key="frame" x="234" y="0.0" width="30" height="99.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="WBX-Ge-Gd5"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="No." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="raI-5P-wWW">
-                                                    <rect key="frame" x="286" y="0.0" width="35.5" height="99.5"/>
+                                                    <rect key="frame" x="266" y="0.0" width="47.5" height="99.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="like" translatesAutoresizingMaskIntoConstraints="NO" id="fqV-Dn-Jkc">
-                                                    <rect key="frame" x="323.5" y="0.0" width="30" height="99.5"/>
+                                                    <rect key="frame" x="315.5" y="0.0" width="30" height="99.5"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="No." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6rb-v8-dmo">
-                                                    <rect key="frame" x="355.5" y="0.0" width="19.5" height="99.5"/>
+                                                    <rect key="frame" x="347.5" y="0.0" width="19.5" height="99.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -507,14 +507,14 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="VNj-xo-lGf" secondAttribute="trailing" constant="8" id="2DT-0G-i5s"/>
                                         <constraint firstItem="VNj-xo-lGf" firstAttribute="leading" secondItem="R08-4V-zbA" secondAttribute="leading" id="OW5-iG-pPE"/>
-                                        <constraint firstAttribute="trailing" secondItem="VNj-xo-lGf" secondAttribute="trailing" id="Te3-U1-2oL"/>
                                         <constraint firstAttribute="bottom" secondItem="VNj-xo-lGf" secondAttribute="bottom" id="UAi-TI-5YD"/>
                                         <constraint firstItem="VNj-xo-lGf" firstAttribute="top" secondItem="R08-4V-zbA" secondAttribute="top" id="s1T-GQ-ZhM"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="hookText" destination="R7y-Wa-oHf" id="6hu-21-rEb"/>
+                                    <outlet property="hookText" destination="vqY-mw-IZy" id="hPn-ut-HHl"/>
                                     <outlet property="storyImage" destination="SEO-d1-fic" id="k6l-YY-nzr"/>
                                     <outlet property="viewText" destination="raI-5P-wWW" id="c0r-Od-5FR"/>
                                     <outlet property="voteText" destination="6rb-v8-dmo" id="UO6-p5-SvS"/>
