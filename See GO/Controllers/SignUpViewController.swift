@@ -53,6 +53,11 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.hideKeyboardWhenTappedAround()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(SignUpViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SignUpViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
         userRef = Database.database().reference(withPath: "users")
         featuresRef = Database.database().reference(withPath: "features")
         
