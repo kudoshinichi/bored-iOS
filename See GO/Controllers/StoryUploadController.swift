@@ -217,7 +217,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
             return
         }
         guard imageURL != "" else {
-            let alert = UIAlertController(title: "Database error", message: "Try again?", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Database error", message: "Image is still being uploaded. Try again?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
             self.present(alert, animated: true)
             

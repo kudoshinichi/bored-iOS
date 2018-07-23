@@ -79,7 +79,7 @@ class UserProfileViewController: UIViewController {
                             flapsReceived += story.votes!
                         }
                     }
-                    self.peopleReachedText.text = String(reach)
+                    self.peopleReachedText.text = "~ " + String(reach)
                     self.wingsGivenText.text = String(flapsGiven)
                     self.wingsReceivedText.text = String(flapsReceived)
                 })

@@ -6,12 +6,9 @@
 //
 // Subsequent TO-DO:
 // 3. Multiple stories * (uhm keywords don't get seeen)
-// [6. Users (reddit and stackoverflow, voting & read system)
 // 2. Marker Aesthetic
 // 8. Hashtag from story upload
-// 9. Discovery syste: √Hasthtag search, √Today, My Squawks
 // 9.1 Search footer (tbc)
-// 10. Search bar idk overall theme hmm
 
 import UIKit
 import GoogleMaps
@@ -50,7 +47,6 @@ class MapViewController: UIViewController {
     var filteredSquawks = [hashtagItem]()
     
     //user info
-    var loadUserInfoGroup = DispatchGroup()
     var uid: String = ""
     
     enum Scope :String {
@@ -76,25 +72,20 @@ class MapViewController: UIViewController {
     
     //MARK: View
     override func viewWillAppear(_ animated: Bool) {
-        loadUserInfoGroup.enter()
-        DispatchQueue.main.async {
-            self.handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-                if let user = user {
-                    // The user's ID, unique to the Firebase project.
-                    // Do NOT use this value to authenticate with your backend server,
-                    // if you have one. Use getTokenWithCompletion:completion: instead.
-                    self.uid = user.uid
-                    let email = user.email
-                    
-                    self.loadUserInfoGroup.leave()
-                    print(self.uid)
-                    print(email)
-                } else {
-                    print("user is signed out")
-                }
+        self.handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if let user = user {
+                // The user's ID, unique to the Firebase project.
+                // Do NOT use this value to authenticate with your backend server,
+                // if you have one. Use getTokenWithCompletion:completion: instead.
+                self.uid = user.uid
+                let email = user.email
+                
+                print(self.uid)
+                print(email)
+            } else {
+                print("user is signed out")
             }
         }
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -175,7 +166,6 @@ class MapViewController: UIViewController {
         //if segue.destination is ShowStoryController
         if segue.destination is StoryTableViewController
         {
-            //let vc = segue.destination as? ShowStoryController
             let vc = segue.destination as? StoryTableViewController
             vc?.storyKey = showStoryKey
             vc?.storyLocation = showStoryLocation
@@ -184,17 +174,19 @@ class MapViewController: UIViewController {
     }
     
     //MARK: Search
+    
     func searchBarIsEmpty() -> Bool {
         // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
     func filterStoriesByScope() {
-        if currentScope != Scope.Hashtag {
+        if currentScope != Scope.Hashtag && !searchBarIsEmpty() {
             searchController.searchBar.text = nil
-            searchController.searchBar.placeholder = "Use search bar in Hashtag tab."
-            hashtagSearchText = ""
+            searchController.searchBar.placeholder = "Search with Hashtag tab."
+            hashtagSearchText = nil
         }
+        
         switch currentScope! {
             case Scope.All:
                drawSquawks(filteredStoriesByLocation: storiesByLocation)
@@ -221,6 +213,7 @@ class MapViewController: UIViewController {
                         }))
                 })
             case Scope.Hashtag:
+                // TO-DO: not sure about how this works (but it doesn't)
                 if hashtagSearchText == "" {
                     drawSquawks(filteredStoriesByLocation: storiesByLocation)
                 } else if hashtagSearchText.contains(".") ||
@@ -230,6 +223,8 @@ class MapViewController: UIViewController {
                           hashtagSearchText.contains("]")  {
                     drawSquawks(filteredStoriesByLocation: [:])
                 } else {
+                    print("Hash")
+                    print(hashtagSearchText)
                     self.ref.child("hashtags").child(hashtagSearchText).observe(.value, with: { snapshot in
                         var hashtagStories: Set<String> = Set()
                         for child in snapshot.children {
