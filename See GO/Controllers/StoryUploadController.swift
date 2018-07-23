@@ -334,6 +334,12 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
             }
         }
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        let newLength = text.count + string.count - range.length
+        return newLength <= 150
+    }
 
 }
 

@@ -204,9 +204,6 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                 self.ref.updateChildValues(upvotedUpdates)
             }
         })
-        
-        
-        
         voteText.text = String(self.votes)
     }
     
