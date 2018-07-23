@@ -360,6 +360,18 @@ extension MapViewController: CLLocationManagerDelegate {
             let storyKey = storyKeys.joined(separator: ",")
             self.addMarker(latitude: metas[0].latitude, longitude: metas[0].longitude, storyKey: storyKey)
         }
+        // if there are no squawks to be drawn, give a timed alert
+        /*
+        let message = "Some message..."
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        self.present(alert, animated: true)
+        
+        // duration in seconds
+        let duration: Double = 5
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
+            alert.dismiss(animated: true)
+        }*/
     }
     
     // Handle incoming location events.

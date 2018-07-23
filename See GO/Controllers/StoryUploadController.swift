@@ -7,6 +7,7 @@
 // TO-DO:
 // 3. Camera Picker (untested on simulator; unsure if there's better code)
 // 4. might have (hopefully only rare) issue when changing image and current image is still being uploaded (see Note)
+// 5. Hashtags get into database
 
 import UIKit
 import FirebaseDatabase
