@@ -179,8 +179,11 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                 self.ref.updateChildValues(childUpdates)
                 
                 // remove story from upvotedstories
-                let upvotedUpdates = ["/users/\(self.uid)/UpvotedStories/\(self.storyKey)": self.location]
+                //let upvotedUpdates = ["/users/\(self.uid)/UpvotedStories/\(self.storyKey)": self.location]
                 self.ref.child("users").child(self.uid).child("UpvotedStories").child(self.storyKey).removeValue()
+                
+                //let upvotedStoryUpdates = ["/stories/\(self.storyKey)/Upvoters/\(self.uid)": self.uid]
+                self.ref.child("stories").child(self.storyKey).child("Upvoters").child(self.uid).removeValue()
                 
             } else {
                 self.wing0.alpha = 1
@@ -190,11 +193,13 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                 print(String(self.votes))
                 self.voteText.text = String(self.votes)
                 
-                // add votes to stories
+                // add votes and voters to stories
                 let childUpdates = ["/stories/\(self.storyKey)/Votes": self.votes]
+                let upvotedStoryUpdates = ["/stories/\(self.storyKey)/Upvoters/\(self.uid)": self.uid]
                 self.ref.updateChildValues(childUpdates)
+                self.ref.updateChildValues(upvotedStoryUpdates)
                 
-                // add story to upvotedstories
+                // add story to users' upvotedstories
                 let upvotedUpdates = ["/users/\(self.uid)/UpvotedStories/\(self.storyKey)": self.location]
                 self.ref.updateChildValues(upvotedUpdates)
             }
