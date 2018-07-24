@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="tff-Jy-5s5">
-                                <rect key="frame" x="16" y="84" width="288" height="399"/>
+                                <rect key="frame" x="16" y="84" width="288" height="432"/>
                                 <subviews>
                                     <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="343" placeholderIntrinsicHeight="350" image="addImage" translatesAutoresizingMaskIntoConstraints="NO" id="NGp-Xg-tSY">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="350"/>
@@ -38,18 +38,21 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Insert caption #and #hashtags. (150 char)" textAlignment="justified" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="whf-t0-hVY">
-                                        <rect key="frame" x="0.0" y="382" width="288" height="17"/>
-                                        <nil key="textColor"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mwe-go-7Vl">
+                                        <rect key="frame" x="0.0" y="382" width="288" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="BAJ-pb-5RI"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
-                                    </textField>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                    </textView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="CyJ-MS-Azj" firstAttribute="leading" secondItem="tff-Jy-5s5" secondAttribute="leading" id="MQq-lx-QH8"/>
                                     <constraint firstItem="NGp-Xg-tSY" firstAttribute="leading" secondItem="tff-Jy-5s5" secondAttribute="leading" id="T1w-gc-eTN"/>
-                                    <constraint firstItem="whf-t0-hVY" firstAttribute="leading" secondItem="tff-Jy-5s5" secondAttribute="leading" id="V0Y-Yr-jNA"/>
-                                    <constraint firstAttribute="trailing" secondItem="whf-t0-hVY" secondAttribute="trailing" id="Ve9-Rp-lMu"/>
+                                    <constraint firstAttribute="trailing" secondItem="mwe-go-7Vl" secondAttribute="trailing" id="U7C-vs-A8w"/>
+                                    <constraint firstItem="mwe-go-7Vl" firstAttribute="leading" secondItem="tff-Jy-5s5" secondAttribute="leading" id="dMw-WK-Ac1"/>
                                     <constraint firstItem="NGp-Xg-tSY" firstAttribute="top" secondItem="tff-Jy-5s5" secondAttribute="top" id="hVM-Eh-IC1"/>
                                     <constraint firstAttribute="trailing" secondItem="NGp-Xg-tSY" secondAttribute="trailing" id="vY7-Bh-3xD"/>
                                     <constraint firstAttribute="trailing" secondItem="CyJ-MS-Azj" secondAttribute="trailing" id="z5z-8k-upu"/>
@@ -77,7 +80,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="captionText" destination="whf-t0-hVY" id="eCD-Xw-Ztz"/>
+                        <outlet property="captionTextView" destination="mwe-go-7Vl" id="lEr-Nx-Ifm"/>
                         <outlet property="hookText" destination="CyJ-MS-Azj" id="V8u-Og-haW"/>
                         <outlet property="photoImageView" destination="NGp-Xg-tSY" id="4Eq-Ne-01f"/>
                         <segue destination="6iu-Ob-GHa" kind="unwind" identifier="squawkBackToMap" unwindAction="unwindToMainScreenWithSegue:" id="JWc-Vg-1fp"/>
@@ -925,13 +928,13 @@
                                             <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="47B-BB-dlb">
                                                 <rect key="frame" x="40" y="30.5" width="240" height="350.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <mutableString key="text">&gt; Share only photos and videos that you’ve taken or have the right to share.
+                                                <string key="text">&gt; Share only photos and videos that you’ve taken or have the right to share.
 &gt; Foster meaningful and genuine interactions.
 &gt; Follow the law.
 &gt; Respect other members of the See GO community.
 &gt; Do not post private or confidential information or do anything that violates someone else's rights, including intellectual property.
 &gt; Do not attempt to interfere with or impair the intended operation of the Service.
-&gt; Highly offensive or objectionable content may be removed, and users who provided these content may be barred from the platform.</mutableString>
+&gt; Highly offensive or objectionable content may be removed, and users who provided these content may be barred from the platform.</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>

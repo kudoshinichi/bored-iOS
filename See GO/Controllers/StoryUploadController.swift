@@ -16,14 +16,16 @@ import CoreLocation
 import FirebaseStorage
 import os.log
 
-class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
+class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
     var handle: AuthStateDidChangeListenerHandle?
 
     // MARK: Properties
     @IBOutlet weak var hookText: UITextField!
-    @IBOutlet weak var captionText: UITextField!
+    @IBOutlet weak var captionTextView: UITextView!
     @IBOutlet weak var photoImageView: UIImageView!
-    @IBOutlet weak var squawkButton: UIBarButtonItem!
+    
+    var placeholderText = "Insert caption #and #hashtags."
+    var hashtags: [String] = []
     
     // Database
     let ref = Database.database().reference(withPath: "stories")
@@ -72,7 +74,10 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         NotificationCenter.default.addObserver(self, selector: #selector(SignUpViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         hookText.delegate = self
-        captionText.delegate = self
+        captionTextView.delegate = self
+        
+        captionTextView.text = placeholderText
+        captionTextView.textColor = UIColor.lightGray
         
         // Location
         self.locationManager.requestAlwaysAuthorization()
@@ -105,9 +110,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField{
         case hookText:
-            captionText.becomeFirstResponder()
-        case captionText:
-            captionText.resignFirstResponder()
+            captionTextView.becomeFirstResponder()
         default: break
         }
         return true
@@ -189,7 +192,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
     
     func addtoDatabase(){
         //MARK: Add Squawk to Firebase
-        let storyItem = Story(caption: captionText.text!,
+        let storyItem = Story(caption: captionTextView.text!,
                               featured: false,
                               flagged: false,
                               location: self.location,
@@ -208,14 +211,13 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         
         // Add story to user
         self.userRef.child(self.uid).child("stories").updateChildValues([childautoID: self.location])
-        
     }
     
     //MARK: Actions
     @IBAction func addSquawk(_ sender: UIBarButtonItem) {
         // When squawk button pressed, add to Database only after 1) fields completed and 2) storage is successful
         
-        guard hookText.text != "", captionText.text != "", imageNameS != "" else {
+        guard hookText.text != "", captionTextView.text != "", imageNameS != "" else {
             // if some fields are incomplete, UIAlertView pops out to alert
             let alert = UIAlertController(title: "Missing fields", message: "No image, hook or caption detected. Check again?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
@@ -255,6 +257,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         self.present(alert, animated: true)
     }
     
+    //MARK: Image Matters
     
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
         
@@ -336,12 +339,64 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
         }
     }
     
+    //MARK: Text Matters
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
-        return newLength <= 150
+        return newLength <= 40
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = placeholderText
+            textView.textColor = UIColor.lightGray
+        } else {
+            captionTextView.resolveTags()
+            hashtags = captionTextView.text!.findMentionText()
+            print(hashtags)
+        }
+    }
+}
+
+extension String {
+    func findMentionText() -> [String] {
+        var arr_hasStrings:[String] = []
+        let regex = try? NSRegularExpression(pattern: "(#[a-zA-Z0-9_\\p{Arabic}\\p{N}]*)", options: [])
+        if let matches = regex?.matches(in: self, options:[], range:NSMakeRange(0, self.count)) {
+            for match in matches {
+                arr_hasStrings.append(NSString(string: self).substring(with: NSRange(location:match.range.location, length: match.range.length )))
+            }
+        }
+        return arr_hasStrings
+    }
+}
+
+extension UITextView {
+    func resolveTags(){
+        let text = self.text
+        let hashtags = text!.findMentionText()
+        self.attributedText = convert(hashtags, string: text!)
     }
 
+    func convert(_ hashElements:[String], string: String) -> NSAttributedString {
+        let hasAttr = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14.0), NSAttributedStringKey.foregroundColor: UIColor.orange]
+        let normalAttr = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14.0), NSAttributedStringKey.foregroundColor: UIColor.black]
+        let mainAttributedString = NSMutableAttributedString(string: string, attributes: normalAttr)
+        let txtViewReviewText = string as NSString
+        hashElements.forEach { if string.contains($0) {
+            mainAttributedString.addAttributes(hasAttr, range: txtViewReviewText.range(of: $0))
+            }
+        }
+        return mainAttributedString
+    }
 }
 
 extension UIViewController {
