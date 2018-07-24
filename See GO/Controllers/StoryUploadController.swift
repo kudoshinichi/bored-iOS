@@ -197,7 +197,8 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UIImagePick
                               uri: self.imageURL,
                               views: 0,
                               votes: 0,
-                              keywords: hookText.text!)
+                              keywords: hookText.text!,
+                              user: self.uid)
         let storyItemRef = self.ref.childByAutoId()
         let childautoID = storyItemRef.key
         storyItemRef.setValue(storyItem.toAnyObject())

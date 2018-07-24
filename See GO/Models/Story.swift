@@ -19,8 +19,9 @@ struct Story {
     let views : Int
     let votes : Int
     let keywords : String
+    let user: String
     
-    init(caption: String, featured: Bool, flagged: Bool, location: String, time: Int, uri: String, views: Int, votes: Int, keywords: String) {
+    init(caption: String, featured: Bool, flagged: Bool, location: String, time: Int, uri: String, views: Int, votes: Int, keywords: String, user: String) {
         //self.ref = nil
         self.caption = caption
         self.featured = featured
@@ -31,6 +32,7 @@ struct Story {
         self.views = views
         self.votes = votes
         self.keywords = keywords
+        self.user = user
     }
     
     /*init?(snapshot: DataSnapshot) {
@@ -71,6 +73,7 @@ struct Story {
             "Views": views,
             "Votes": votes,
             "Keywords": keywords,
+            "User": user,
         ]
     }
 }
