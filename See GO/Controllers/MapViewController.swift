@@ -160,18 +160,38 @@ class MapViewController: UIViewController {
         print("Unwind segue to main screen triggered!")
     }
 
-    // Before segue to showStory, set showStory storyKey variable
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-    {
-        //if segue.destination is ShowStoryController
-        if segue.destination is StoryTableViewController
-        {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        
+        // Before segue to showStory, set showStory storyKey variable
+        if segue.destination is StoryTableViewController{
             let vc = segue.destination as? StoryTableViewController
             vc?.storyKey = showStoryKey
             vc?.storyLocation = showStoryLocation
             vc?.uid = self.uid
         }
+        
+        // Before segue to AddSquawk, see if user has agreed to Terms and Conditions
+        if segue.destination is StoryUploadController{
+            let acceptedTOC = UserDefaults.standard.bool(forKey: "acceptedTOC")
+        }
     }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        
+        if identifier == "AddItem" {
+            // Before segue to AddSquawk, see if user has agreed to Terms and Conditions
+            let acceptedTOC = UserDefaults.standard.bool(forKey: "acceptedTOC")
+            if !acceptedTOC {
+                self.performSegue(withIdentifier: "MapToTOC", sender: self)
+                return false
+            }
+            return true
+        }
+        
+        return true
+    }
+    
+    
     
     //MARK: Search
     
