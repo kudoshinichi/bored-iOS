@@ -213,7 +213,6 @@ class MapViewController: UIViewController {
                         }))
                 })
             case Scope.Hashtag:
-                // TO-DO: not sure about how this works (but it doesn't)
                 if hashtagSearchText == "" {
                     drawSquawks(filteredStoriesByLocation: storiesByLocation)
                 } else if hashtagSearchText.contains(".") ||
@@ -224,8 +223,8 @@ class MapViewController: UIViewController {
                     drawSquawks(filteredStoriesByLocation: [:])
                 } else {
                     print("Hash")
-                    print(hashtagSearchText)
-                    self.ref.child("hashtags").child(hashtagSearchText).observe(.value, with: { snapshot in
+                    print(hashtagSearchText.lowercased())
+                    self.ref.child("hashtags").child(hashtagSearchText.lowercased()).observe(.value, with: { snapshot in
                         var hashtagStories: Set<String> = Set()
                         for child in snapshot.children {
                             let story = child as! DataSnapshot
