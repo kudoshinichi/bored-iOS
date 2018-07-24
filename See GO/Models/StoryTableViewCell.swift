@@ -132,6 +132,7 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     
     func loadInfoOntoUI() {
         captionText.text = self.caption
+        captionText.resolveTags()
         print(self.caption)
         viewText.text = String(views) + " views"
         voteText.text = String(votes)

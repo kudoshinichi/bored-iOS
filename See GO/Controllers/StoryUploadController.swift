@@ -28,7 +28,8 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
     var hashtags: [String] = []
     
     // Database
-    let ref = Database.database().reference(withPath: "stories")
+    let ref = Database.database().reference()
+    let stoRef = Database.database().reference(withPath: "stories")
     let locRef = Database.database().reference(withPath: "locations")
     let userRef = Database.database().reference(withPath: "users")
     var items: [Story] = []
@@ -162,8 +163,8 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
         dismiss(animated: true, completion: nil)
     }
     
+    //MARK: Store Things to Firebase
     func storetoStorage() {
-        //MARK: Store Image to Firebase Storage
         
         // get file from local disk with path
         let localFile = URL(string: imagePath)!
@@ -191,7 +192,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
     }
     
     func addtoDatabase(){
-        //MARK: Add Squawk to Firebase
+        // Add to stories node
         let storyItem = Story(caption: captionTextView.text!,
                               featured: false,
                               flagged: false,
@@ -202,15 +203,21 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
                               votes: 0,
                               keywords: hookText.text!,
                               user: self.uid)
-        let storyItemRef = self.ref.childByAutoId()
+        let storyItemRef = self.stoRef.childByAutoId()
         let childautoID = storyItemRef.key
         storyItemRef.setValue(storyItem.toAnyObject())
         
         // Add to location node
         self.locRef.child(self.locationKey).updateChildValues([childautoID : 0])
         
-        // Add story to user
+        // Add story to user node
         self.userRef.child(self.uid).child("stories").updateChildValues([childautoID: self.location])
+        
+        // Add hashtags to hashtag node
+        for hashtag in hashtags {
+            let tagonly = hashtag.dropFirst()
+            self.ref.child("hashtags").child(String(tagonly)).updateChildValues([childautoID: self.location])
+        }
     }
     
     //MARK: Actions
