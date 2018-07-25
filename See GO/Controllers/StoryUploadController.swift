@@ -133,6 +133,12 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
         // Set photoImageView to display the selected image.
         photoImageView.image = selectedImage
         
+        /* TO-DO
+        if picker.sourceType == .camera {
+            UIImageWriteToSavedPhotosAlbum(selectedImage, nil, nil, nil)
+            print("done")
+        }*/
+        
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         let imageUrl          = info[UIImagePickerControllerImageURL] as? NSURL
         let imageName         = imageUrl?.lastPathComponent
@@ -217,6 +223,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
         for hashtag in hashtags {
             let tagonly = hashtag.dropFirst()
             self.ref.child("hashtags").child(String(tagonly)).updateChildValues([childautoID: self.location])
+            print("woot" + String(tagonly))
         }
     }
     

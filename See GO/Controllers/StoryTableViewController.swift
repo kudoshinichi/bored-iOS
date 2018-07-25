@@ -75,32 +75,40 @@ class StoryTableViewController: UITableViewController {
         let ref = Database.database().reference()
         var isYours: Bool = false
         
-        // unsure how to check for this without making delete impossible
-        ref.child("users").child(self.uid).child("stories").observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.hasChild(String(oneStory)) {
-                isYours = true
-                print("data")
-                print(isYours)
-            }
-        })
-        
-        guard isYours else { return } // story is not yours
-        
         if editingStyle == .delete {
-            print("continue")
-            print(isYours)
-            let alert = UIAlertController(title: "Delete squawk?", message: "This action cannot be undone.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            
+            let group = DispatchGroup()
+            group.enter()
+            DispatchQueue.main.async {
+                ref.child("users").child(self.uid).child("stories").observeSingleEvent(of: .value, with: { (snapshot) in
+                    if snapshot.hasChild(String(oneStory)) {
+                        isYours = true
+                        print("data")
+                        print(isYours)
+                        group.leave()
+                    }
+                })
+            }
+            
+            group.notify(queue: .main){
+                guard isYours else { return } // story is not yours
                 
-                //Delete story from everywhere
-                print("imma delete this")
-                
-                self.story.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-                
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            self.present(alert, animated: true)
+                print("continue")
+                print(isYours)
+                let alert = UIAlertController(title: "Delete squawk?", message: "This action cannot be undone.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+                    
+                    //Delete story from everywhere
+                    print("imma delete this")
+                    
+                    self.story.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    
+                }))
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
+            
         }
      }
     
