@@ -6,7 +6,7 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "share.png",
+      "filename" : "bin.png",
       "scale" : "2x"
     },
     {
@@ -17,5 +17,8 @@
   "info" : {
     "version" : 1,
     "author" : "xcode"
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }

@@ -37,7 +37,7 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var viewText: UITextView!
     @IBOutlet weak var wing0: UIImageView!
     @IBOutlet weak var wing1: UIImageView!
-    
+    @IBOutlet weak var deleteSquawkButton: UIButton!
     
     func load(storyKey: String, uid: String, location: String) {
         
@@ -114,6 +114,13 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                 self.wing1.alpha = 1
             }
         })
+        
+        // is this story yours
+        self.ref.child("users").child(self.uid).child("stories").observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.hasChild(self.storyKey) {
+                self.deleteSquawkButton.alpha = 1
+            }
+        })
     }
     
     func loadImage() {
@@ -142,17 +149,15 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
         UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
     }
     
-    @IBAction func shareStory(_ sender: UIButton) {
-        //Set the default sharing message.
-        let message = "Omg cool squawk on See GO"
-        //Set the link to share.
-        if let link = NSURL(string: "http://projectboredinc.wordpress.com/story/" + storyKey)
-        {
-            let objectsToShare = [message,link] as [Any]
-            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            activityVC.excludedActivityTypes = [UIActivityType.airDrop, UIActivityType.addToReadingList]
-            UIApplication.shared.keyWindow?.rootViewController?.present(activityVC, animated: true, completion: nil)
-        }
+    @IBAction func deleteSquawk(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Delete squawk?", message: "This action cannot be undone.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            
+            //Delete story from everywhere
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
     }
     
     @objc func doubleTapped() {

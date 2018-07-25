@@ -165,12 +165,13 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="398"/>
                                                     <gestureRecognizers/>
                                                 </imageView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="caption" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ax3-PR-eOi">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="loading caption..." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ax3-PR-eOi">
                                                     <rect key="frame" x="0.0" y="398" width="320" height="69"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="69" id="Aup-gW-XFc"/>
                                                     </constraints>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
@@ -190,7 +191,7 @@
                                                                 <constraint firstAttribute="width" constant="50" id="Xja-Sv-lNc"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="votes" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GiH-DM-0I7">
+                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="-" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GiH-DM-0I7">
                                                             <rect key="frame" x="153" y="0.0" width="15" height="25"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -204,9 +205,9 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="102" id="1ov-fN-mRg"/>
                                                             </constraints>
-                                                            <state key="normal" image="share"/>
+                                                            <state key="normal" image="bin"/>
                                                             <connections>
-                                                                <action selector="shareStory:" destination="ff9-Ph-Wni" eventType="touchUpInside" id="Qe9-wK-7eB"/>
+                                                                <action selector="deleteSquawk:" destination="ff9-Ph-Wni" eventType="touchUpInside" id="c6j-w5-bYI"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -237,6 +238,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="captionText" destination="Ax3-PR-eOi" id="LkV-Pc-9AX"/>
+                                    <outlet property="deleteSquawkButton" destination="ic7-BO-O5a" id="Y2s-10-7h0"/>
                                     <outlet property="storyImage" destination="Fan-92-z8m" id="2Vb-CD-2Eq"/>
                                     <outlet property="viewText" destination="Khb-Zp-rHj" id="PvK-6t-qNE"/>
                                     <outlet property="voteText" destination="GiH-DM-0I7" id="qY6-ra-S2o"/>
@@ -1191,6 +1193,7 @@
     </scenes>
     <resources>
         <image name="addImage" width="320" height="320"/>
+        <image name="bin" width="20" height="20"/>
         <image name="fetching" width="256" height="227"/>
         <image name="found" width="94" height="94"/>
         <image name="get_like" width="90" height="90"/>
@@ -1198,9 +1201,8 @@
         <image name="home" width="28" height="28"/>
         <image name="like" width="90" height="90"/>
         <image name="profile" width="28" height="28"/>
-        <image name="report" width="32" height="20"/>
+        <image name="report" width="20" height="20"/>
         <image name="settings" width="28" height="28"/>
-        <image name="share" width="32" height="20"/>
         <image name="squawk" width="90" height="90"/>
         <image name="welcome" width="250" height="250"/>
         <image name="wing0" width="17" height="17"/>
@@ -1209,6 +1211,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="PGT-49-F36"/>
         <segue reference="vbU-e3-clN"/>
-        <segue reference="rGd-6U-ZV2"/>
+        <segue reference="q9k-8N-8VU"/>
     </inferredMetricsTieBreakers>
 </document>

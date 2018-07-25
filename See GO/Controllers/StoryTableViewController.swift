@@ -63,28 +63,52 @@ class StoryTableViewController: UITableViewController {
         cell.storyImage.image = nil
         cell.wing0.alpha = 0
         cell.wing1.alpha = 0
+        cell.deleteSquawkButton.alpha = 0
         cell.load(storyKey: String(oneStory), uid: self.uid, location: self.storyLocation)
 
         return cell
     }
+    
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        let oneStory = story[indexPath.row]
+        let ref = Database.database().reference()
+        var isYours: Bool = false
+        
+        // unsure how to check for this without making delete impossible
+        ref.child("users").child(self.uid).child("stories").observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.hasChild(String(oneStory)) {
+                isYours = true
+                print("data")
+                print(isYours)
+            }
+        })
+        
+        guard isYours else { return } // story is not yours
+        
+        if editingStyle == .delete {
+            print("continue")
+            print(isYours)
+            let alert = UIAlertController(title: "Delete squawk?", message: "This action cannot be undone.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+                
+                //Delete story from everywhere
+                print("imma delete this")
+                
+                self.story.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
+     }
     
     /*
      // Override to support conditional editing of the table view.
      override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
      // Return false if you do not want the specified item to be editable.
      return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
      }
      */
     
