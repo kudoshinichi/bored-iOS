@@ -203,7 +203,7 @@ class MapViewController: UIViewController {
     func filterStoriesByScope() {
         if currentScope != Scope.Hashtag && !searchBarIsEmpty() {
             searchController.searchBar.text = nil
-            searchController.searchBar.placeholder = "Search with Hashtag tab."
+            searchController.searchBar.placeholder = "Click Hashtag tab first."
             hashtagSearchText = nil
         }
         

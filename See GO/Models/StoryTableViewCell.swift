@@ -47,11 +47,7 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
         print("transferred " + self.storyKey)
         
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            /*if let user = user {
-                self.uid = user.uid
-                
-                print(self.uid)
-            }*/
+            // uid is handed over from TableViewController
         }
         
         // Update cell UI as you wish
@@ -66,16 +62,12 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
         print(storyKey)
         ref = Database.database().reference()
         
         captionText.delegate = self
         voteText.delegate = self
         viewText.delegate = self
-        
-        self.wing0.alpha = 0
-        self.wing1.alpha = 0
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         tap.numberOfTapsRequired = 2

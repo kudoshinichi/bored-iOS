@@ -4,6 +4,9 @@
 //
 //  Created by Hongyi Shen on 17/6/18.
 //
+// imageView.image = nil use a placeholder image (don't I do this?!)
+// prepare for ReUse to remove all data
+
 
 import UIKit
 import Firebase
@@ -57,6 +60,9 @@ class StoryTableViewController: UITableViewController {
         
         // Configure the cell...
         let oneStory = story[indexPath.row]
+        cell.storyImage.image = nil
+        cell.wing0.alpha = 0
+        cell.wing1.alpha = 0
         cell.load(storyKey: String(oneStory), uid: self.uid, location: self.storyLocation)
 
         return cell
@@ -96,16 +102,5 @@ class StoryTableViewController: UITableViewController {
      return true
      }
      */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
-
+  
 }
