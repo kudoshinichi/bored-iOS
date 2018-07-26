@@ -136,6 +136,10 @@ class StoryTableViewController: UITableViewController {
                 ref.child("hashtags").child(hashtagKey).child(delStoryKey).removeValue() // delete from hashtags
             }
             
+            // delete from owner's stories
+            let userUID = storyNode.childSnapshot(forPath: "User").value as! String
+            ref.child("users").child(userUID).child("stories").child(delStoryKey).removeValue()
+
             // delete from locations
             let location = storyNode.childSnapshot(forPath: "Location").value as! String
             let locationD = location.replacingOccurrences(of: ".", with: "d")
