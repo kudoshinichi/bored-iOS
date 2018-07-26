@@ -94,7 +94,7 @@ class StoryTableViewController: UITableViewController {
                 let alert = UIAlertController(title: "Delete squawk?", message: "This action cannot be undone.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
                     print("imma delete this")
-                    self.deleteFromEverywhere(storyKey: String(self.story[indexPath.row]))
+                    self.deleteFromEverywhere(delStoryKey: String(self.story[indexPath.row]))
                     self.story.remove(at: indexPath.row)
                     tableView.deleteRows(at: [indexPath], with: .fade)
                     
@@ -106,36 +106,54 @@ class StoryTableViewController: UITableViewController {
         }
      }
     
-    func deleteFromEverywhere(storyKey: String) {
-        print("deleting " + storyKey)
-        // delete from every user's UpvotedStories
-        // delete from every user's ReadStories
-        // delete from every user's flaggedStories
-        // delete from hashtags
-        // delete from locations
-        // delete from stories
+    func deleteFromEverywhere(delStoryKey: String) {
+        print("deleting " + delStoryKey)
+        let ref = Database.database().reference()
         
+        ref.child("stories").child(delStoryKey).observeSingleEvent(of: .value, with: { (snapshot) in
+            let storyNode =  snapshot as! DataSnapshot
+            for viewerChild in storyNode.childSnapshot(forPath: "Viewers").children {
+                let user = viewerChild as! DataSnapshot
+                let userKey = user.key
+                ref.child("users").child(userKey).child("ReadStories").child(delStoryKey).removeValue() // delete from every user's ReadStories
+            }
+            
+            for upvoterChild in storyNode.childSnapshot(forPath: "Upvoters").children {
+                let user = upvoterChild as! DataSnapshot
+                let userKey = user.key
+                ref.child("users").child(userKey).child("UpvotedStories").child(delStoryKey).removeValue() // delete from every user's UpvotedStories
+            }
+            
+            for flaggerChild in storyNode.childSnapshot(forPath: "Flaggers").children {
+                let user = flaggerChild as! DataSnapshot
+                let userKey = user.key
+                ref.child("users").child(userKey).child("FlaggedStories").child(delStoryKey).removeValue() // delete from every user's FlaggedStories
+            }
+            
+            for hashtagChild in storyNode.childSnapshot(forPath: "Hashtags").children {
+                let hashtag = hashtagChild as! DataSnapshot
+                let hashtagKey = hashtag.key
+                ref.child("hashtags").child(hashtagKey).child(delStoryKey).removeValue() // delete from hashtags
+            }
+            
+            // delete from locations
+            let location = storyNode.childSnapshot(forPath: "Location").value as! String
+            let locationD = location.replacingOccurrences(of: ".", with: "d")
+            ref.child("locations").child(locationD).child(delStoryKey).removeValue()
+            
+            // delete photo from storage
+            let imageURI = storyNode.childSnapshot(forPath: "URI").value as! String
+            let storage = Storage.storage()
+            storage.reference(forURL: imageURI).delete(completion: nil)
+            
+            ref.child("stories").child(delStoryKey).removeValue()
+        })
     }
     
     /*
      // Override to support conditional editing of the table view.
      override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
      // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
      return true
      }
      */
