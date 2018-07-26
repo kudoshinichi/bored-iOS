@@ -83,8 +83,6 @@ class StoryTableViewController: UITableViewController {
                 ref.child("users").child(self.uid).child("stories").observeSingleEvent(of: .value, with: { (snapshot) in
                     if snapshot.hasChild(String(oneStory)) {
                         isYours = true
-                        print("data")
-                        print(isYours)
                         group.leave()
                     }
                 })
@@ -93,14 +91,10 @@ class StoryTableViewController: UITableViewController {
             group.notify(queue: .main){
                 guard isYours else { return } // story is not yours
                 
-                print("continue")
-                print(isYours)
                 let alert = UIAlertController(title: "Delete squawk?", message: "This action cannot be undone.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
-                    
-                    //Delete story from everywhere
                     print("imma delete this")
-                    
+                    self.deleteFromEverywhere(storyKey: String(self.story[indexPath.row]))
                     self.story.remove(at: indexPath.row)
                     tableView.deleteRows(at: [indexPath], with: .fade)
                     
@@ -111,6 +105,17 @@ class StoryTableViewController: UITableViewController {
             
         }
      }
+    
+    func deleteFromEverywhere(storyKey: String) {
+        print("deleting " + storyKey)
+        // delete from every user's UpvotedStories
+        // delete from every user's ReadStories
+        // delete from every user's flaggedStories
+        // delete from hashtags
+        // delete from locations
+        // delete from stories
+        
+    }
     
     /*
      // Override to support conditional editing of the table view.

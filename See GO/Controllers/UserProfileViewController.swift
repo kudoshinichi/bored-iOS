@@ -74,7 +74,7 @@ class UserProfileViewController: UIViewController {
                     flapsGiven = Int(userSnapshot.childSnapshot(forPath: "UpvotedStories").childrenCount)
                     for child in userSnapshot.childSnapshot(forPath: "stories").children {
                         if let writtenStory = child as? DataSnapshot {
-                            let story = stories[writtenStory.key]!
+                            let story = stories[writtenStory.key]! //CRASH TO-DO: Thread 1: Fatal error: Unexpectedly found nil while unwrapping an Optional value
                             reach += story.views!
                             flapsReceived += story.votes!
                         }

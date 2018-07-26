@@ -96,13 +96,15 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
             //self.flagged = (snapshot.value as? NSDictionary)?["Flagged"] as! Bool
             
             print(self.views)
-            self.views += 1
+            self.views += 1 // user read it
             print(self.views)
-            let childUpdates = ["/stories/\(self.storyKey)/Views": self.views]
-            self.ref.updateChildValues(childUpdates)
+            let storyViewsUpdates = ["/stories/\(self.storyKey)/Views": self.views]
+            self.ref.updateChildValues(storyViewsUpdates)
+            let storyViewersUpdates = ["/stories/\(self.storyKey)/Viewers/\(self.uid)": self.uid]
+            self.ref.updateChildValues(storyViewersUpdates)
             
-            let readUpdates = ["/users/\(self.uid)/ReadStories/\(self.storyKey)": self.location]
-            self.ref.updateChildValues(readUpdates)
+            let userReadUpdates = ["/users/\(self.uid)/ReadStories/\(self.storyKey)": self.location]
+            self.ref.updateChildValues(userReadUpdates)
             
             completion(true)
         })
@@ -177,10 +179,8 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                 self.ref.updateChildValues(childUpdates)
                 
                 // remove story from upvotedstories
-                //let upvotedUpdates = ["/users/\(self.uid)/UpvotedStories/\(self.storyKey)": self.location]
                 self.ref.child("users").child(self.uid).child("UpvotedStories").child(self.storyKey).removeValue()
                 
-                //let upvotedStoryUpdates = ["/stories/\(self.storyKey)/Upvoters/\(self.uid)": self.uid]
                 self.ref.child("stories").child(self.storyKey).child("Upvoters").child(self.uid).removeValue()
                 
             } else {
