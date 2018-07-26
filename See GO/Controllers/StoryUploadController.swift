@@ -36,7 +36,6 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
     
     // Storage
     let storage = Storage.storage()
-    var imagePath: String = ""
     var imageNameS: String = "" // for storage or stored image
     var imageNameD: String = "" // for deleting when change image is prompted (to avoid conflict)
     var imageURL: String = "" // download url for database
@@ -158,10 +157,9 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
             print("file already exists")
         }
         
-        imagePath = localPath!.absoluteString
         imageNameS = imageName!
         
-        storetoStorage()
+        storetoStorage(localPath: localPath!.absoluteString, imageName: imageNameS)
         
         imageChosen = true
         
@@ -170,12 +168,12 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
     }
     
     //MARK: Store Things to Firebase
-    func storetoStorage() {
+    func storetoStorage(localPath: String, imageName: String) {
         
         // get file from local disk with path
-        let localFile = URL(string: imagePath)!
+        let localFile = URL(string: localPath)!
         let storageRef = storage.reference()
-        let storeRef = storageRef.child(imageNameS)
+        let storeRef = storageRef.child(imageName)
         
         let uploadTask = storeRef.putFile(from: localFile, metadata: nil) { metadata, error in
             guard let metadata = metadata else {
@@ -197,7 +195,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
         }
     }
     
-    func addtoDatabase(){
+    func addtoDatabase(hashtags: [String]){
         // Add to stories node
         let storyItem = Story(caption: captionTextView.text!,
                               featured: false,
@@ -219,11 +217,11 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
         // Add story to user node
         self.userRef.child(self.uid).child("stories").updateChildValues([childautoID: self.location])
         
-        // Add hashtags to hashtag node
+        // Add hashtags to hashtag node & story node
         for hashtag in hashtags {
             let tagonly = hashtag.dropFirst()
-            self.ref.child("hashtags").child(String(tagonly)).updateChildValues([childautoID: self.location])
-            print("woot" + String(tagonly))
+            self.ref.child("hashtags").child(String(tagonly)).updateChildValues([childautoID: self.location]) // add to hashtag node
+            self.stoRef.child(childautoID).child("Hashtags").updateChildValues([tagonly:tagonly])
         }
     }
     
@@ -247,8 +245,10 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
             return
         }
         
+        hashtags = captionTextView.text!.findMentionText()
+        print(hashtags)
         print("can add to database")
-        addtoDatabase()
+        addtoDatabase(hashtags: hashtags)
         
         self.performSegue(withIdentifier: "squawkBackToMap", sender: self)
     }
@@ -374,8 +374,6 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
             textView.textColor = UIColor.lightGray
         } else {
             captionTextView.resolveTags()
-            hashtags = captionTextView.text!.findMentionText()
-            print(hashtags)
         }
     }
 }
