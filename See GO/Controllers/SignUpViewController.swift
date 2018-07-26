@@ -70,6 +70,18 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
         
     }
     
+    //MARK: UITextFieldDelegate
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField{
+        case usernameText:
+            emailText.becomeFirstResponder()
+        case emailText:
+            passwordText.becomeFirstResponder()
+        default: break
+        }
+        return true
+    }
+    
     // MARK: Actions
     @IBAction func createAccount(_ sender: Any) {
         
@@ -168,11 +180,5 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", "(?=.*[0-9])(?=.*[a-z]).{8,}")
         return passwordTest.evaluate(with: testStr)
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     
 }

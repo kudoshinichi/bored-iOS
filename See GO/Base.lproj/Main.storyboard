@@ -566,7 +566,10 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qkJ-V8-gRd">
                                         <rect key="frame" x="0.0" y="80" width="288" height="30"/>
-                                        <state key="normal" title="Data Protection"/>
+                                        <state key="normal" title="Privacy Policy"/>
+                                        <connections>
+                                            <action selector="privacyButton:" destination="xy7-nh-fnl" eventType="touchUpInside" id="Bs4-tf-58S"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i8l-1Q-SgW">
                                         <rect key="frame" x="0.0" y="120" width="288" height="30"/>
@@ -1210,7 +1213,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="PGT-49-F36"/>
-        <segue reference="vbU-e3-clN"/>
+        <segue reference="KYD-WY-fCN"/>
         <segue reference="q9k-8N-8VU"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -38,6 +38,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordText.delegate = self
     }
     
+    //MARK: UITextFieldDelegate
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField{
+        case emailText:
+            passwordText.becomeFirstResponder()
+        default: break
+        }
+        return true
+    }
+    
     //MARK: Actions
     @IBAction func LoginAction(_ sender: Any) {
         var emailOrUsername = emailText.text

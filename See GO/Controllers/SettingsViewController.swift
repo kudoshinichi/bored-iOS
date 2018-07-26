@@ -51,8 +51,13 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    @IBAction func privacyButton(_ sender: UIButton) {
+        if let url = URL(string: "https://projectboredinc.wordpress.com/privacy/") {
+            UIApplication.shared.open(url, options: [:])
+        }
+    }
+    
     @IBAction func faqButton(_ sender: Any) {
-        //RAWR
         if let url = URL(string: "https://projectboredinc.wordpress.com") {
             UIApplication.shared.open(url, options: [:])
         }
