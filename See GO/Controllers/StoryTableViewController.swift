@@ -128,6 +128,7 @@ class StoryTableViewController: UITableViewController {
                 let user = flaggerChild as! DataSnapshot
                 let userKey = user.key
                 ref.child("users").child(userKey).child("FlaggedStories").child(delStoryKey).removeValue() // delete from every user's FlaggedStories
+                // NOTE* not deleted from badGuy's GotFlagged
             }
             
             for hashtagChild in storyNode.childSnapshot(forPath: "Hashtags").children {

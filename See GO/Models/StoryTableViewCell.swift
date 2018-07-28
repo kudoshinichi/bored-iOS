@@ -142,10 +142,47 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     // MARK: Actions
     
     @IBAction func reportStory(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Flag squawk?", message: "This action cannot be undone.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Flag this squawk?", message: "This action cannot be undone. This squawk will be hidden from you, and potentially deleted.", preferredStyle: .alert) // TO-DO: give brief reason
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            // change flagged Bool of story
             let childUpdates = ["/stories/\(self.storyKey)/Flagged": true]
             self.ref.updateChildValues(childUpdates)
+            
+            //add Flagger to story
+            self.ref.child("stories").child(self.storyKey).child("Flaggers").updateChildValues([self.uid: self.uid])
+            
+            // add integer to user's flagOther Int
+            self.ref.child("users").child(self.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                if let flagInt = (snapshot.value as? NSDictionary)?["FlagOthers"] as? Int {
+                    self.ref.child("users").child(self.uid).updateChildValues(["FlagOthers": flagInt+1])
+                } else {
+                    self.ref.child("users").child(self.uid).updateChildValues(["FlagOthers": 1])
+                }
+            })
+            
+            // add to flagged story node : storyKey + Location
+            self.ref.child("users").child(self.uid).child("FlaggedStories").updateChildValues([self.storyKey: self.location])
+                // say refresh map and won't see again >> TO-DO need to work out from MapViewController
+                // TO-DO delete the cell row?
+            
+            
+            // get badguy username, alert him he's been flagged > gotFlagged node
+            self.ref.child("stories").child(self.storyKey).observeSingleEvent(of: .value, with: { (snapshot) in
+                if let badGuy = (snapshot.value as? NSDictionary)?["User"] as? String {
+                    // add GotFlagged story node
+                    self.ref.child("users").child(badGuy).child("GotFlagged").updateChildValues([self.storyKey: self.location])
+                    
+                    // add GotFlaggedCount
+                    if let gotflagInt = (snapshot.value as? NSDictionary)?["GotFlaggedCount"] as? Int {
+                        self.ref.child("users").child(self.uid).updateChildValues(["GotFlaggedCount": gotflagInt+1])
+                    } else {
+                        self.ref.child("users").child(self.uid).updateChildValues(["GotFlaggedCount": 1])
+                    }
+                }
+                // >> TO-DO need to alert from MapViewController when BadGuy opens
+            })
+            
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)

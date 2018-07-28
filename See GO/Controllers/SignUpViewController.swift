@@ -25,12 +25,14 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
         let admin: Bool
         let username: String
         let uid: String
+        let flagothers: Int
         
         func toAnyObject() -> Any {
             return [
                 "Admin": admin,
                 "Username": username,
                 "UID": uid,
+                "FlagOthers": flagothers,
             ]
         }
     }
@@ -137,7 +139,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
                 let userID = Auth.auth().currentUser!.uid
                 
                 // Add user to database
-                let thisUser = userItem(admin: false, username: usernameTextD, uid: userID)
+                let thisUser = userItem(admin: false, username: usernameTextD, uid: userID, flagothers: 0)
                 self.userRef.child(userID).updateChildValues(thisUser.toAnyObject() as! [AnyHashable : Any])
                 
                 // Add Username & Email to User Defaults
