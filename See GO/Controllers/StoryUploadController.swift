@@ -15,6 +15,7 @@ import Firebase
 import CoreLocation
 import FirebaseStorage
 import os.log
+import Photos
 
 class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
     var handle: AuthStateDidChangeListenerHandle?
@@ -132,7 +133,33 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
         // Set photoImageView to display the selected image.
         photoImageView.image = selectedImage
         
-        /* TO-DO
+        /* Mr Soon tries to help
+         var localPath: URL?
+         var imageName: String?
+         
+         if picker.sourceType == .camera {
+         // Do something with an image from the camera
+         let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+         let imageUniqueName : Int64 = Int64(NSDate().timeIntervalSince1970 * 1000);
+         localPath = docDir.appendingPathComponent("\(imageUniqueName).png");
+         if let pngImageData = UIImagePNGRepresentation((info[UIImagePickerControllerOriginalImage] as? UIImage)!){
+         do {
+         try pngImageData.write(to : localPath! , options : .atomic)
+         } catch {
+         print("error saving")
+         }
+         }
+         } else {
+         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+         let imageUrl = info[UIImagePickerControllerImageURL] as? NSURL
+         imageName = imageUrl!.lastPathComponent
+         let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+         let photoURL = NSURL(fileURLWithPath: documentDirectory)
+         localPath = photoURL.appendingPathComponent(imageName!)
+         }
+         */
+        
+        /* TO-DO does following code adds to photo album?
         if picker.sourceType == .camera {
             UIImageWriteToSavedPhotosAlbum(selectedImage, nil, nil, nil)
             print("done")
