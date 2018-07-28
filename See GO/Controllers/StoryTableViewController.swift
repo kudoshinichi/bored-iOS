@@ -110,8 +110,7 @@ class StoryTableViewController: UITableViewController {
         print("deleting " + delStoryKey)
         let ref = Database.database().reference()
         
-        ref.child("stories").child(delStoryKey).observeSingleEvent(of: .value, with: { (snapshot) in
-            let storyNode =  snapshot as! DataSnapshot
+        ref.child("stories").child(delStoryKey).observeSingleEvent(of: .value, with: { storyNode in
             for viewerChild in storyNode.childSnapshot(forPath: "Viewers").children {
                 let user = viewerChild as! DataSnapshot
                 let userKey = user.key

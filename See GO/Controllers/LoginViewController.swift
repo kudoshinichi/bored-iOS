@@ -50,11 +50,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: Actions
     @IBAction func LoginAction(_ sender: Any) {
-        var emailOrUsername = emailText.text
+        let emailOrUsername = emailText.text
         let password = passwordText.text
         
-        print(emailOrUsername)
-        print(password)
+        print(emailOrUsername!)
+        print(password!)
         
         // Guard missing fields
         guard emailText.text != "", passwordText.text != "" else {
@@ -84,8 +84,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 alert.addAction(UIAlertAction(title: "Done", style: .cancel, handler:{(action:UIAlertAction!) in
                     let usernameField = alert.textFields![0]
                     let emailField = alert.textFields![1]
-                    print(usernameField.text)
-                    print(emailField.text)
+                    print(usernameField.text!)
+                    print(emailField.text!)
                     
                     UserDefaults.standard.set(emailField.text!, forKey: usernameField.text!)
                     
@@ -139,7 +139,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         self.present(alert, animated: true)
                         
                     default:
-                        print("Create User Error: \(error)")
+                        print("Create User Error: \(String(describing: error))")
                     }
                     
                 }

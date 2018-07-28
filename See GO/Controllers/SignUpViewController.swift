@@ -40,7 +40,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
     override func viewWillAppear(_ animated: Bool) {
         
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            if let user = user {
+            if user != nil {
                 print("User is signed in.")
             } else {
                 print("User is signed out.")
@@ -131,7 +131,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
                         self.present(alert, animated: true)
                         
                     default:
-                        print("Create User Error: \(error)")
+                        print("Create User Error: \(String(describing: error))")
                     }
                 }
             } else {

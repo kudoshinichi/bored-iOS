@@ -24,7 +24,6 @@ class MapViewController: UIViewController {
     var currentLocation: CLLocation?
     var mapView: GMSMapView!
     var zoomLevel: Float = 19.0
-    var markerArray = [GMSMarker]()
     
     // Firebase
     var ref: DatabaseReference!
@@ -81,7 +80,7 @@ class MapViewController: UIViewController {
                 let email = user.email
                 
                 print(self.uid)
-                print(email)
+                print(email!)
             } else {
                 print("user is signed out")
             }
@@ -227,7 +226,7 @@ class MapViewController: UIViewController {
                 self.ref.child("stories").observe(.value, with: { snapshot in
                     self.drawSquawks(filteredStoriesByLocation: self.filterStoriesBy(
                         filter: { (meta: StoryMeta) -> Bool in
-                            let story = snapshot.childSnapshot(forPath: meta.id) as! DataSnapshot
+                            let story = snapshot.childSnapshot(forPath: meta.id)
                             let storyTime = (story.value as? NSDictionary)?["Time"] as! Int
                             return storyTime >= earliestTime
                         }))
@@ -290,60 +289,31 @@ extension MapViewController: GMSMapViewDelegate {
         let storyLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
         marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
         marker.map = self.mapView
-        markerArray.append(marker) //RAWR
         
         let distanceMetres = (self.userLocation?.distance(from: storyLocation))!
-        var isNear: Bool
+        let isNear = (distanceMetres <= 500.0)
         var snipkeywords: String = ""
-        
-        if distanceMetres <= 500.0 {
-            isNear = true
-        } else {
-            isNear = false
-        }
         
         // Loads into userData
         marker.userData = ["key": storyKey, "near": isNear, "location": latitude + "," + longitude]
-        let data = marker.userData as! NSDictionary
-        let key1 = data["key"]
-        let near1 = data["near"]
-        
-        if !isNear {
-            marker.icon = GMSMarker.markerImage(with: .purple)
-            
-            if !storyKey.contains(",") {
-                self.ref.child("stories").child(storyKey).observe(.value, with: { snapshot in
-                    let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
-                    if keywords == nil {
-                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
-                    } else {
-                        snipkeywords = keywords!
-                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + snipkeywords + "\"."
-                    }
-                })
-            } else {
-                marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
-            }
-            
+        marker.icon = GMSMarker.markerImage(with: (isNear ? .green : .purple))
+        if storyKey.contains(",") {
+            marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
         } else {
-            marker.icon = GMSMarker.markerImage(with: .green)
-            
-            if !storyKey.contains(",") {
-                self.ref.child("stories").child(storyKey).observe(.value, with: { snapshot in
-                    let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
-                    if keywords == nil {
-                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk. Tap to open!"
-                    } else {
-                        snipkeywords = keywords!
-                        marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + snipkeywords + "\". Tap to open!"
-                    }
-                })
-            } else {
-                marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
-            }
+            self.ref.child("stories").child(storyKey).observe(.value, with: { snapshot in
+                let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
+                if keywords == nil {
+                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
+                } else {
+                    snipkeywords = keywords!
+                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + snipkeywords + "\"."
+                }
+                if isNear {
+                    marker.snippet = marker.snippet! + " Tap to open!"
+                }
+            })
         }
     }
-    
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         print("You tapped the infowindow! :o")
@@ -358,20 +328,13 @@ extension MapViewController: GMSMapViewDelegate {
             self.performSegue(withIdentifier: "ShowStoryTableSegue", sender: self)
         }
     }
-    
-    func mapFilterSquawks(){
-        mapView.clear()
-        for hashtagItem in filteredSquawks{
-            addMarker(latitude: hashtagItem.latitude, longitude: hashtagItem.longitude, storyKey: hashtagItem.storyKey)
-        }
-    }
 }
 
 // Delegates to handle events for the location manager.
 extension MapViewController: CLLocationManagerDelegate {
     func drawSquawks(filteredStoriesByLocation: [String: [StoryMeta]]) {
         mapView.clear()
-        for (key, metas) in filteredStoriesByLocation {
+        for (_, metas) in filteredStoriesByLocation {
             var storyKeys: [String] = []
             for meta in metas {
                 storyKeys.append(meta.id)
@@ -463,7 +426,6 @@ extension MapViewController: CLLocationManagerDelegate {
 extension MapViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let searchBar = searchController.searchBar
-        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
         currentScope = Scope(rawValue: searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex])
         hashtagSearchText = searchController.searchBar.text!
         filterStoriesByScope()

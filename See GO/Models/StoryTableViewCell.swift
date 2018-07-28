@@ -88,10 +88,10 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     func getInfoFromDatabase(completion: @escaping (_ success: Bool) -> Void) {
         ref.child("stories").child(self.storyKey).observeSingleEvent(of: .value, with: { (snapshot) in
             
-            self.caption = (snapshot.value as? NSDictionary)?["Caption"] as! String
+            self.caption = (snapshot.value as? NSDictionary)?["Caption"] as? String
             self.views = (snapshot.value as? NSDictionary)?["Views"] as! Int
             self.votes = (snapshot.value as? NSDictionary)?["Votes"] as! Int
-            self.URL = (snapshot.value as? NSDictionary)?["URI"] as! String
+            self.URL = (snapshot.value as? NSDictionary)?["URI"] as? String
             //self.featured = (snapshot.value as? NSDictionary)?["Featured"] as! Bool
             //self.flagged = (snapshot.value as? NSDictionary)?["Flagged"] as! Bool
             
@@ -134,7 +134,7 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     func loadInfoOntoUI() {
         captionText.text = self.caption
         captionText.resolveTags()
-        print(self.caption)
+        print(self.caption!)
         viewText.text = String(views) + " views"
         voteText.text = String(votes)
     }
@@ -152,7 +152,7 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
             // 1) Update flagged STORY
             let childUpdates = ["/stories/\(self.storyKey)/Flagged": true]
             self.ref.updateChildValues(childUpdates)
-            self.ref.child("stories").child(self.storyKey).child("Flaggers").updateChildValues([self.uid: reasonField.text])
+            self.ref.child("stories").child(self.storyKey).child("Flaggers").updateChildValues([self.uid: reasonField.text!])
             
             // 2) Update FLAGGER's User
             self.ref.child("users").child(self.uid).observeSingleEvent(of: .value, with: { (snapshot) in

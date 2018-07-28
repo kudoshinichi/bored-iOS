@@ -371,7 +371,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
         let storeRef = storageRef.child(imageNameHolder)
         // Delete the file
         storeRef.delete { error in
-            if let error = error {
+            if error != nil {
                 // Uh-oh, an error occurred!
             } else {
                 // File deleted successfully
