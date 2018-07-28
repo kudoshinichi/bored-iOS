@@ -149,14 +149,12 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
         alert.addAction(UIAlertAction(title: "Flag", style: .default, handler: { action in
             let reasonField = alert.textFields![0]
             
-            // change flagged Bool of story
+            // 1) Update flagged STORY
             let childUpdates = ["/stories/\(self.storyKey)/Flagged": true]
             self.ref.updateChildValues(childUpdates)
-            
-            //add Flagger to story
             self.ref.child("stories").child(self.storyKey).child("Flaggers").updateChildValues([self.uid: reasonField.text])
             
-            // add integer to user's flagOther Int
+            // 2) Update FLAGGER's User
             self.ref.child("users").child(self.uid).observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 if let flagInt = (snapshot.value as? NSDictionary)?["FlagOthers"] as? Int {
@@ -165,19 +163,15 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                     self.ref.child("users").child(self.uid).updateChildValues(["FlagOthers": 1])
                 }
             })
-            
-            // add to flagged story node : storyKey + Location
             self.ref.child("users").child(self.uid).child("FlaggedStories").updateChildValues([self.storyKey: self.location])
-                // say refresh map and won't see again >> TO-DO need to work out from MapViewController
-                // TO-DO delete the cell row?
+                // TO-DO map no longer displays story
+                // TO-DO delete cell row
             
-            
-            // get badguy username, alert him he's been flagged > gotFlagged node
+            // 3) Update BADGUY's User
             self.ref.child("stories").child(self.storyKey).observeSingleEvent(of: .value, with: { (snapshot) in
                 if let badGuy = (snapshot.value as? NSDictionary)?["User"] as? String {
                     // add GotFlagged story node
                     self.ref.child("users").child(badGuy).child("GotFlagged").updateChildValues([self.storyKey: self.location])
-                    
                     // add GotFlaggedCount
                     if let gotflagInt = (snapshot.value as? NSDictionary)?["GotFlaggedCount"] as? Int {
                         self.ref.child("users").child(self.uid).updateChildValues(["GotFlaggedCount": gotflagInt+1])
@@ -185,8 +179,11 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                         self.ref.child("users").child(self.uid).updateChildValues(["GotFlaggedCount": 1])
                     }
                 }
-                // >> TO-DO need to alert from MapViewController when BadGuy opens
+                // TO-DO alert BadGuy his story with "hook" is flagged
             })
+            
+            // 4) Update flaggedstories MEGANODE
+            self.ref.child("flaggedstories").updateChildValues([self.storyKey: self.location]) // for Admin app to parse easily
             
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
