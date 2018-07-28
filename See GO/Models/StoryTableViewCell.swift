@@ -143,13 +143,18 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     
     @IBAction func reportStory(_ sender: UIButton) {
         let alert = UIAlertController(title: "Flag this squawk?", message: "This action cannot be undone. This squawk will be hidden from you, and potentially deleted.", preferredStyle: .alert) // TO-DO: give brief reason
-        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+        alert.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = "Please give brief reason(s)."
+        })
+        alert.addAction(UIAlertAction(title: "Flag", style: .default, handler: { action in
+            let reasonField = alert.textFields![0]
+            
             // change flagged Bool of story
             let childUpdates = ["/stories/\(self.storyKey)/Flagged": true]
             self.ref.updateChildValues(childUpdates)
             
             //add Flagger to story
-            self.ref.child("stories").child(self.storyKey).child("Flaggers").updateChildValues([self.uid: self.uid])
+            self.ref.child("stories").child(self.storyKey).child("Flaggers").updateChildValues([self.uid: reasonField.text])
             
             // add integer to user's flagOther Int
             self.ref.child("users").child(self.uid).observeSingleEvent(of: .value, with: { (snapshot) in
