@@ -133,66 +133,86 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
         // Set photoImageView to display the selected image.
         photoImageView.image = selectedImage
         
-        /* Mr Soon tries to help
-         var localPath: URL?
-         var imageName: String?
-         
-         if picker.sourceType == .camera {
-         // Do something with an image from the camera
-         let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-         let imageUniqueName : Int64 = Int64(NSDate().timeIntervalSince1970 * 1000);
-         localPath = docDir.appendingPathComponent("\(imageUniqueName).png");
-         if let pngImageData = UIImagePNGRepresentation((info[UIImagePickerControllerOriginalImage] as? UIImage)!){
-         do {
-         try pngImageData.write(to : localPath! , options : .atomic)
-         } catch {
-         print("error saving")
-         }
-         }
-         } else {
-         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-         let imageUrl = info[UIImagePickerControllerImageURL] as? NSURL
-         imageName = imageUrl!.lastPathComponent
-         let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-         let photoURL = NSURL(fileURLWithPath: documentDirectory)
-         localPath = photoURL.appendingPathComponent(imageName!)
-         }
-         */
-        
-        /* TO-DO does following code adds to photo album?
         if picker.sourceType == .camera {
-            UIImageWriteToSavedPhotosAlbum(selectedImage, nil, nil, nil)
-            print("done")
-        }*/
-        
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let imageUrl          = info[UIImagePickerControllerImageURL] as? NSURL
-        let imageName         = imageUrl?.lastPathComponent
-        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-        let photoURL          = NSURL(fileURLWithPath: documentDirectory)
-        let localPath         = photoURL.appendingPathComponent(imageName!)
-        
-        if !FileManager.default.fileExists(atPath: localPath!.path) {
-            do {
-                try UIImageJPEGRepresentation(image, 1.0)?.write(to: localPath!)
-                print("file saved")
-            }catch {
-                print("error saving file")
+            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+            // get the documents directory url
+            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            
+            // choose a name for your image
+            let date :NSDate = NSDate()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'_'HH_mm_ss"
+            dateFormatter.timeZone = NSTimeZone(name: "GMT") as! TimeZone
+            
+            let fileName = "/\(dateFormatter.string(from: date as Date)).jpg"
+            
+            // create the destination file url to save your image
+            let fileURL = documentsDirectory.appendingPathComponent(fileName)
+            // get your UIImage jpeg data representation and check if the destination file url already exists
+            if let data = UIImageJPEGRepresentation(image, 1.0),
+                !FileManager.default.fileExists(atPath: fileURL.path) {
+                do {
+                    // writes the image data to disk
+                    try data.write(to: fileURL)
+                    print("file saved")
+                } catch {
+                    print("error saving file:", error)
+                }
             }
+            
+            imageNameS = fileName
+            
+            storetoStorage(localPath: fileURL.absoluteString, imageName: imageNameS)
+           
+        } else if picker.sourceType == .photoLibrary {
+            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+            let imageUrl          = info[UIImagePickerControllerImageURL] as? NSURL
+            let imageName         = imageUrl?.lastPathComponent
+            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+            let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+            let localPath         = photoURL.appendingPathComponent(imageName!)
+            
+            if !FileManager.default.fileExists(atPath: localPath!.path) {
+                do {
+                    try UIImageJPEGRepresentation(image, 1.0)?.write(to: localPath!)
+                    print("file saved")
+                    print("blop")
+                }catch {
+                    print("error saving file")
+                    print("blop")
+                }
+            }
+            else {
+                print("file already exists")
+                print("blop")
+            }
+            
+            imageNameS = imageName!
+            
+            storetoStorage(localPath: localPath!.absoluteString, imageName: imageNameS)
         }
-        else {
-            print("file already exists")
-        }
-        
-        imageNameS = imageName!
-        
-        storetoStorage(localPath: localPath!.absoluteString, imageName: imageNameS)
         
         imageChosen = true
+
         
         // Dismiss the picker.
         dismiss(animated: true, completion: nil)
     }
+    
+    func addAsset(image: UIImage, to album: PHAssetCollection) {
+        PHPhotoLibrary.shared().performChanges({
+            // Request creating an asset from the image.
+            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
+            // Request editing the album.
+            guard let addAssetRequest = PHAssetCollectionChangeRequest(for: album)
+                else { return }
+            // Get a placeholder for the new asset and add it to the album editing request.
+            addAssetRequest.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
+        }, completionHandler: { success, error in
+            if !success { NSLog("error creating asset: \(error)") }
+        })
+    }
+    
     
     //MARK: Store Things to Firebase
     func storetoStorage(localPath: String, imageName: String) {
@@ -463,5 +483,62 @@ extension UIViewController {
                 self.view.frame.origin.y += keyboardSize.height
             }
         }
+    }
+}
+
+
+final class PhotoAlbumHelper: NSObject {
+    
+    static let albumName = "See GO"
+    static let shared = PhotoAlbumHelper()
+    
+    var assetCollection: PHAssetCollection?
+    var failedPhotos = [UIImage]()
+    
+    func fetchAssetCollectionForAlbum() -> PHAssetCollection? {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.predicate = NSPredicate(format: "title = %@", PhotoAlbumHelper.albumName)
+        let collections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
+        
+        if let collection = collections.firstObject {
+            return collection
+        }
+        return nil
+    }
+    
+    func createAlbum() {
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: PhotoAlbumHelper.albumName) // create an asset collection with the album name
+        }) { [weak self] success, error in
+            if success {
+                guard let `self` = self else { return }
+                self.assetCollection = self.fetchAssetCollectionForAlbum()
+                while self.failedPhotos.count > 0 {
+                    self.saveImage(self.failedPhotos.removeFirst())
+                }
+            } else {
+                print(error)
+            }
+        }
+    }
+    
+    func saveImage(_ image: UIImage) {
+        assetCollection = fetchAssetCollectionForAlbum()
+        if assetCollection == nil {
+            failedPhotos.append(image)
+            createAlbum()
+            return
+        }
+        guard let album = assetCollection else { return }
+        PHPhotoLibrary.shared().performChanges({
+            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
+            guard let addAssetRequest = PHAssetCollectionChangeRequest(for: album) else { return }
+            let index = IndexSet(integer: 0)
+            addAssetRequest.insertAssets([creationRequest.placeholderForCreatedAsset!] as NSArray, at: index)
+        }, completionHandler: { success, error in
+            if !success {
+                print(error)
+            }
+        })
     }
 }
