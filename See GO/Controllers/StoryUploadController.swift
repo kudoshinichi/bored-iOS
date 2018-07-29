@@ -134,9 +134,11 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
         photoImageView.image = selectedImage
         
         if picker.sourceType == .camera {
-            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+            let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
             // get the documents directory url
             let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            
+            let image = originalImage.resizeWithWidth(width: 500)!
             
             // choose a name for your image
             let date :NSDate = NSDate()
@@ -165,7 +167,8 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
             storetoStorage(localPath: fileURL.absoluteString, imageName: imageNameS)
            
         } else if picker.sourceType == .photoLibrary {
-            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+            let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+            let image = originalImage.resizeWithWidth(width: 500)!
             let imageUrl          = info[UIImagePickerControllerImageURL] as? NSURL
             let imageName         = imageUrl?.lastPathComponent
             let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
@@ -486,59 +489,16 @@ extension UIViewController {
     }
 }
 
-
-final class PhotoAlbumHelper: NSObject {
-    
-    static let albumName = "See GO"
-    static let shared = PhotoAlbumHelper()
-    
-    var assetCollection: PHAssetCollection?
-    var failedPhotos = [UIImage]()
-    
-    func fetchAssetCollectionForAlbum() -> PHAssetCollection? {
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.predicate = NSPredicate(format: "title = %@", PhotoAlbumHelper.albumName)
-        let collections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
-        
-        if let collection = collections.firstObject {
-            return collection
-        }
-        return nil
-    }
-    
-    func createAlbum() {
-        PHPhotoLibrary.shared().performChanges({
-            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: PhotoAlbumHelper.albumName) // create an asset collection with the album name
-        }) { [weak self] success, error in
-            if success {
-                guard let `self` = self else { return }
-                self.assetCollection = self.fetchAssetCollectionForAlbum()
-                while self.failedPhotos.count > 0 {
-                    self.saveImage(self.failedPhotos.removeFirst())
-                }
-            } else {
-                print(error)
-            }
-        }
-    }
-    
-    func saveImage(_ image: UIImage) {
-        assetCollection = fetchAssetCollectionForAlbum()
-        if assetCollection == nil {
-            failedPhotos.append(image)
-            createAlbum()
-            return
-        }
-        guard let album = assetCollection else { return }
-        PHPhotoLibrary.shared().performChanges({
-            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
-            guard let addAssetRequest = PHAssetCollectionChangeRequest(for: album) else { return }
-            let index = IndexSet(integer: 0)
-            addAssetRequest.insertAssets([creationRequest.placeholderForCreatedAsset!] as NSArray, at: index)
-        }, completionHandler: { success, error in
-            if !success {
-                print(error)
-            }
-        })
-    }
+extension UIImage {
+    func resizeWithWidth(width: CGFloat) -> UIImage? {
+        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))))
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = self
+        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        imageView.layer.render(in: context)
+        guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+        UIGraphicsEndImageContext()
+        return result
+}
 }

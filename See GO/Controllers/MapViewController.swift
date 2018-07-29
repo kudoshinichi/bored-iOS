@@ -82,7 +82,6 @@ class MapViewController: UIViewController {
                 
                 self.ref.child("users").child(self.uid).child("GotFlagged").observe(.value, with: { snapshot in
                     for child in snapshot.children{
-                        guard (child as! DataSnapshot).value as! String == "" else { return }
                         let alertedBefore = (child as! DataSnapshot).value as! Int
                         if alertedBefore == 0 {
                             var hookText: String = ""
