@@ -87,6 +87,10 @@ class MapViewController: UIViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        updateLocations()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         Auth.auth().removeStateDidChangeListener(handle!)
     }
@@ -358,12 +362,14 @@ extension MapViewController: CLLocationManagerDelegate {
         }
         userLocation = locations.last!
         
-        let curTime = Int(NSDate().timeIntervalSince1970 * 1000)
-        if curTime - lastLocationUpdate <= MIN_LOCATION_UPDATE_DELAY_MILLIS {
+        if Int(NSDate().timeIntervalSince1970 * 1000) - lastLocationUpdate <= MIN_LOCATION_UPDATE_DELAY_MILLIS {
             return
         }
-        
-        lastLocationUpdate = curTime
+        updateLocations()
+    }
+    
+    func updateLocations() {
+        lastLocationUpdate = Int(NSDate().timeIntervalSince1970 * 1000)
         storiesByLocation = [:]
         ref.child("locations").observe(.value, with: { snapshot in
             self.ref.child("users").child(self.uid).child("FlaggedStories").observe(.value, with: { flaggedStories in
