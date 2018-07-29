@@ -137,21 +137,6 @@ class MapViewController: UIViewController {
         hashtagSearchText = ""
         searchController.searchBar.delegate = self
     }
-
-    func checkIfRead (untestedStoryKey: String) -> Bool {
-        var isRead: Bool = false
-        self.ref.child("users").child(self.uid).child("ReadStories").observeSingleEvent(of: .value, with: { (snapshot) in
-            print(snapshot)
-            if !snapshot.hasChild(untestedStoryKey) {
-                // story is unread
-                isRead = false
-            } else {
-                print(untestedStoryKey)
-                isRead = true
-            }
-        })
-        return isRead
-    }
     
     //MARK: Navigation
     // Unwind segue
@@ -381,20 +366,31 @@ extension MapViewController: CLLocationManagerDelegate {
         lastLocationUpdate = curTime
         storiesByLocation = [:]
         ref.child("locations").observe(.value, with: { snapshot in
-            for child in snapshot.children  {
-                let valueD = child as! DataSnapshot
-                let keyD = valueD.key // location with "d"
-                let key = keyD.replacingOccurrences(of: "d", with: ".") // location with "."
-                let locationArray = key.split(separator:",") // splits location into longitude and latitude
-                let latitude: String = String(locationArray[0])
-                let longitude: String = String(locationArray[1])
-                self.storiesByLocation[key] = []
-                for grandchild in (child as AnyObject).children {
-                    let valueD = grandchild as! DataSnapshot
-                    self.storiesByLocation[key]!.append(StoryMeta(longitude: longitude, latitude: latitude, id: valueD.key))
+            self.ref.child("users").child(self.uid).child("FlaggedStories").observe(.value, with: { flaggedStories in
+                var flaggedIds:[String] = []
+                for flaggedStory in flaggedStories.children {
+                    flaggedIds.append((flaggedStory as! DataSnapshot).key)
                 }
-            }
-            self.filterStoriesByScope()
+                for child in snapshot.children  {
+                    let valueD = child as! DataSnapshot
+                    let keyD = valueD.key // location with "d"
+                    let key = keyD.replacingOccurrences(of: "d", with: ".") // location with "."
+                    let locationArray = key.split(separator:",") // splits location into longitude and latitude
+                    let latitude: String = String(locationArray[0])
+                    let longitude: String = String(locationArray[1])
+                    var stories: [StoryMeta] = []
+                    for grandchild in (child as AnyObject).children {
+                        let valueD = grandchild as! DataSnapshot
+                        if !flaggedIds.contains(valueD.key) {
+                            stories.append(StoryMeta(longitude: longitude, latitude: latitude, id: valueD.key))
+                        }
+                    }
+                    if stories.count > 0 {
+                        self.storiesByLocation[key] = stories
+                    }
+                }
+                self.filterStoriesByScope()
+            })
         })
     }
     
