@@ -47,6 +47,7 @@ class MapViewController: UIViewController {
     
     //user info
     var uid: String = ""
+    var disabled: Int = 0
     
     enum Scope :String {
         case All
@@ -98,6 +99,12 @@ class MapViewController: UIViewController {
                         }
                     }
                     print("done")
+                })
+                
+                self.ref.child("users").child(self.uid).observe(.value, with: {snapshot in
+                    if let dataDisabled = (snapshot.value as? NSDictionary)?["Disabled"] as? Int {
+                        self.disabled = dataDisabled
+                    }
                 })
                 
                 print(self.uid)
@@ -192,6 +199,12 @@ class MapViewController: UIViewController {
             let acceptedTOC = UserDefaults.standard.bool(forKey: "acceptedTOC")
             if !acceptedTOC {
                 self.performSegue(withIdentifier: "MapToTOC", sender: self)
+                return false
+            } else if disabled == 1 {
+                let alert = UIAlertController(title: "Squawking disabled.", message: "Due to your recently flagged squawk, squawking is temporarily suspended. You may try again in a few hours.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+                
                 return false
             }
             return true

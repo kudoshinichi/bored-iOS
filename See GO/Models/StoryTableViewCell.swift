@@ -164,7 +164,6 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                 }
             })
             self.ref.child("users").child(self.uid).child("FlaggedStories").updateChildValues([self.storyKey: self.location])
-                // TO-DO map no longer displays story
                 // TO-DO delete cell row
             
             // 3) Update BADGUY's User
@@ -172,6 +171,8 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                 if let badGuy = (snapshot.value as? NSDictionary)?["User"] as? String {
                     // add GotFlagged story node
                     self.ref.child("users").child(badGuy).child("GotFlagged").updateChildValues([self.storyKey:0])
+                    // make disabled
+                    self.ref.child("users").child(badGuy).updateChildValues(["Disabled":1])
                     // add GotFlaggedCount
                     if let gotflagInt = (snapshot.value as? NSDictionary)?["GotFlaggedCount"] as? Int {
                         self.ref.child("users").child(self.uid).updateChildValues(["GotFlaggedCount": gotflagInt+1])
@@ -179,7 +180,6 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                         self.ref.child("users").child(self.uid).updateChildValues(["GotFlaggedCount": 1])
                     }
                 }
-                // TO-DO alert BadGuy his story with "hook" is flagged
             })
             
             // 4) Update flaggedstories MEGANODE
