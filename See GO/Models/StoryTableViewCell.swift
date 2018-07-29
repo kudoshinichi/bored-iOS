@@ -171,7 +171,7 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
             self.ref.child("stories").child(self.storyKey).observeSingleEvent(of: .value, with: { (snapshot) in
                 if let badGuy = (snapshot.value as? NSDictionary)?["User"] as? String {
                     // add GotFlagged story node
-                    self.ref.child("users").child(badGuy).child("GotFlagged").updateChildValues([self.storyKey: self.location])
+                    self.ref.child("users").child(badGuy).child("GotFlagged").updateChildValues([self.storyKey:0])
                     // add GotFlaggedCount
                     if let gotflagInt = (snapshot.value as? NSDictionary)?["GotFlaggedCount"] as? Int {
                         self.ref.child("users").child(self.uid).updateChildValues(["GotFlaggedCount": gotflagInt+1])

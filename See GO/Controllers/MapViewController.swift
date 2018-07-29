@@ -59,7 +59,7 @@ class MapViewController: UIViewController {
     var currentScope: Scope!
     var hashtagSearchText: String!
     
-    let MIN_LOCATION_UPDATE_DELAY_MILLIS = 5000
+    let MIN_LOCATION_UPDATE_DELAY_MILLIS = 30 * 1000
     var lastLocationUpdate: Int = 0
     
     struct StoryMeta {
@@ -78,6 +78,27 @@ class MapViewController: UIViewController {
                 // if you have one. Use getTokenWithCompletion:completion: instead.
                 self.uid = user.uid
                 let email = user.email
+                
+                self.ref.child("users").child(self.uid).child("GotFlagged").observe(.value, with: { snapshot in
+                    for child in snapshot.children{
+                        let alertedBefore = (child as! DataSnapshot).value as! Int
+                        if alertedBefore == 0 {
+                            var hookText: String = ""
+                            let storyKey = (child as! DataSnapshot).key
+                            self.ref.child("stories").child(storyKey).observeSingleEvent(of: .value, with: {snapshot in
+                                hookText = (snapshot.value as? NSDictionary)?["Keywords"] as! String
+                                // alert for that story
+                                let alert = UIAlertController(title: "Your squawk was flagged", message: "Your squawk containing \"" + hookText + "\" was flagged. Having more flagged stories may cause your account to be disabled.", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: {(action:UIAlertAction!) in
+                                    // change integer to 1
+                                    self.ref.child("users").child(self.uid).child("GotFlagged").updateChildValues([storyKey:1])
+                                }))
+                                self.present(alert, animated: true)
+                            })
+                        }
+                    }
+                    print("done")
+                })
                 
                 print(self.uid)
                 print(email!)
