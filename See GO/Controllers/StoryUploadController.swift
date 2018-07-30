@@ -88,6 +88,8 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
+        
+        pickImage()
     }
 
     // gets location to be used in database

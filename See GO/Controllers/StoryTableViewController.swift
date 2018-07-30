@@ -148,7 +148,14 @@ class StoryTableViewController: UITableViewController {
             // delete photo from storage
             let imageURI = storyNode.childSnapshot(forPath: "URI").value as! String
             let storage = Storage.storage()
-            storage.reference(forURL: imageURI).delete(completion: nil)
+            let reference = storage.reference(forURL: imageURI)
+            reference.delete { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    print("deleted from storage")
+                }
+            }
             
             ref.child("stories").child(delStoryKey).removeValue()
         })
@@ -162,4 +169,16 @@ class StoryTableViewController: UITableViewController {
      }
      */
   
+}
+
+extension String {
+    
+    func slice(from: String, to: String) -> String? {
+        
+        return (range(of: from)?.upperBound).flatMap { substringFrom in
+            (range(of: to, range: substringFrom..<endIndex)?.lowerBound).map { substringTo in
+                String(self[substringFrom..<substringTo])
+            }
+        }
+    }
 }
