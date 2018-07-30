@@ -64,12 +64,12 @@ class StoryTableViewController: UITableViewController {
         cell.wing0.alpha = 0
         cell.wing1.alpha = 0
         cell.deleteSquawkButton.alpha = 0
-        cell.load(storyKey: String(oneStory), uid: self.uid, location: self.storyLocation)
+        cell.load(storyKey: String(oneStory), uid: self.uid, location: self.storyLocation, indexPath: indexPath, tableView: tableView, controller: self)
 
         return cell
     }
     
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         let oneStory = story[indexPath.row]
         let ref = Database.database().reference()
@@ -102,9 +102,13 @@ class StoryTableViewController: UITableViewController {
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                 self.present(alert, animated: true)
             }
-            
         }
-     }
+    }
+    
+    func flagStory(tableView: UITableView, indexPath: IndexPath) {
+        self.story.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+    }
     
     func deleteFromEverywhere(delStoryKey: String) {
         print("deleting " + delStoryKey)

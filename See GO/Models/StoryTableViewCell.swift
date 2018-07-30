@@ -30,6 +30,9 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     
     var uid: String = ""
     var location: String = ""
+    var indexPath: IndexPath?
+    var tableView: UITableView?
+    var controller: StoryTableViewController?
     
     @IBOutlet weak var storyImage: UIImageView!
     @IBOutlet weak var captionText: UITextView!
@@ -39,11 +42,14 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var wing1: UIImageView!
     @IBOutlet weak var deleteSquawkButton: UIButton!
     
-    func load(storyKey: String, uid: String, location: String) {
+    func load(storyKey: String, uid: String, location: String, indexPath: IndexPath, tableView: UITableView, controller: StoryTableViewController) {
         
         self.storyKey = storyKey
         self.uid = uid
         self.location = location
+        self.indexPath = indexPath
+        self.tableView = tableView
+        self.controller = controller
         print("transferred " + self.storyKey)
         
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
@@ -185,6 +191,8 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
             // 4) Update flaggedstories MEGANODE
             self.ref.child("flaggedstories").updateChildValues([self.storyKey: self.location]) // for Admin app to parse easily
             
+            // 5) Remove flagged story from display
+            self.controller!.flagStory(tableView: self.tableView!, indexPath: self.indexPath!)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
