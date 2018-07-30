@@ -185,11 +185,6 @@ class MapViewController: UIViewController {
             vc?.storyLocation = showStoryLocation
             vc?.uid = self.uid
         }
-        
-        // Before segue to AddSquawk, see if user has agreed to Terms and Conditions
-        if segue.destination is StoryUploadController{
-            let acceptedTOC = UserDefaults.standard.bool(forKey: "acceptedTOC")
-        }
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -359,7 +354,7 @@ extension MapViewController: CLLocationManagerDelegate {
         mapView.clear()
         // if there are no squawks to be drawn, give a timed alert
         if filteredStoriesByLocation.isEmpty {
-            let alert = UIAlertController(title: nil, message: "No story to display", preferredStyle: .alert)
+            let alert = UIAlertController(title: nil, message: "No squawk to display", preferredStyle: .alert)
             self.present(alert, animated: true)
             let alertDuration = 2.0
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + alertDuration) {
