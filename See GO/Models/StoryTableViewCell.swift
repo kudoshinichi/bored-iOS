@@ -179,12 +179,15 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
                     self.ref.child("users").child(badGuy).child("GotFlagged").updateChildValues([self.storyKey:0])
                     // make disabled
                     self.ref.child("users").child(badGuy).updateChildValues(["Disabled":1])
-                    // add GotFlaggedCount
-                    if let gotflagInt = (snapshot.value as? NSDictionary)?["GotFlaggedCount"] as? Int {
-                        self.ref.child("users").child(self.uid).updateChildValues(["GotFlaggedCount": gotflagInt+1])
-                    } else {
-                        self.ref.child("users").child(self.uid).updateChildValues(["GotFlaggedCount": 1])
-                    }
+                    
+                    self.ref.child("users").child(self.uid).observeSingleEvent(of: .value, with: { (bgSnapshot) in
+                        // add GotFlaggedCount
+                        if let gotflagInt = (bgSnapshot.value as? NSDictionary)?["GotFlaggedCount"] as? Int {
+                            self.ref.child("users").child(self.uid).updateChildValues(["GotFlaggedCount": gotflagInt+1])
+                        } else {
+                            self.ref.child("users").child(self.uid).updateChildValues(["GotFlaggedCount": 1])
+                        }
+                    })
                 }
             })
             
