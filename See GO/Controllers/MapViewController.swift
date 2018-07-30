@@ -357,26 +357,24 @@ extension MapViewController: GMSMapViewDelegate {
 extension MapViewController: CLLocationManagerDelegate {
     func drawSquawks(filteredStoriesByLocation: [String: [StoryMeta]]) {
         mapView.clear()
-        for (_, metas) in filteredStoriesByLocation {
-            var storyKeys: [String] = []
-            for meta in metas {
-                storyKeys.append(meta.id)
-            }
-            let storyKey = storyKeys.joined(separator: ",")
-            self.addMarker(latitude: metas[0].latitude, longitude: metas[0].longitude, storyKey: storyKey)
-        }
         // if there are no squawks to be drawn, give a timed alert
-        /*
-        let message = "Some message..."
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        self.present(alert, animated: true)
-        
-        // duration in seconds
-        let duration: Double = 5
-        
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
-            alert.dismiss(animated: true)
-        }*/
+        if filteredStoriesByLocation.isEmpty {
+            let alert = UIAlertController(title: nil, message: "No story to display", preferredStyle: .alert)
+            self.present(alert, animated: true)
+            let alertDuration = 2.0
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + alertDuration) {
+                alert.dismiss(animated: true)
+            }
+        } else {
+            for (_, metas) in filteredStoriesByLocation {
+                var storyKeys: [String] = []
+                for meta in metas {
+                    storyKeys.append(meta.id)
+                }
+                let storyKey = storyKeys.joined(separator: ",")
+                self.addMarker(latitude: metas[0].latitude, longitude: metas[0].longitude, storyKey: storyKey)
+            }
+        }
     }
     
     // Handle incoming location events.

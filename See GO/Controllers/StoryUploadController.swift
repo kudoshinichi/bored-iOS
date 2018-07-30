@@ -146,7 +146,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
             let date :NSDate = NSDate()
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'_'HH_mm_ss"
-            dateFormatter.timeZone = NSTimeZone(name: "GMT") as! TimeZone
+            dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone?
             
             let fileName = "/\(dateFormatter.string(from: date as Date)).jpg"
             
@@ -166,7 +166,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
             
             imageNameS = fileName
             
-            storetoStorage(localPath: fileURL.absoluteString, imageName: imageNameS)
+            storeToStorage(localPath: fileURL.absoluteString, imageName: imageNameS)
            
         } else if picker.sourceType == .photoLibrary {
             let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
@@ -194,7 +194,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
             
             imageNameS = imageName!
             
-            storetoStorage(localPath: localPath!.absoluteString, imageName: imageNameS)
+            storeToStorage(localPath: localPath!.absoluteString, imageName: imageNameS)
         }
         
         imageChosen = true
@@ -214,13 +214,13 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
             // Get a placeholder for the new asset and add it to the album editing request.
             addAssetRequest.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
         }, completionHandler: { success, error in
-            if !success { NSLog("error creating asset: \(error)") }
+            if !success { NSLog("error creating asset: \(String(describing: error))") }
         })
     }
     
     
     //MARK: Store Things to Firebase
-    func storetoStorage(localPath: String, imageName: String) {
+    func storeToStorage(localPath: String, imageName: String) {
         
         // get file from local disk with path
         let localFile = URL(string: localPath)!
