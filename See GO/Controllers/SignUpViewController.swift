@@ -85,6 +85,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
     }
     
     // MARK: Actions
+    @IBAction func unwindToSignIn(segue: UIStoryboardSegue) {
+        print("Unwind segue to main screen triggered!")
+    }
+    
     @IBAction func createAccount(_ sender: Any) {
         
         guard emailText.text != "", passwordText.text != "", usernameText.text != "" else {

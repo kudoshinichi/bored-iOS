@@ -49,6 +49,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: Actions
+    
     @IBAction func LoginAction(_ sender: Any) {
         let emailOrUsername = emailText.text
         let password = passwordText.text
@@ -80,8 +81,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 alert.addTextField(configurationHandler: { (textField) in
                     textField.placeholder = "Email"
                 })
-                alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
-                alert.addAction(UIAlertAction(title: "Done", style: .cancel, handler:{(action:UIAlertAction!) in
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Done", style: .default, handler:{(action:UIAlertAction!) in
                     let usernameField = alert.textFields![0]
                     let emailField = alert.textFields![1]
                     print(usernameField.text!)

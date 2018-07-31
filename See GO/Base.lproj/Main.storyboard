@@ -1145,7 +1145,7 @@
                                             <action selector="forgetPassword:" destination="Wnn-Ab-AY6" eventType="touchUpInside" id="Dhc-wR-Ud9"/>
                                             <action selector="forgetPassword:" destination="lSB-0B-5CT" eventType="touchUpInside" id="jGZ-1k-Mjx"/>
                                             <action selector="forgetPassworkd:" destination="Wnn-Ab-AY6" eventType="touchUpInside" id="UbR-th-6XE"/>
-                                            <segue destination="joX-Dy-sSE" kind="show" id="vbU-e3-clN"/>
+                                            <segue destination="Wnn-Ab-AY6" kind="unwind" unwindAction="unwindToSignInSegue:" id="ksT-1V-iG4"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1201,19 +1201,18 @@
         <image name="found" width="94" height="94"/>
         <image name="get_like" width="90" height="90"/>
         <image name="google_login" width="190" height="50"/>
-        <image name="home" width="28" height="28"/>
+        <image name="home" width="25" height="25"/>
         <image name="like" width="90" height="90"/>
-        <image name="profile" width="28" height="28"/>
+        <image name="profile" width="25" height="25"/>
         <image name="report" width="20" height="20"/>
-        <image name="settings" width="28" height="28"/>
+        <image name="settings" width="25" height="25"/>
         <image name="squawk" width="90" height="90"/>
         <image name="welcome" width="250" height="250"/>
         <image name="wing0" width="17" height="17"/>
         <image name="wing1" width="17" height="17"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PGT-49-F36"/>
-        <segue reference="KYD-WY-fCN"/>
-        <segue reference="q9k-8N-8VU"/>
+        <segue reference="xnB-8L-cuo"/>
+        <segue reference="rGd-6U-ZV2"/>
     </inferredMetricsTieBreakers>
 </document>
