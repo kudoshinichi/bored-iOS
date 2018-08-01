@@ -15,8 +15,6 @@
 		FE1CA46A2106CCE30024AFF3 /* TOCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1CA4692106CCE30024AFF3 /* TOCViewController.swift */; };
 		FE8EA78420FB4020005ED431 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8EA78320FB4020005ED431 /* UserProfileViewController.swift */; };
 		FE8F71FF20FB5F42006E3B96 /* MySquawksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8F71FE20FB5F42006E3B96 /* MySquawksTableViewController.swift */; };
-		FE8F720120FB5F55006E3B96 /* MySquawksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8F720020FB5F55006E3B96 /* MySquawksTableViewCell.swift */; };
-		FE8F720320FB5F66006E3B96 /* LikesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8F720220FB5F66006E3B96 /* LikesTableViewCell.swift */; };
 		FE8F720520FB5F7A006E3B96 /* LikesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8F720420FB5F7A006E3B96 /* LikesTableViewController.swift */; };
 		FE8F720720FB5FA6006E3B96 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8F720620FB5FA6006E3B96 /* SettingsViewController.swift */; };
 		FE9D5AA52104B9B8003FDF8D /* ForgetPWViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9D5AA42104B9B8003FDF8D /* ForgetPWViewController.swift */; };
@@ -57,8 +55,6 @@
 		FE1CA4692106CCE30024AFF3 /* TOCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOCViewController.swift; sourceTree = "<group>"; };
 		FE8EA78320FB4020005ED431 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		FE8F71FE20FB5F42006E3B96 /* MySquawksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySquawksTableViewController.swift; sourceTree = "<group>"; };
-		FE8F720020FB5F55006E3B96 /* MySquawksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySquawksTableViewCell.swift; sourceTree = "<group>"; };
-		FE8F720220FB5F66006E3B96 /* LikesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesTableViewCell.swift; sourceTree = "<group>"; };
 		FE8F720420FB5F7A006E3B96 /* LikesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesTableViewController.swift; sourceTree = "<group>"; };
 		FE8F720620FB5FA6006E3B96 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FE9D5AA42104B9B8003FDF8D /* ForgetPWViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPWViewController.swift; sourceTree = "<group>"; };
@@ -144,8 +140,6 @@
 			children = (
 				FE9DFF4020CA60BE00279C6B /* Story.swift */,
 				FEF546D520D65FB5004B2313 /* StoryTableViewCell.swift */,
-				FE8F720220FB5F66006E3B96 /* LikesTableViewCell.swift */,
-				FE8F720020FB5F55006E3B96 /* MySquawksTableViewCell.swift */,
 				FE9D5AA82104C4D1003FDF8D /* SearchFooter.swift */,
 			);
 			path = Models;
@@ -391,7 +385,6 @@
 			files = (
 				FEAD425920C6901400E25996 /* AppDelegate.swift in Sources */,
 				FEF546D820D66653004B2313 /* StoryTableViewController.swift in Sources */,
-				FE8F720320FB5F66006E3B96 /* LikesTableViewCell.swift in Sources */,
 				FE1CA46A2106CCE30024AFF3 /* TOCViewController.swift in Sources */,
 				FE9D5AA72104B9C6003FDF8D /* ChangePWViewController.swift in Sources */,
 				FEC4FC0B20C6AC8B00837F48 /* MapViewController.swift in Sources */,
@@ -402,7 +395,6 @@
 				FE01AD7F20F9734900705CE1 /* SignUpViewController.swift in Sources */,
 				FE9DFF4120CA60BF00279C6B /* Story.swift in Sources */,
 				FE8F720720FB5FA6006E3B96 /* SettingsViewController.swift in Sources */,
-				FE8F720120FB5F55006E3B96 /* MySquawksTableViewCell.swift in Sources */,
 				FE9D5AA52104B9B8003FDF8D /* ForgetPWViewController.swift in Sources */,
 				FE8F71FF20FB5F42006E3B96 /* MySquawksTableViewController.swift in Sources */,
 				FE8EA78420FB4020005ED431 /* UserProfileViewController.swift in Sources */,
