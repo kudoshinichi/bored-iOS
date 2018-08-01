@@ -168,6 +168,19 @@ class MapViewController: UIViewController {
         currentScope = Scope.All
         hashtagSearchText = ""
         searchController.searchBar.delegate = self
+        
+        let seenTutorial = UserDefaults.standard.bool(forKey: "seenTutorial")
+        if !seenTutorial {
+            let alert = UIAlertController(title: "What's this app?", message: "Check out See GO's basic how-to for the best experience.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {(action:UIAlertAction!) in
+                if let url = URL(string: "https://projectboredinc.wordpress.com/how-it-works/") {
+                    UIApplication.shared.open(url, options: [:])
+                }
+                UserDefaults.standard.set(true, forKey: "seenTutorial")
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
     }
     
     //MARK: Navigation
