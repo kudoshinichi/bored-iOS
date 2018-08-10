@@ -28,7 +28,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>LSApplicationQueriesScheme</key>
 	<array>
 		<string>googlechromes</string>
@@ -36,14 +36,14 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Add photos from camera</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Show your location on map</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Show your location on map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Show your locationon map</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Add photos from camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Add photos from library</string>
 	<key>UILaunchStoryboardName</key>

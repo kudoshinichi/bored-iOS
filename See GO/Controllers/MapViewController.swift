@@ -120,7 +120,9 @@ class MapViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        Auth.auth().removeStateDidChangeListener(handle!)
+        if let removehandle = handle {
+            Auth.auth().removeStateDidChangeListener(removehandle)
+        }
     }
     
     override func viewDidLoad() {
