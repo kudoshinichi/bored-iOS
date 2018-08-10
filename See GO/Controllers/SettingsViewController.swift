@@ -58,7 +58,7 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func faqButton(_ sender: Any) {
-        if let url = URL(string: "https://projectboredinc.wordpress.com") {
+        if let url = URL(string: "https://projectboredinc.wordpress.com/faqs/") {
             UIApplication.shared.open(url, options: [:])
         }
     }

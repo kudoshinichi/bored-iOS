@@ -23,7 +23,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.217030357615-2a2i3iou5hd3e6ge0m2fktqqrt876sdb</string>
+				<string>com.googleusercontent.apps.217030357615-d1p9bo4ic3bi30bec7brcg2rr8jo9f1g</string>
 			</array>
 		</dict>
 	</array>
@@ -42,6 +42,8 @@
 	<string>Show your location on map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Show your locationon map</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Add photos from camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Add photos from library</string>
 	<key>UILaunchStoryboardName</key>
