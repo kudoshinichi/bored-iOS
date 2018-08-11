@@ -646,9 +646,6 @@
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s3b-UC-5s4" customClass="GIDSignInButton">
                                         <rect key="frame" x="55" y="484.5" width="190" height="50"/>
                                         <state key="normal" image="google_login"/>
-                                        <connections>
-                                            <action selector="googleSignUp:" destination="joX-Dy-sSE" eventType="touchUpInside" id="ofY-gX-82a"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
