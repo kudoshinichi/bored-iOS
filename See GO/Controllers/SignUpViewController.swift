@@ -69,7 +69,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
         
         // Google Sign In
         GIDSignIn.sharedInstance().uiDelegate = self
-        
     }
     
     //MARK: UITextFieldDelegate
@@ -162,16 +161,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
          
     }
     
-    
-    
     @IBAction func googleSignUp(_ sender: Any) {
         
-        print("clicked")
-        GIDSignIn.sharedInstance().signIn()
-        print("clocked")
-        
     }
-    
     
     func isValidEmail(testStr:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
