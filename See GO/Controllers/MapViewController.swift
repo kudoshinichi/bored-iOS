@@ -24,6 +24,8 @@ class MapViewController: UIViewController {
     var currentLocation: CLLocation?
     var mapView: GMSMapView!
     var zoomLevel: Float = 19.0
+    // A default location to use when location permission is not granted.
+    let defaultLocation = CLLocation(latitude: 1.346313, longitude: 103.841332)
     
     // Firebase
     var ref: DatabaseReference!
@@ -62,6 +64,7 @@ class MapViewController: UIViewController {
     
     let MIN_LOCATION_UPDATE_DELAY_MILLIS = 30 * 1000
     var lastLocationUpdate: Int = 0
+    var lastUpdateLocation: CLLocation?
     
     struct StoryMeta {
         var longitude: String
@@ -139,9 +142,6 @@ class MapViewController: UIViewController {
         locationManager.distanceFilter = 50
         locationManager.startUpdatingLocation()
         locationManager.delegate = self
-        
-        // A default location to use when location permission is not granted.
-        let defaultLocation = CLLocation(latitude: 1.346313, longitude: 103.841332)
         
         self.view .layoutIfNeeded()
         
@@ -318,14 +318,22 @@ class MapViewController: UIViewController {
 // MARK: Map Delegate to handle events for Google Map View
 extension MapViewController: GMSMapViewDelegate {
     func addMarker(latitude: String, longitude: String, storyKey: String){
+        
         let marker = GMSMarker()
         let storyLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
         marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
         marker.map = self.mapView
         
-        let distanceMetres = (self.userLocation?.distance(from: storyLocation))!
+        var distanceMetres = 0.0
+        
+        if userLocation != nil {
+            distanceMetres = (self.userLocation?.distance(from: storyLocation))!
+        } else {
+            distanceMetres = (self.defaultLocation.distance(from: storyLocation))
+            lastUpdateLocation = defaultLocation
+        }
+        
         let isNear = (distanceMetres <= 500.0)
-        var snipkeywords: String = ""
         
         // Loads into userData
         marker.userData = ["key": storyKey, "near": isNear, "location": latitude + "," + longitude]
@@ -338,7 +346,7 @@ extension MapViewController: GMSMapViewDelegate {
                 if keywords == nil {
                     marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
                 } else {
-                    snipkeywords = keywords!
+                    let snipkeywords = keywords!
                     marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + snipkeywords + "\"."
                 }
                 if isNear {
@@ -404,6 +412,12 @@ extension MapViewController: CLLocationManagerDelegate {
         }
         userLocation = locations.last!
         
+        if userLocation !== nil, lastUpdateLocation !== nil {
+            if (lastUpdateLocation?.distance(from: userLocation!))! >= 100.0 {
+                updateLocations()
+            }
+        }
+        
         if Int(NSDate().timeIntervalSince1970 * 1000) - lastLocationUpdate <= MIN_LOCATION_UPDATE_DELAY_MILLIS {
             return
         }
@@ -412,6 +426,7 @@ extension MapViewController: CLLocationManagerDelegate {
     
     func updateLocations() {
         lastLocationUpdate = Int(NSDate().timeIntervalSince1970 * 1000)
+        lastUpdateLocation = userLocation
         storiesByLocation = [:]
         ref.child("locations").observe(.value, with: { snapshot in
             self.ref.child("users").child(self.uid).child("FlaggedStories").observe(.value, with: { flaggedStories in
