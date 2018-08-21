@@ -352,6 +352,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
     }
     
     func pickImage() {
+        
         let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
             self.openCamera()
@@ -360,7 +361,15 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
         alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
             self.openGallery()
         }))
+        
+        if let popoverController = alert.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
         self.present(alert, animated: true, completion: nil)
+       
     }
     
     func openCamera() {
