@@ -132,6 +132,20 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
         
+        var asset: PHAsset?
+        asset = info[UIImagePickerControllerPHAsset] as? PHAsset
+        if let asset = asset {
+            print(asset)
+            print("yes")
+            if let location = asset.location {
+                print("Image location is \(location.coordinate.latitude), \(location.coordinate.longitude)")
+            } else {
+                print("NO LOCATION")
+            }
+        } else {
+            print("NO ASSET")
+        }
+        
         // Set photoImageView to display the selected image.
         photoImageView.image = selectedImage
         
@@ -387,16 +401,31 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
     
     func openGallery() {
         print("Gallery")
-        // UIImagePickerController is a view controller that lets a user pick media from their photo library.
-        let imagePickerController = UIImagePickerController()
         
-        // Only allow photos to be picked, not taken.
-        imagePickerController.sourceType = .photoLibrary
+        PHPhotoLibrary.requestAuthorization({status in
+            switch status {
+            case .authorized:
+                // UIImagePickerController is a view controller that lets a user pick media from their photo library.
+                let imagePickerController = UIImagePickerController()
+                
+                // Only allow photos to be picked, not taken.
+                imagePickerController.sourceType = .photoLibrary
+                
+                // Make sure ViewController is notified when the user picks an image.
+                imagePickerController.delegate = self
+                
+                self.present(imagePickerController, animated: true, completion: nil)
+            case .denied:
+                print("denied")
+            // probably alert the user that they need to grant photo access
+            case .notDetermined:
+                print("not determined")
+            case .restricted:
+                print("restricted")
+                // probably alert the user that photo access is restricted
+            }
+        })
         
-        // Make sure ViewController is notified when the user picks an image.
-        imagePickerController.delegate = self
-        
-        present(imagePickerController, animated: true, completion: nil)
     }
     
     func deleteStorageImage(imageNameHolder: String){
