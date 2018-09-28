@@ -74,9 +74,11 @@ class UserProfileViewController: UIViewController {
                     flapsGiven = Int(userSnapshot.childSnapshot(forPath: "UpvotedStories").childrenCount)
                     for child in userSnapshot.childSnapshot(forPath: "stories").children {
                         if let writtenStory = child as? DataSnapshot {
-                            let story = stories[writtenStory.key]!
-                            reach += story.views!
-                            flapsReceived += story.votes!
+                            let story = stories[writtenStory.key]
+                            if let story = story {
+                                reach += story.views!
+                                flapsReceived += story.votes!
+                            }
                         }
                     }
                     self.peopleReachedText.text = "~ " + String(reach)

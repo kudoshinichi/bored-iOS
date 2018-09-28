@@ -118,26 +118,30 @@ class StoryTableViewController: UITableViewController {
             for viewerChild in storyNode.childSnapshot(forPath: "Viewers").children {
                 let user = viewerChild as! DataSnapshot
                 let userKey = user.key
-                ref.child("users").child(userKey).child("ReadStories").child(delStoryKey).removeValue() // delete from every user's ReadStories
+                ref.child("users").child(userKey).child("ReadStories").child(delStoryKey).removeValue()
+                // delete from every user's ReadStories
             }
             
             for upvoterChild in storyNode.childSnapshot(forPath: "Upvoters").children {
                 let user = upvoterChild as! DataSnapshot
                 let userKey = user.key
-                ref.child("users").child(userKey).child("UpvotedStories").child(delStoryKey).removeValue() // delete from every user's UpvotedStories
+                ref.child("users").child(userKey).child("UpvotedStories").child(delStoryKey).removeValue()
+                // delete from every user's UpvotedStories
             }
             
             for flaggerChild in storyNode.childSnapshot(forPath: "Flaggers").children {
                 let user = flaggerChild as! DataSnapshot
                 let userKey = user.key
-                ref.child("users").child(userKey).child("FlaggedStories").child(delStoryKey).removeValue() // delete from every user's FlaggedStories
+                ref.child("users").child(userKey).child("FlaggedStories").child(delStoryKey).removeValue()
+                // delete from every user's FlaggedStories
                 // NOTE* not deleted from badGuy's GotFlagged
             }
             
             for hashtagChild in storyNode.childSnapshot(forPath: "Hashtags").children {
                 let hashtag = hashtagChild as! DataSnapshot
                 let hashtagKey = hashtag.key
-                ref.child("hashtags").child(hashtagKey).child(delStoryKey).removeValue() // delete from hashtags
+                ref.child("hashtags").child(hashtagKey).child(delStoryKey).removeValue()
+                // delete from hashtags
             }
             
             // delete from owner's stories
