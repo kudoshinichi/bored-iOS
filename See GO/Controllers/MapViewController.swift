@@ -200,6 +200,12 @@ class MapViewController: UIViewController {
             vc?.storyLocation = showStoryLocation
             vc?.uid = self.uid
         }
+        
+        // RAWR: TO-DO: PASS USERLOCATION TO STORY UPLOAD 1
+        if segue.destination is StoryUploadController{
+            let vc = segue.destination as? StoryUploadController
+            vc?.userLocation = self.userLocation
+        }
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -217,6 +223,7 @@ class MapViewController: UIViewController {
                 
                 return false
             }
+            // RAWR: TO-DO: PASS USERLOCATION TO STORY UPLOAD 2
             return true
         }
         

@@ -43,6 +43,7 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
     var imageChosen: Bool = false
 
     // Location
+    var userLocation : CLLocation?
     var location: String = ""
     var longitude: String = ""
     var latitude: String = ""
@@ -80,6 +81,10 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
         captionTextView.text = placeholderText
         captionTextView.textColor = UIColor.lightGray
         
+        // RAWR: TO-DO: PASS USERLOCATION TO STORY UPLOAD 3
+        print(userLocation)
+        print("LOC JUST NOW")
+        
         // Location
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
@@ -93,9 +98,12 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
     }
 
     // gets location to be used in database
+    
+    // RAWR: TO-DO: PASS USERLOCATION TO STORY UPLOAD 4: problematic because location keeps changing
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         // Location variable
+        userLocation = manager.location
         location = "\(locValue.latitude),\(locValue.longitude)"
         longitude = "\(locValue.longitude)"
         latitude = "\(locValue.latitude)"
@@ -134,17 +142,6 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
         
         var asset: PHAsset?
         asset = info[UIImagePickerControllerPHAsset] as? PHAsset
-        if let asset = asset {
-            print(asset)
-            print("yes")
-            if let location = asset.location {
-                print("Image location is \(location.coordinate.latitude), \(location.coordinate.longitude)")
-            } else {
-                print("NO LOCATION")
-            }
-        } else {
-            print("NO ASSET")
-        }
         
         // Set photoImageView to display the selected image.
         photoImageView.image = selectedImage
@@ -191,6 +188,15 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
             let localPath         = photoURL.appendingPathComponent(imageName!)
             
+            if let asset = asset {
+                if let location = asset.location {
+                    // Alert if they want to use image location
+                    galleryLocationAlert(location: location)
+                }
+            }
+        
+            galleryLocationAlert(location: self.userLocation!)
+            
             if !FileManager.default.fileExists(atPath: localPath!.path) {
                 do {
                     try UIImageJPEGRepresentation(image, 1.0)?.write(to: localPath!)
@@ -230,6 +236,39 @@ class StoryUploadController: UIViewController, UITextFieldDelegate , UITextViewD
         }, completionHandler: { success, error in
             if !success { NSLog("error creating asset: \(String(describing: error))") }
         })
+    }
+    
+    
+    //RAWR TO-DO: get location from gallery
+    // RAWR: cannot display it in the right view controller bleh
+    func galleryLocationAlert(location:CLLocation) {
+        let alert = UIAlertController(title: "Location data detected", message: "This photo may not be taken at this current location. Use the photo's location instead?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Always", style: .default, handler: { action in
+            // user defaults
+            
+            // get location
+            self.location = "\(location.coordinate.latitude),\(location.coordinate.latitude)"
+            self.longitude = "\(location.coordinate.longitude)"
+            self.latitude = "\(location.coordinate.latitude)"
+            self.locationKey = self.latitude.replacingOccurrences(of: ".", with: "d") + "," + self.longitude.replacingOccurrences(of: ".", with: "d")
+            print(self.locationKey)
+            print(self.location)
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Only once", style: .default, handler: { action in
+            self.location = "\(location.coordinate.latitude),\(location.coordinate.latitude)"
+            self.longitude = "\(location.coordinate.longitude)"
+            self.latitude = "\(location.coordinate.latitude)"
+            self.locationKey = self.latitude.replacingOccurrences(of: ".", with: "d") + "," + self.longitude.replacingOccurrences(of: ".", with: "d")
+            print(self.locationKey)
+            print(self.location)
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Never", style: .default, handler: { action in
+            // user defaults
+        }))
+        alert.addAction(UIAlertAction(title: "Not now", style: .cancel, handler: nil))
+        self.presentedViewController?.present(alert, animated: true)
     }
     
     
