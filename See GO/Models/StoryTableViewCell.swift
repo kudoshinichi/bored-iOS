@@ -101,16 +101,22 @@ class StoryTableViewCell: UITableViewCell, UITextViewDelegate {
             //self.featured = (snapshot.value as? NSDictionary)?["Featured"] as! Bool
             //self.flagged = (snapshot.value as? NSDictionary)?["Flagged"] as! Bool
             
-            print(self.views)
-            self.views += 1 // user read it
-            print(self.views)
-            let storyViewsUpdates = ["/stories/\(self.storyKey)/Views": self.views]
-            self.ref.updateChildValues(storyViewsUpdates)
-            let storyViewersUpdates = ["/stories/\(self.storyKey)/Viewers/\(self.uid)": self.uid]
-            self.ref.updateChildValues(storyViewersUpdates)
-            
-            let userReadUpdates = ["/users/\(self.uid)/ReadStories/\(self.storyKey)": self.location]
-            self.ref.updateChildValues(userReadUpdates)
+            self.ref.child("users").child(self.uid).child("ReadStories").observeSingleEvent(of: .value, with: { (snapshot) in
+                if snapshot.hasChild(self.storyKey) {
+                    // you have viewed this before
+                } else {
+                    print(self.views)
+                    self.views += 1 // user read it
+                    print(self.views)
+                    let storyViewsUpdates = ["/stories/\(self.storyKey)/Views": self.views]
+                    self.ref.updateChildValues(storyViewsUpdates)
+                    let storyViewersUpdates = ["/stories/\(self.storyKey)/Viewers/\(self.uid)": self.uid]
+                    self.ref.updateChildValues(storyViewersUpdates)
+                    
+                    let userReadUpdates = ["/users/\(self.uid)/ReadStories/\(self.storyKey)": self.location]
+                    self.ref.updateChildValues(userReadUpdates)
+                }
+            })
             
             completion(true)
         })
