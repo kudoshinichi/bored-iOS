@@ -42,8 +42,8 @@ class MapViewController: UIViewController {
     let searchController = UISearchController(searchResultsController: nil)
     struct hashtagItem {
         let hashtag: String
-        let latitude: String
-        let longitude: String
+        let latitude: Double
+        let longitude: Double
         let storyKey: String
     }
     var filteredSquawks = [hashtagItem]()
@@ -68,8 +68,8 @@ class MapViewController: UIViewController {
     var lastUpdateLocation: CLLocation?
     
     struct StoryMeta {
-        var longitude: String
-        var latitude: String
+        var longitude: Double
+        var latitude: Double
         var id: String
     }
     var storiesByLocation: [String: [StoryMeta]] = [:]
@@ -325,11 +325,11 @@ class MapViewController: UIViewController {
 
 // MARK: Map Delegate to handle events for Google Map View
 extension MapViewController: GMSMapViewDelegate {
-    func addMarker(latitude: String, longitude: String, storyKey: String){
+    func addMarker(latitude: Double, longitude: Double, storyKey: String){
         
         let marker = GMSMarker()
-        let storyLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
-        marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
+        let storyLocation = CLLocation(latitude: latitude, longitude: longitude)
+        marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         marker.map = self.mapView
         
         var distanceMetres = 0.0
@@ -450,10 +450,10 @@ extension MapViewController: CLLocationManagerDelegate {
                     let longitude = (valueD.value as! NSDictionary)["Latitude"] as! Double
                     let key = String(latitude)+","+String(longitude)
                     print(key)
-
+                  
                     var stories: [StoryMeta] = []
                     if !flaggedIds.contains(randomkey) {
-                        stories.append(StoryMeta(longitude: String(longitude), latitude: String(latitude), id: valueD.key))
+                        stories.append(StoryMeta(longitude: longitude, latitude: latitude, id: valueD.key))
                     }
                     if stories.count > 0 {
                         self.storiesByLocation[key] = stories
