@@ -4,11 +4,12 @@
 //
 //  Created by Hongyi Shen on 5/6/18.
 //
-// Subsequent TO-DO:
-// 3. Multiple stories * (uhm keywords don't get seeen)
-// 2. Marker Aesthetic
-// 8. Hashtag from story upload
-// 9.1 Search footer (tbc)
+// 1. ((null)) was false: Failed to allocate texture space for marker??
+//
+// misc TO-DO:
+// 2. Marker Aesthetic -> onboard, tips
+// 3. Gamify?
+// 4. Search footer? but nah..
 
 import UIKit
 import GoogleMaps
@@ -441,19 +442,18 @@ extension MapViewController: CLLocationManagerDelegate {
                 for flaggedStory in flaggedStories.children {
                     flaggedIds.append((flaggedStory as! DataSnapshot).key)
                 }
+                
                 for child in snapshot.children  {
                     let valueD = child as! DataSnapshot
-                    let keyD = valueD.key // location with "d"
-                    let key = keyD.replacingOccurrences(of: "d", with: ".") // location with "."
-                    let locationArray = key.split(separator:",") // splits location into longitude and latitude
-                    let latitude = locationArray[0]
-                    let longitude = locationArray[1]
+                    let randomkey = valueD.key
+                    let latitude = (valueD.value as! NSDictionary)["Latitude"] as! Double
+                    let longitude = (valueD.value as! NSDictionary)["Latitude"] as! Double
+                    let key = String(latitude)+","+String(longitude)
+                    print(key)
+                  
                     var stories: [StoryMeta] = []
-                    for grandchild in (child as AnyObject).children {
-                        let valueD = grandchild as! DataSnapshot
-                        if !flaggedIds.contains(valueD.key) {
-                            stories.append(StoryMeta(longitude: longitude, latitude: latitude, id: valueD.key))
-                        }
+                    if !flaggedIds.contains(randomkey) {
+                        stories.append(StoryMeta(longitude: longitude, latitude: latitude, id: valueD.key))
                     }
                     if stories.count > 0 {
                         self.storiesByLocation[key] = stories
