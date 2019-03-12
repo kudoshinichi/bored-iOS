@@ -343,8 +343,8 @@ extension MapViewController: GMSMapViewDelegate {
         
         let isNear = (distanceMetres <= 500.0)
         
-        // Loads into userData
-        marker.userData = ["key": storyKey, "near": isNear, "location": latitude + "," + longitude]
+        // Loads into userData]
+        marker.userData = ["key": storyKey, "near": isNear, "location": String(latitude) + "," + String(longitude)]
         marker.icon = GMSMarker.markerImage(with: (isNear ? .green : .purple))
         if storyKey.contains(",") {
             marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
