@@ -41,8 +41,8 @@ class MapViewController: UIViewController {
     let searchController = UISearchController(searchResultsController: nil)
     struct hashtagItem {
         let hashtag: String
-        let latitude: String
-        let longitude: String
+        let latitude: Double
+        let longitude: Double
         let storyKey: String
     }
     var filteredSquawks = [hashtagItem]()
@@ -67,8 +67,8 @@ class MapViewController: UIViewController {
     var lastUpdateLocation: CLLocation?
     
     struct StoryMeta {
-        var longitude: String
-        var latitude: String
+        var longitude: Double
+        var latitude: Double
         var id: String
     }
     var storiesByLocation: [String: [StoryMeta]] = [:]
@@ -324,11 +324,11 @@ class MapViewController: UIViewController {
 
 // MARK: Map Delegate to handle events for Google Map View
 extension MapViewController: GMSMapViewDelegate {
-    func addMarker(latitude: String, longitude: String, storyKey: String){
+    func addMarker(latitude: Double, longitude: Double, storyKey: String){
         
         let marker = GMSMarker()
-        let storyLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
-        marker.position = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
+        let storyLocation = CLLocation(latitude: latitude, longitude: longitude)
+        marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         marker.map = self.mapView
         
         var distanceMetres = 0.0
@@ -446,8 +446,8 @@ extension MapViewController: CLLocationManagerDelegate {
                     let keyD = valueD.key // location with "d"
                     let key = keyD.replacingOccurrences(of: "d", with: ".") // location with "."
                     let locationArray = key.split(separator:",") // splits location into longitude and latitude
-                    let latitude: String = String(locationArray[0])
-                    let longitude: String = String(locationArray[1])
+                    let latitude = locationArray[0]
+                    let longitude = locationArray[1]
                     var stories: [StoryMeta] = []
                     for grandchild in (child as AnyObject).children {
                         let valueD = grandchild as! DataSnapshot
