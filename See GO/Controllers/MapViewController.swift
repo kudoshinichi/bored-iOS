@@ -4,7 +4,7 @@
 //
 //  Created by Hongyi Shen on 5/6/18.
 //
-// 1. ((null)) was false: Failed to allocate texture space for marker??
+// 1. ((null)) was false: Failed to allocate texture space for marker?? --> try clustering?
 //
 // misc TO-DO:
 // 2. Marker Aesthetic -> onboard, tips
@@ -331,7 +331,7 @@ extension MapViewController: GMSMapViewDelegate {
         let storyLocation = CLLocation(latitude: latitude, longitude: longitude)
         marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         marker.map = self.mapView
-        
+        //print("HOHOHO" + String(longitude) + " " + String(latitude))
         var distanceMetres = 0.0
         
         if userLocation != nil {
@@ -345,6 +345,7 @@ extension MapViewController: GMSMapViewDelegate {
         
         // Loads into userData]
         marker.userData = ["key": storyKey, "near": isNear, "location": String(latitude) + "," + String(longitude)]
+        
         marker.icon = GMSMarker.markerImage(with: (isNear ? .green : .purple))
         if storyKey.contains(",") {
             marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
@@ -447,7 +448,7 @@ extension MapViewController: CLLocationManagerDelegate {
                     let valueD = child as! DataSnapshot
                     let randomkey = valueD.key
                     let latitude = (valueD.value as! NSDictionary)["Latitude"] as! Double
-                    let longitude = (valueD.value as! NSDictionary)["Latitude"] as! Double
+                    let longitude = (valueD.value as! NSDictionary)["Longitude"] as! Double
                     let key = String(latitude)+","+String(longitude)
                     print(key)
                   
