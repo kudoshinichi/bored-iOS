@@ -305,7 +305,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-See GO/Pods-See GO-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
@@ -324,7 +324,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-See GO/Pods-See GO-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7AB0C0EC2AA3AF6EC5D6290B /* [CP] Copy Pods Resources */ = {
@@ -333,7 +333,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-See GO/Pods-See GO-resources.sh",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -344,7 +344,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-See GO/Pods-See GO-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		86950EC3C87D01A82BCD8DAE /* [CP] Check Pods Manifest.lock */ = {
