@@ -17,6 +17,8 @@ import Firebase
 import FirebaseDatabase
 
 class MapViewController: UIViewController {
+    let MARKERS = [GMSMarker.markerImage(with: .green), GMSMarker.markerImage(with: .purple)]
+
     var handle: AuthStateDidChangeListenerHandle?
 // MARK: Properties
     
@@ -346,7 +348,7 @@ extension MapViewController: GMSMapViewDelegate {
         // Loads into userData]
         marker.userData = ["key": storyKey, "near": isNear, "location": String(latitude) + "," + String(longitude)]
         
-        marker.icon = GMSMarker.markerImage(with: (isNear ? .green : .purple))
+        marker.icon = isNear ? MARKERS[0] : MARKERS[1]
         if storyKey.contains(",") {
             marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
         } else {
