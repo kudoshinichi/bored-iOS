@@ -209,6 +209,8 @@
 				FEAD426520C6901600E25996 /* Sources */,
 				FEAD426620C6901600E25996 /* Frameworks */,
 				FEAD426720C6901600E25996 /* Resources */,
+				B2187B7056CB05DA00BF3766 /* [CP] Embed Pods Frameworks */,
+				DFF4973303A7D957765476B7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -305,7 +307,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-See GO/Pods-See GO-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
@@ -324,7 +326,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-See GO/Pods-See GO-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7AB0C0EC2AA3AF6EC5D6290B /* [CP] Copy Pods Resources */ = {
@@ -333,7 +335,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-See GO/Pods-See GO-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-resources.sh",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -344,7 +346,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-See GO/Pods-See GO-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GO/Pods-See GO-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		86950EC3C87D01A82BCD8DAE /* [CP] Check Pods Manifest.lock */ = {
@@ -363,6 +365,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B2187B7056CB05DA00BF3766 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GOTests/Pods-See GOTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DFF4973303A7D957765476B7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-See GOTests/Pods-See GOTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FE493A6621206F5000B8844D /* Run Script */ = {

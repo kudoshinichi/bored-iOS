@@ -4,23 +4,10 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>See GO.xcscheme</key>
+		<key>See GO.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
-		</dict>
-	</dict>
-	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>FEAD425420C6901300E25996</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FEAD426820C6901600E25996</key>
-		<dict>
-			<key>primary</key>
-			<true/>
+			<integer>13</integer>
 		</dict>
 	</dict>
 </dict>
