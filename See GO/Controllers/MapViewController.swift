@@ -16,7 +16,16 @@ import GoogleMaps
 import Firebase
 import FirebaseDatabase
 
-class MapViewController: UIViewController {
+class POIItem: GMSMarker, GMUClusterItem {
+    var name: String!
+    
+    init(name: String) {
+        self.name = name
+        //self.snippet = "TEST"
+    }
+}
+
+class MapViewController: UIViewController, GMUClusterManagerDelegate {
     let MARKERS = [GMSMarker.markerImage(with: .green), GMSMarker.markerImage(with: .purple)]
 
     var handle: AuthStateDidChangeListenerHandle?
@@ -24,8 +33,8 @@ class MapViewController: UIViewController {
     
     // Google Maps
     var locationManager = CLLocationManager()
-    var currentLocation: CLLocation?
     var mapView: GMSMapView!
+    var clusterManager: GMUClusterManager!
     var zoomLevel: Float = 19.0
     // A default location to use when location permission is not granted.
     let defaultLocation = CLLocation(latitude: 1.346313, longitude: 103.841332)
@@ -162,6 +171,14 @@ class MapViewController: UIViewController {
         view.addSubview(mapView)
         mapView.isHidden = true
         
+        // Set up the cluster manager with the supplied icon generator and renderer.
+        let iconGenerator = GMUDefaultClusterIconGenerator()
+        let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
+        let renderer = GMUDefaultClusterRenderer(mapView: mapView,
+                                                 clusterIconGenerator: iconGenerator)
+        clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm,
+                                           renderer: renderer)
+        
         //searchController
         //searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -233,8 +250,15 @@ class MapViewController: UIViewController {
         return true
     }
     
-    
-    
+    //MARK: Marker Clustering
+    func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
+        let newCamera = GMSCameraPosition.camera(withTarget: cluster.position,
+                                                 zoom: mapView.camera.zoom + 1)
+        let update = GMSCameraUpdate.setCamera(newCamera)
+        mapView.moveCamera(update)
+        return false
+    }
+
     //MARK: Search
     
     func searchBarIsEmpty() -> Bool {
@@ -331,8 +355,8 @@ extension MapViewController: GMSMapViewDelegate {
         
         let marker = GMSMarker()
         let storyLocation = CLLocation(latitude: latitude, longitude: longitude)
-        marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        marker.map = self.mapView
+        //marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        //marker.map = self.mapView
         //print("HOHOHO" + String(longitude) + " " + String(latitude))
         var distanceMetres = 0.0
         
@@ -347,24 +371,33 @@ extension MapViewController: GMSMapViewDelegate {
         
         // Loads into userData]
         marker.userData = ["key": storyKey, "near": isNear, "location": String(latitude) + "," + String(longitude)]
+//
+//        marker.icon = isNear ? MARKERS[0] : MARKERS[1]
+//        if storyKey.contains(",") {
+//            marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
+//        } else {
+//            self.ref.child("stories").child(storyKey).observe(.value, with: { snapshot in
+//                let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
+//                if keywords == nil {
+//                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
+//                } else {
+//                    let snipkeywords = keywords!
+//                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + snipkeywords + "\"."
+//                }
+//                if isNear {
+//                    marker.snippet = marker.snippet! + " Tap to open!"
+//                }
+//            })
+//        }
         
-        marker.icon = isNear ? MARKERS[0] : MARKERS[1]
-        if storyKey.contains(",") {
-            marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
-        } else {
-            self.ref.child("stories").child(storyKey).observe(.value, with: { snapshot in
-                let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
-                if keywords == nil {
-                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
-                } else {
-                    let snipkeywords = keywords!
-                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + snipkeywords + "\"."
-                }
-                if isNear {
-                    marker.snippet = marker.snippet! + " Tap to open!"
-                }
-            })
-        }
+        //CLUSTER RAWR
+        let item = POIItem(name: storyKey)
+        item.position = CLLocationCoordinate2DMake(latitude, longitude)
+        item.snippet = "TEST"
+        clusterManager.add(item)
+        
+        clusterManager.cluster()
+        clusterManager.setDelegate(self, mapDelegate: self)
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
