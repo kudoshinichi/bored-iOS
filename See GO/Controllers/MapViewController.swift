@@ -16,14 +16,14 @@ import GoogleMaps
 import Firebase
 import FirebaseDatabase
 
-class POIItem: GMSMarker, GMUClusterItem {
-    var name: String!
-    
-    init(name: String) {
-        self.name = name
-        //self.snippet = "TEST"
-    }
-}
+//class POIItem: GMSMarker, GMUClusterItem {
+//    var name: String!
+//
+//    init(name: String) {
+//        self.name = name
+//        //self.snippet = "TEST"
+//    }
+//}
 
 class MapViewController: UIViewController, GMUClusterManagerDelegate {
     let MARKERS = [GMSMarker.markerImage(with: .green), GMSMarker.markerImage(with: .purple)]
@@ -355,8 +355,8 @@ extension MapViewController: GMSMapViewDelegate {
         
         let marker = GMSMarker()
         let storyLocation = CLLocation(latitude: latitude, longitude: longitude)
-        //marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        //marker.map = self.mapView
+        marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        marker.map = self.mapView
         //print("HOHOHO" + String(longitude) + " " + String(latitude))
         var distanceMetres = 0.0
         
@@ -371,33 +371,33 @@ extension MapViewController: GMSMapViewDelegate {
         
         // Loads into userData]
         marker.userData = ["key": storyKey, "near": isNear, "location": String(latitude) + "," + String(longitude)]
-//
-//        marker.icon = isNear ? MARKERS[0] : MARKERS[1]
-//        if storyKey.contains(",") {
-//            marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
-//        } else {
-//            self.ref.child("stories").child(storyKey).observe(.value, with: { snapshot in
-//                let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
-//                if keywords == nil {
-//                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
-//                } else {
-//                    let snipkeywords = keywords!
-//                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + snipkeywords + "\"."
-//                }
-//                if isNear {
-//                    marker.snippet = marker.snippet! + " Tap to open!"
-//                }
-//            })
-//        }
+
+        marker.icon = isNear ? MARKERS[0] : MARKERS[1]
+        if storyKey.contains(",") {
+            marker.snippet = "In " + String(Int(distanceMetres)) + "m, there are multiple squawks."
+        } else {
+            self.ref.child("stories").child(storyKey).observe(.value, with: { snapshot in
+                let keywords = (snapshot.value as? NSDictionary)?["Keywords"] as? String
+                if keywords == nil {
+                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, there is a squawk."
+                } else {
+                    let snipkeywords = keywords!
+                    marker.snippet = "In " + String(Int(distanceMetres)) + "m, \"" + snipkeywords + "\"."
+                }
+                if isNear {
+                    marker.snippet = marker.snippet! + " Tap to open!"
+                }
+            })
+        }
         
         //CLUSTER RAWR
-        let item = POIItem(name: storyKey)
-        item.position = CLLocationCoordinate2DMake(latitude, longitude)
-        item.snippet = "TEST"
-        clusterManager.add(item)
-        
-        clusterManager.cluster()
-        clusterManager.setDelegate(self, mapDelegate: self)
+//        let item = POIItem(name: storyKey)
+//        item.position = CLLocationCoordinate2DMake(latitude, longitude)
+//        item.snippet = "TEST"
+//        clusterManager.add(item)
+//
+//        clusterManager.cluster()
+//        clusterManager.setDelegate(self, mapDelegate: self)
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {

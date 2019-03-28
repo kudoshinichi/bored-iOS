@@ -139,7 +139,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1061" y="136"/>
+            <point key="canvasLocation" x="1352" y="123"/>
         </scene>
         <!--Story Table View Controller-->
         <scene sceneID="fpS-9A-Etc">
@@ -603,10 +603,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="ggf-dk-tm5">
-                                <rect key="frame" x="10" y="52" width="394" height="584.33333333333337"/>
+                                <rect key="frame" x="10" y="52" width="394" height="534.33333333333337"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcome" translatesAutoresizingMaskIntoConstraints="NO" id="3gX-Wl-t5C">
-                                        <rect key="frame" x="0.0" y="0.0" width="394" height="250"/>
+                                        <rect key="frame" x="72" y="0.0" width="250" height="250"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="250" id="1Gq-ho-f56"/>
                                         </constraints>
@@ -683,7 +683,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s3b-UC-5s4" customClass="GIDSignInButton">
-                                        <rect key="frame" x="7" y="484.33333333333337" width="380" height="100"/>
+                                        <rect key="frame" x="102" y="484.33333333333337" width="190" height="50"/>
                                         <state key="normal" image="google_login"/>
                                     </button>
                                 </subviews>
@@ -819,7 +819,7 @@
                                 <rect key="frame" x="10" y="59" width="394" height="420"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcome" translatesAutoresizingMaskIntoConstraints="NO" id="4vw-Op-hdP">
-                                        <rect key="frame" x="0.0" y="0.0" width="394" height="250"/>
+                                        <rect key="frame" x="72" y="0.0" width="250" height="250"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="250" id="S88-Ib-Ve0"/>
                                         </constraints>
@@ -932,20 +932,20 @@
     </scenes>
     <resources>
         <image name="addImage" width="320" height="320"/>
-        <image name="bin" width="40" height="40"/>
-        <image name="found" width="28.317991256713867" height="28.317991256713867"/>
-        <image name="get_like" width="28.330434799194336" height="28.330434799194336"/>
-        <image name="google_login" width="380" height="100"/>
-        <image name="home" width="50" height="50"/>
-        <image name="like" width="28.330434799194336" height="28.330434799194336"/>
-        <image name="profile" width="60" height="60"/>
-        <image name="report" width="40" height="40"/>
-        <image name="settings" width="45" height="45"/>
-        <image name="squawk" width="28.330434799194336" height="28.330434799194336"/>
-        <image name="welcome" width="500" height="500"/>
-        <image name="wing0" width="28.465116500854492" height="28.465116500854492"/>
-        <image name="wing1" width="28.465116500854492" height="28.465116500854492"/>
-        <image name="write" width="50" height="50"/>
+        <image name="bin" width="20" height="20"/>
+        <image name="found" width="94" height="94"/>
+        <image name="get_like" width="90" height="90"/>
+        <image name="google_login" width="190" height="50"/>
+        <image name="home" width="25" height="25"/>
+        <image name="like" width="90" height="90"/>
+        <image name="profile" width="30" height="30"/>
+        <image name="report" width="20" height="20"/>
+        <image name="settings" width="30" height="30"/>
+        <image name="squawk" width="90" height="90"/>
+        <image name="welcome" width="250" height="250"/>
+        <image name="wing0" width="17" height="17"/>
+        <image name="wing1" width="17" height="17"/>
+        <image name="write" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="xnB-8L-cuo"/>
