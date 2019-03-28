@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ESY-fJ-qVk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="lJt-9D-1Mm">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,28 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--My Profile-->
-        <scene sceneID="ahA-Fs-NkK">
-            <objects>
-                <tabBarController title="My Profile" id="ESY-fJ-qVk" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="63o-JB-ybX">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="lJt-9D-1Mm" kind="relationship" relationship="viewControllers" id="CoG-GC-4kK"/>
-                        <segue destination="40t-DX-d9J" kind="relationship" relationship="viewControllers" id="vjb-14-0KS"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5Zv-gs-rFJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="399" y="1077"/>
-        </scene>
-        <!--Me-->
+        <!--UserProfileViewController-->
         <scene sceneID="Uz8-db-Kj4">
             <objects>
-                <viewController id="lJt-9D-1Mm" customClass="UserProfileViewController" customModule="See_GO" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lJt-9D-1Mm" userLabel="UserProfileViewController" customClass="UserProfileViewController" customModule="See_GO" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8dE-H5-0fo">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -261,88 +243,12 @@
             </objects>
             <point key="canvasLocation" x="1600" y="921"/>
         </scene>
-        <!--Settings-->
-        <scene sceneID="z7l-I7-OOZ">
-            <objects>
-                <viewController id="40t-DX-d9J" customClass="SettingsViewController" customModule="See_GO" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="qPK-7a-Ivf">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="rPb-MU-czB">
-                                <rect key="frame" x="16" y="68" width="382" height="150"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y7y-9m-Yze">
-                                        <rect key="frame" x="0.0" y="0.0" width="382" height="30"/>
-                                        <state key="normal" title="Contact Us"/>
-                                        <connections>
-                                            <action selector="contactUS:" destination="40t-DX-d9J" eventType="touchUpInside" id="fUc-KQ-rY6"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKk-40-Cm4">
-                                        <rect key="frame" x="0.0" y="40" width="382" height="30"/>
-                                        <state key="normal" title="Privacy Policy"/>
-                                        <connections>
-                                            <action selector="privacyButton:" destination="40t-DX-d9J" eventType="touchUpInside" id="STK-Tb-n5U"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iEv-h9-Ilk">
-                                        <rect key="frame" x="0.0" y="80" width="382" height="30"/>
-                                        <state key="normal" title="Log Out"/>
-                                        <connections>
-                                            <action selector="logOut:" destination="40t-DX-d9J" eventType="touchUpInside" id="ztU-SE-SPE"/>
-                                            <segue destination="QqD-bA-xIC" kind="show" id="8vF-FI-Eph"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dAF-Q4-yJ2">
-                                        <rect key="frame" x="0.0" y="120" width="382" height="30"/>
-                                        <state key="normal" title="FAQs"/>
-                                        <connections>
-                                            <action selector="faqButton:" destination="40t-DX-d9J" eventType="touchUpInside" id="IAQ-HU-pdu"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="iEv-h9-Ilk" firstAttribute="leading" secondItem="rPb-MU-czB" secondAttribute="leading" id="3Oh-Th-P3g"/>
-                                    <constraint firstAttribute="trailing" secondItem="iEv-h9-Ilk" secondAttribute="trailing" id="6dU-dq-C0n"/>
-                                    <constraint firstItem="pKk-40-Cm4" firstAttribute="leading" secondItem="rPb-MU-czB" secondAttribute="leading" id="EMs-vh-3hf"/>
-                                    <constraint firstAttribute="trailing" secondItem="pKk-40-Cm4" secondAttribute="trailing" id="NXp-NN-qNV"/>
-                                    <constraint firstItem="dAF-Q4-yJ2" firstAttribute="leading" secondItem="rPb-MU-czB" secondAttribute="leading" id="ewO-xh-wD3"/>
-                                    <constraint firstAttribute="trailing" secondItem="dAF-Q4-yJ2" secondAttribute="trailing" id="mma-Db-0TV"/>
-                                    <constraint firstAttribute="trailing" secondItem="y7y-9m-Yze" secondAttribute="trailing" id="vI9-EV-Vvv"/>
-                                    <constraint firstItem="y7y-9m-Yze" firstAttribute="leading" secondItem="rPb-MU-czB" secondAttribute="leading" id="vk8-RE-gKm"/>
-                                </constraints>
-                            </stackView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="rPb-MU-czB" firstAttribute="top" secondItem="qUR-0N-56I" secondAttribute="top" constant="24" id="iPJ-eu-rcz"/>
-                            <constraint firstAttribute="trailing" secondItem="rPb-MU-czB" secondAttribute="trailing" constant="16" id="jMc-Ik-Oiv"/>
-                            <constraint firstItem="rPb-MU-czB" firstAttribute="leading" secondItem="qUR-0N-56I" secondAttribute="leading" constant="16" id="sV1-OS-IeU"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="qUR-0N-56I"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Settings" image="settings" id="blU-HG-JYz"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="DwU-zW-fw3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1600" y="1645"/>
-        </scene>
-        <!--Main-->
-        <scene sceneID="SnX-Bm-x7b">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Main" id="QqD-bA-xIC" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RUE-Qw-Jhq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2733" y="1661"/>
-        </scene>
     </scenes>
     <resources>
         <image name="found" width="94" height="94"/>
         <image name="get_like" width="90.5" height="90.5"/>
         <image name="like" width="90.5" height="90.5"/>
         <image name="profile" width="30" height="30"/>
-        <image name="settings" width="30" height="30"/>
         <image name="squawk" width="90.5" height="90.5"/>
     </resources>
 </document>

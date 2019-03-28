@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qhU-jk-rl4">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.43"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Settings-->
+        <scene sceneID="I0s-Ql-ERZ">
+            <objects>
+                <viewController id="qhU-jk-rl4" customClass="SettingsViewController" customModule="See_GO" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Z62-S0-qsK">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ob4-pA-cfG">
+                                <rect key="frame" x="16" y="68" width="382" height="150"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WcT-t6-ud8">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="30"/>
+                                        <state key="normal" title="Contact Us"/>
+                                        <connections>
+                                            <action selector="contactUS:" destination="qhU-jk-rl4" eventType="touchUpInside" id="FIf-l9-dGT"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpt-8h-i8Z">
+                                        <rect key="frame" x="0.0" y="40" width="382" height="30"/>
+                                        <state key="normal" title="Privacy Policy"/>
+                                        <connections>
+                                            <action selector="privacyButton:" destination="qhU-jk-rl4" eventType="touchUpInside" id="5dD-bh-wJR"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TAw-f0-JS2">
+                                        <rect key="frame" x="0.0" y="80" width="382" height="30"/>
+                                        <state key="normal" title="Log Out"/>
+                                        <connections>
+                                            <action selector="logOut:" destination="qhU-jk-rl4" eventType="touchUpInside" id="pZG-Mo-Z68"/>
+                                            <segue destination="xe9-OJ-TmQ" kind="show" id="v1e-uE-UkA"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zTZ-GD-58z">
+                                        <rect key="frame" x="0.0" y="120" width="382" height="30"/>
+                                        <state key="normal" title="FAQs"/>
+                                        <connections>
+                                            <action selector="faqButton:" destination="qhU-jk-rl4" eventType="touchUpInside" id="zKm-o7-ne6"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="zTZ-GD-58z" secondAttribute="trailing" id="Iaa-dB-yig"/>
+                                    <constraint firstItem="dpt-8h-i8Z" firstAttribute="leading" secondItem="ob4-pA-cfG" secondAttribute="leading" id="LFM-5Y-bte"/>
+                                    <constraint firstAttribute="trailing" secondItem="WcT-t6-ud8" secondAttribute="trailing" id="fUa-GU-Dcw"/>
+                                    <constraint firstItem="WcT-t6-ud8" firstAttribute="leading" secondItem="ob4-pA-cfG" secondAttribute="leading" id="hEH-PH-zu1"/>
+                                    <constraint firstAttribute="trailing" secondItem="dpt-8h-i8Z" secondAttribute="trailing" id="iRg-A8-R3R"/>
+                                    <constraint firstItem="zTZ-GD-58z" firstAttribute="leading" secondItem="ob4-pA-cfG" secondAttribute="leading" id="m6u-Iz-HIl"/>
+                                    <constraint firstItem="TAw-f0-JS2" firstAttribute="leading" secondItem="ob4-pA-cfG" secondAttribute="leading" id="mU3-7p-0kc"/>
+                                    <constraint firstAttribute="trailing" secondItem="TAw-f0-JS2" secondAttribute="trailing" id="w2K-DR-WSd"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ob4-pA-cfG" firstAttribute="top" secondItem="FLe-kg-Gmb" secondAttribute="top" constant="24" id="Gvg-nW-Uow"/>
+                            <constraint firstItem="ob4-pA-cfG" firstAttribute="leading" secondItem="FLe-kg-Gmb" secondAttribute="leading" constant="16" id="IKo-xC-Q9d"/>
+                            <constraint firstAttribute="trailing" secondItem="ob4-pA-cfG" secondAttribute="trailing" constant="16" id="aW5-nc-Qk8"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="FLe-kg-Gmb"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Settings" image="settings" id="i5j-rV-48m"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FG9-Tu-8Ky" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1561" y="1576"/>
+        </scene>
+        <!--Main-->
+        <scene sceneID="JFy-kH-Ddn">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" id="xe9-OJ-TmQ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="urq-tp-AEE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2659" y="1576"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="settings" width="30" height="30"/>
+    </resources>
+</document>

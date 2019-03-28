@@ -8,9 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		1F454B016F263F3DE2919EFF /* Pods_See_GO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9CE0E2868DA0C6CE46EBBCA /* Pods_See_GO.framework */; };
+		4CB4D4EB224CF58A00B5E4E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CB4D4EA224CF58A00B5E4E0 /* Main.storyboard */; };
+		4CB57A39224CE8C300665B76 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CB57A38224CE8C300665B76 /* Login.storyboard */; };
+		4CB57A3B224CEA3400665B76 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CB57A3A224CEA3400665B76 /* Settings.storyboard */; };
+		4CB57A3D224CEB2700665B76 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB57A3C224CEB2700665B76 /* MainTabBarController.swift */; };
 		4CD59D0B224C4FF300A9579A /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D0A224C4FF300A9579A /* Map.storyboard */; };
 		4CD59D0D224C508B00A9579A /* Story.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D0C224C508B00A9579A /* Story.storyboard */; };
-		4CD59D0F224C531600A9579A /* TabGroup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D0E224C531600A9579A /* TabGroup.storyboard */; };
+		4CD59D0F224C531600A9579A /* UserProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D0E224C531600A9579A /* UserProfile.storyboard */; };
 		4CD59D11224C548800A9579A /* TOC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D10224C548800A9579A /* TOC.storyboard */; };
 		4CD59D13224C554D00A9579A /* StoryUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D12224C554D00A9579A /* StoryUpload.storyboard */; };
 		DF72B71CBFCF21A10C415D98 /* Pods_See_GOTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81F94A753EAFCCE326FC39E0 /* Pods_See_GOTests.framework */; };
@@ -22,7 +26,6 @@
 		FE9D5AA92104C4D1003FDF8D /* SearchFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9D5AA82104C4D1003FDF8D /* SearchFooter.swift */; };
 		FE9DFF4120CA60BF00279C6B /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DFF4020CA60BE00279C6B /* Story.swift */; };
 		FEAD425920C6901400E25996 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAD425820C6901400E25996 /* AppDelegate.swift */; };
-		FEAD425E20C6901400E25996 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEAD425C20C6901400E25996 /* Main.storyboard */; };
 		FEAD426020C6901600E25996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEAD425F20C6901600E25996 /* Assets.xcassets */; };
 		FEAD426320C6901600E25996 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEAD426120C6901600E25996 /* LaunchScreen.storyboard */; };
 		FEAD426E20C6901600E25996 /* See_GOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAD426D20C6901600E25996 /* See_GOTests.swift */; };
@@ -72,9 +75,13 @@
 /* Begin PBXFileReference section */
 		20E9F18052535FFCF8B4153C /* Pods-See GO.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.release.xcconfig"; path = "Target Support Files/Pods-See GO/Pods-See GO.release.xcconfig"; sourceTree = "<group>"; };
 		340AE132C060488A7FBD3CEB /* Pods-See GOTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GOTests.release.xcconfig"; path = "Target Support Files/Pods-See GOTests/Pods-See GOTests.release.xcconfig"; sourceTree = "<group>"; };
+		4CB4D4EA224CF58A00B5E4E0 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		4CB57A38224CE8C300665B76 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		4CB57A3A224CEA3400665B76 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		4CB57A3C224CEB2700665B76 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		4CD59D0A224C4FF300A9579A /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		4CD59D0C224C508B00A9579A /* Story.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Story.storyboard; sourceTree = "<group>"; };
-		4CD59D0E224C531600A9579A /* TabGroup.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabGroup.storyboard; sourceTree = "<group>"; };
+		4CD59D0E224C531600A9579A /* UserProfile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserProfile.storyboard; sourceTree = "<group>"; };
 		4CD59D10224C548800A9579A /* TOC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TOC.storyboard; sourceTree = "<group>"; };
 		4CD59D12224C554D00A9579A /* StoryUpload.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = StoryUpload.storyboard; sourceTree = "<group>"; };
 		503C43F97B824A4F57838D8D /* Pods-See GO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.debug.xcconfig"; path = "Target Support Files/Pods-See GO/Pods-See GO.debug.xcconfig"; sourceTree = "<group>"; };
@@ -91,7 +98,6 @@
 		FE9DFF4020CA60BE00279C6B /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
 		FEAD425520C6901400E25996 /* See GO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "See GO.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEAD425820C6901400E25996 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FEAD425D20C6901400E25996 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FEAD425F20C6901600E25996 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FEAD426220C6901600E25996 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FEAD426420C6901600E25996 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -193,17 +199,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4CB57A37224CE7FC00665B76 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				4CB57A38224CE8C300665B76 /* Login.storyboard */,
+				FE01AD7C20F972EF00705CE1 /* LoginViewController.swift */,
+				FE01AD7E20F9734900705CE1 /* SignUpViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		4CD59D00224C4E4500A9579A /* App */ = {
 			isa = PBXGroup;
 			children = (
 				FEBD7FD522409F560006E7A4 /* Bridging-Header.h */,
 				FEAD425820C6901400E25996 /* AppDelegate.swift */,
 				4CD59D04224C4E9400A9579A /* Main */,
+				4CB57A37224CE7FC00665B76 /* Login */,
 				4CD59D01224C4E5F00A9579A /* Map */,
 				4CD59D02224C4E6D00A9579A /* StoryUpload */,
 				4CD59D03224C4E8E00A9579A /* Story */,
 				4CD59D06224C4ED200A9579A /* UserProfile */,
-				4CD59D07224C4EDF00A9579A /* TabGroup */,
+				4CD59D07224C4EDF00A9579A /* Settings */,
 				4CD59D08224C4EE500A9579A /* TOC */,
 				FE9DFF3B20CA393200279C6B /* Models */,
 				4CD59D09224C4EF900A9579A /* App Support */,
@@ -241,9 +258,8 @@
 		4CD59D04224C4E9400A9579A /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				FEAD425C20C6901400E25996 /* Main.storyboard */,
-				FE01AD7C20F972EF00705CE1 /* LoginViewController.swift */,
-				FE01AD7E20F9734900705CE1 /* SignUpViewController.swift */,
+				4CB4D4EA224CF58A00B5E4E0 /* Main.storyboard */,
+				4CB57A3C224CEB2700665B76 /* MainTabBarController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -251,18 +267,19 @@
 		4CD59D06224C4ED200A9579A /* UserProfile */ = {
 			isa = PBXGroup;
 			children = (
+				4CD59D0E224C531600A9579A /* UserProfile.storyboard */,
 				FE8EA78320FB4020005ED431 /* UserProfileViewController.swift */,
 			);
 			path = UserProfile;
 			sourceTree = "<group>";
 		};
-		4CD59D07224C4EDF00A9579A /* TabGroup */ = {
+		4CD59D07224C4EDF00A9579A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				4CD59D0E224C531600A9579A /* TabGroup.storyboard */,
+				4CB57A3A224CEA3400665B76 /* Settings.storyboard */,
 				FE8F720620FB5FA6006E3B96 /* SettingsViewController.swift */,
 			);
-			path = TabGroup;
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		4CD59D08224C4EE500A9579A /* TOC */ = {
@@ -573,13 +590,15 @@
 			files = (
 				4CD59D0D224C508B00A9579A /* Story.storyboard in Resources */,
 				FEAD426320C6901600E25996 /* LaunchScreen.storyboard in Resources */,
+				4CB57A3B224CEA3400665B76 /* Settings.storyboard in Resources */,
 				4CD59D13224C554D00A9579A /* StoryUpload.storyboard in Resources */,
-				4CD59D0F224C531600A9579A /* TabGroup.storyboard in Resources */,
+				4CD59D0F224C531600A9579A /* UserProfile.storyboard in Resources */,
+				4CB4D4EB224CF58A00B5E4E0 /* Main.storyboard in Resources */,
 				4CD59D11224C548800A9579A /* TOC.storyboard in Resources */,
 				FECD8E36211D2E42008D0855 /* GoogleService-Info.plist in Resources */,
 				4CD59D0B224C4FF300A9579A /* Map.storyboard in Resources */,
 				FEAD426020C6901600E25996 /* Assets.xcassets in Resources */,
-				FEAD425E20C6901400E25996 /* Main.storyboard in Resources */,
+				4CB57A39224CE8C300665B76 /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -734,6 +753,7 @@
 				FEE308C12241D5010050C3D5 /* GMUPair.m in Sources */,
 				FEE308B52241D5010050C3D5 /* GMUDefaultClusterIconGenerator.m in Sources */,
 				FE8F720720FB5FA6006E3B96 /* SettingsViewController.swift in Sources */,
+				4CB57A3D224CEB2700665B76 /* MainTabBarController.swift in Sources */,
 				FEE308BA2241D5010050C3D5 /* GMUPlacemark.m in Sources */,
 				FEE308BF2241D5010050C3D5 /* GMUStyle.m in Sources */,
 				FEE308B12241D5010050C3D5 /* GMUWrappingDictionaryKey.m in Sources */,
@@ -774,14 +794,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		FEAD425C20C6901400E25996 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FEAD425D20C6901400E25996 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		FEAD426120C6901600E25996 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -916,13 +928,13 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HNX4K9GJ7P;
-				INFOPLIST_FILE = "See GO/Info.plist";
+				INFOPLIST_FILE = "/Volumes/Bhargav Disk/Coding/Intern/bored-iOS/See GO/App/App Support/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.projectbored.See-GO";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Drifter/Documents/a Raffles INVENT/_Swift/See GO/See GO/Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Volumes/Bhargav Disk/Coding/Intern/bored-iOS/See GO/App/Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -936,13 +948,13 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HNX4K9GJ7P;
-				INFOPLIST_FILE = "See GO/Info.plist";
+				INFOPLIST_FILE = "/Volumes/Bhargav Disk/Coding/Intern/bored-iOS/See GO/App/App Support/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.projectbored.See-GO";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Drifter/Documents/a Raffles INVENT/_Swift/See GO/See GO/Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Volumes/Bhargav Disk/Coding/Intern/bored-iOS/See GO/App/Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

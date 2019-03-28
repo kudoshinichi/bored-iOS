@@ -39,6 +39,11 @@
                         <barButtonItem key="leftBarButtonItem" image="home" id="ocR-zy-VFO"/>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="write" id="u2D-3F-gOC"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="wHc-3Z-IfP" kind="show" identifier="ShowStoryTableSegue" id="122-Np-jcp"/>
+                        <segue destination="qQE-lY-KuX" kind="show" identifier="MapToTOC" id="XKm-Jj-0Gs"/>
+                        <segue destination="cJA-Mv-21g" kind="show" identifier="ShowStoryUpload" id="Y3B-LW-1na"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dO5-Zc-Szm" sceneMemberID="firstResponder"/>
             </objects>
@@ -52,21 +57,13 @@
             </objects>
             <point key="canvasLocation" x="2153" y="-14"/>
         </scene>
-        <!--TabGroup-->
-        <scene sceneID="Fe1-hS-Kp1">
-            <objects>
-                <viewControllerPlaceholder storyboardName="TabGroup" id="Gng-ti-NzQ" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mNf-n0-JOj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2153" y="94"/>
-        </scene>
         <!--TOC-->
         <scene sceneID="LV8-gl-Ikd">
             <objects>
                 <viewControllerPlaceholder storyboardName="TOC" id="qQE-lY-KuX" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LGg-9r-7Ib" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2152" y="192"/>
+            <point key="canvasLocation" x="2148" y="136"/>
         </scene>
         <!--StoryUpload-->
         <scene sceneID="Dgl-Gz-WOS">
