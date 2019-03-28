@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		1F454B016F263F3DE2919EFF /* Pods_See_GO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9CE0E2868DA0C6CE46EBBCA /* Pods_See_GO.framework */; };
+		4CD59D0B224C4FF300A9579A /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D0A224C4FF300A9579A /* Map.storyboard */; };
+		4CD59D0D224C508B00A9579A /* Story.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D0C224C508B00A9579A /* Story.storyboard */; };
+		4CD59D0F224C531600A9579A /* TabGroup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D0E224C531600A9579A /* TabGroup.storyboard */; };
+		4CD59D11224C548800A9579A /* TOC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D10224C548800A9579A /* TOC.storyboard */; };
+		4CD59D13224C554D00A9579A /* StoryUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D12224C554D00A9579A /* StoryUpload.storyboard */; };
 		DF72B71CBFCF21A10C415D98 /* Pods_See_GOTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81F94A753EAFCCE326FC39E0 /* Pods_See_GOTests.framework */; };
 		FE01AD7D20F972EF00705CE1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE01AD7C20F972EF00705CE1 /* LoginViewController.swift */; };
 		FE01AD7F20F9734900705CE1 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE01AD7E20F9734900705CE1 /* SignUpViewController.swift */; };
@@ -67,6 +72,11 @@
 /* Begin PBXFileReference section */
 		20E9F18052535FFCF8B4153C /* Pods-See GO.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.release.xcconfig"; path = "Target Support Files/Pods-See GO/Pods-See GO.release.xcconfig"; sourceTree = "<group>"; };
 		340AE132C060488A7FBD3CEB /* Pods-See GOTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GOTests.release.xcconfig"; path = "Target Support Files/Pods-See GOTests/Pods-See GOTests.release.xcconfig"; sourceTree = "<group>"; };
+		4CD59D0A224C4FF300A9579A /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
+		4CD59D0C224C508B00A9579A /* Story.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Story.storyboard; sourceTree = "<group>"; };
+		4CD59D0E224C531600A9579A /* TabGroup.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabGroup.storyboard; sourceTree = "<group>"; };
+		4CD59D10224C548800A9579A /* TOC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TOC.storyboard; sourceTree = "<group>"; };
+		4CD59D12224C554D00A9579A /* StoryUpload.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = StoryUpload.storyboard; sourceTree = "<group>"; };
 		503C43F97B824A4F57838D8D /* Pods-See GO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.debug.xcconfig"; path = "Target Support Files/Pods-See GO/Pods-See GO.debug.xcconfig"; sourceTree = "<group>"; };
 		81F94A753EAFCCE326FC39E0 /* Pods_See_GOTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_See_GOTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83504505166FE422665929EF /* Pods-See GOTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GOTests.debug.xcconfig"; path = "Target Support Files/Pods-See GOTests/Pods-See GOTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -183,6 +193,99 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4CD59D00224C4E4500A9579A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				FEBD7FD522409F560006E7A4 /* Bridging-Header.h */,
+				FEAD425820C6901400E25996 /* AppDelegate.swift */,
+				4CD59D04224C4E9400A9579A /* Main */,
+				4CD59D01224C4E5F00A9579A /* Map */,
+				4CD59D02224C4E6D00A9579A /* StoryUpload */,
+				4CD59D03224C4E8E00A9579A /* Story */,
+				4CD59D06224C4ED200A9579A /* UserProfile */,
+				4CD59D07224C4EDF00A9579A /* TabGroup */,
+				4CD59D08224C4EE500A9579A /* TOC */,
+				FE9DFF3B20CA393200279C6B /* Models */,
+				4CD59D09224C4EF900A9579A /* App Support */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		4CD59D01224C4E5F00A9579A /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				4CD59D0A224C4FF300A9579A /* Map.storyboard */,
+				FEC4FC0A20C6AC8B00837F48 /* MapViewController.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		4CD59D02224C4E6D00A9579A /* StoryUpload */ = {
+			isa = PBXGroup;
+			children = (
+				4CD59D12224C554D00A9579A /* StoryUpload.storyboard */,
+				FEF52F2F20C782C0004DF382 /* StoryUploadController.swift */,
+			);
+			path = StoryUpload;
+			sourceTree = "<group>";
+		};
+		4CD59D03224C4E8E00A9579A /* Story */ = {
+			isa = PBXGroup;
+			children = (
+				4CD59D0C224C508B00A9579A /* Story.storyboard */,
+				FEF546D720D66653004B2313 /* StoryTableViewController.swift */,
+			);
+			path = Story;
+			sourceTree = "<group>";
+		};
+		4CD59D04224C4E9400A9579A /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				FEAD425C20C6901400E25996 /* Main.storyboard */,
+				FE01AD7C20F972EF00705CE1 /* LoginViewController.swift */,
+				FE01AD7E20F9734900705CE1 /* SignUpViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		4CD59D06224C4ED200A9579A /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				FE8EA78320FB4020005ED431 /* UserProfileViewController.swift */,
+			);
+			path = UserProfile;
+			sourceTree = "<group>";
+		};
+		4CD59D07224C4EDF00A9579A /* TabGroup */ = {
+			isa = PBXGroup;
+			children = (
+				4CD59D0E224C531600A9579A /* TabGroup.storyboard */,
+				FE8F720620FB5FA6006E3B96 /* SettingsViewController.swift */,
+			);
+			path = TabGroup;
+			sourceTree = "<group>";
+		};
+		4CD59D08224C4EE500A9579A /* TOC */ = {
+			isa = PBXGroup;
+			children = (
+				4CD59D10224C548800A9579A /* TOC.storyboard */,
+				FE1CA4692106CCE30024AFF3 /* TOCViewController.swift */,
+			);
+			path = TOC;
+			sourceTree = "<group>";
+		};
+		4CD59D09224C4EF900A9579A /* App Support */ = {
+			isa = PBXGroup;
+			children = (
+				FECD8E35211D2E42008D0855 /* GoogleService-Info.plist */,
+				FEE308572241D4810050C3D5 /* Google-Maps-iOS-Utils */,
+				FEAD425F20C6901600E25996 /* Assets.xcassets */,
+				FEAD426120C6901600E25996 /* LaunchScreen.storyboard */,
+				FEAD426420C6901600E25996 /* Info.plist */,
+			);
+			path = "App Support";
+			sourceTree = "<group>";
+		};
 		77E00C61D9395D08C11159A8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,21 +305,6 @@
 				81F94A753EAFCCE326FC39E0 /* Pods_See_GOTests.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		FE9DFF3A20CA391900279C6B /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				FEC4FC0A20C6AC8B00837F48 /* MapViewController.swift */,
-				FEF52F2F20C782C0004DF382 /* StoryUploadController.swift */,
-				FEF546D720D66653004B2313 /* StoryTableViewController.swift */,
-				FE01AD7E20F9734900705CE1 /* SignUpViewController.swift */,
-				FE01AD7C20F972EF00705CE1 /* LoginViewController.swift */,
-				FE8EA78320FB4020005ED431 /* UserProfileViewController.swift */,
-				FE8F720620FB5FA6006E3B96 /* SettingsViewController.swift */,
-				FE1CA4692106CCE30024AFF3 /* TOCViewController.swift */,
-			);
-			path = Controllers;
 			sourceTree = "<group>";
 		};
 		FE9DFF3B20CA393200279C6B /* Models */ = {
@@ -252,16 +340,7 @@
 		FEAD425720C6901400E25996 /* See GO */ = {
 			isa = PBXGroup;
 			children = (
-				FEBD7FD522409F560006E7A4 /* Bridging-Header.h */,
-				FEAD425820C6901400E25996 /* AppDelegate.swift */,
-				FE9DFF3B20CA393200279C6B /* Models */,
-				FE9DFF3A20CA391900279C6B /* Controllers */,
-				FEAD425C20C6901400E25996 /* Main.storyboard */,
-				FEAD425F20C6901600E25996 /* Assets.xcassets */,
-				FEAD426120C6901600E25996 /* LaunchScreen.storyboard */,
-				FEAD426420C6901600E25996 /* Info.plist */,
-				FECD8E35211D2E42008D0855 /* GoogleService-Info.plist */,
-				FEE308572241D4810050C3D5 /* Google-Maps-iOS-Utils */,
+				4CD59D00224C4E4500A9579A /* App */,
 			);
 			path = "See GO";
 			sourceTree = "<group>";
@@ -492,8 +571,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CD59D0D224C508B00A9579A /* Story.storyboard in Resources */,
 				FEAD426320C6901600E25996 /* LaunchScreen.storyboard in Resources */,
+				4CD59D13224C554D00A9579A /* StoryUpload.storyboard in Resources */,
+				4CD59D0F224C531600A9579A /* TabGroup.storyboard in Resources */,
+				4CD59D11224C548800A9579A /* TOC.storyboard in Resources */,
 				FECD8E36211D2E42008D0855 /* GoogleService-Info.plist in Resources */,
+				4CD59D0B224C4FF300A9579A /* Map.storyboard in Resources */,
 				FEAD426020C6901600E25996 /* Assets.xcassets in Resources */,
 				FEAD425E20C6901400E25996 /* Main.storyboard in Resources */,
 			);

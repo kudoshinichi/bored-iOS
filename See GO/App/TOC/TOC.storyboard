@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bBU-dZ-l17">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.43"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="nAZ-4C-sVe">
+            <objects>
+                <viewController id="PAR-W3-fNa" customClass="TOCViewController" customModule="See_GO" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="U63-Kf-dlL">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xao-gd-YCq">
+                                <rect key="frame" x="0.0" y="44" width="414" height="918"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="eQH-Az-YOt">
+                                        <rect key="frame" x="0.0" y="20" width="414" height="320.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="See GO Terms of Use" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pKq-nN-tyL">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.062745098040000002" green="0.43921568630000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pt1-5m-RsR">
+                                                <rect key="frame" x="40" y="30.5" width="334" height="250"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <string key="text">&gt; Share only photos and videos that you’ve taken or have the right to share.
+&gt; Foster meaningful and genuine interactions.
+&gt; Follow the law.
+&gt; Respect other members of the See GO community.
+&gt; Do not post private or confidential information or do anything that violates someone else's rights, including intellectual property.
+&gt; Do not attempt to interfere with or impair the intended operation of the Service.
+&gt; Highly offensive or objectionable content may be removed, and users who provided these content may be barred from the platform.</string>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZL-Kh-W2v">
+                                                <rect key="frame" x="56" y="290.5" width="302" height="30"/>
+                                                <state key="normal" title="I have read and agree to these Terms of Use"/>
+                                                <connections>
+                                                    <action selector="acceptTOC:" destination="PAR-W3-fNa" eventType="touchUpInside" id="Uh2-5c-JxI"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="Pt1-5m-RsR" secondAttribute="trailing" constant="40" id="0rj-Nf-z0X"/>
+                                            <constraint firstAttribute="trailing" secondItem="pKq-nN-tyL" secondAttribute="trailing" id="CQb-Dp-cmI"/>
+                                            <constraint firstItem="Pt1-5m-RsR" firstAttribute="leading" secondItem="eQH-Az-YOt" secondAttribute="leading" constant="40" id="pv8-wl-tEN"/>
+                                            <constraint firstItem="pKq-nN-tyL" firstAttribute="leading" secondItem="eQH-Az-YOt" secondAttribute="leading" id="yzN-Qj-hBT"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="eQH-Az-YOt" secondAttribute="trailing" id="0a1-kx-noQ"/>
+                                    <constraint firstItem="eQH-Az-YOt" firstAttribute="top" secondItem="Xao-gd-YCq" secondAttribute="top" constant="20" id="PmM-g4-Isq"/>
+                                    <constraint firstItem="eQH-Az-YOt" firstAttribute="width" secondItem="Xao-gd-YCq" secondAttribute="width" id="sVF-r4-o9x"/>
+                                    <constraint firstItem="eQH-Az-YOt" firstAttribute="leading" secondItem="Xao-gd-YCq" secondAttribute="leading" id="tAC-Og-T4k"/>
+                                    <constraint firstAttribute="bottom" secondItem="eQH-Az-YOt" secondAttribute="bottom" id="tB4-xg-6DQ"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Xao-gd-YCq" firstAttribute="top" secondItem="kkt-qI-bjr" secondAttribute="top" id="0xV-Nk-0Pc"/>
+                            <constraint firstItem="Xao-gd-YCq" firstAttribute="leading" secondItem="U63-Kf-dlL" secondAttribute="leading" id="ed3-4y-u4s"/>
+                            <constraint firstItem="kkt-qI-bjr" firstAttribute="trailing" secondItem="Xao-gd-YCq" secondAttribute="trailing" id="qkk-fv-OJg"/>
+                            <constraint firstItem="kkt-qI-bjr" firstAttribute="bottom" secondItem="Xao-gd-YCq" secondAttribute="bottom" constant="-100" id="sRH-Do-Esv"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="kkt-qI-bjr"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="s0n-FJ-VOS"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Ki-0y-RLE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2657" y="-585"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="FXk-XW-QxL">
+            <objects>
+                <viewController id="bBU-dZ-l17" customClass="TOCViewController" customModule="See_GO" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Un5-Br-Cdj">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="99v-og-txa">
+                                <rect key="frame" x="0.0" y="44" width="414" height="918"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZSh-zh-gh1">
+                                        <rect key="frame" x="0.0" y="20" width="414" height="320.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="See GO Terms of Use" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJi-2w-Vml">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.062745098040000002" green="0.43921568630000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mZb-Tt-bcV">
+                                                <rect key="frame" x="40" y="30.5" width="334" height="250"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <string key="text">&gt; Share only photos and videos that you’ve taken or have the right to share.
+&gt; Foster meaningful and genuine interactions.
+&gt; Follow the law.
+&gt; Respect other members of the See GO community.
+&gt; Do not post private or confidential information or do anything that violates someone else's rights, including intellectual property.
+&gt; Do not attempt to interfere with or impair the intended operation of the Service.
+&gt; Highly offensive or objectionable content may be removed, and users who provided these content may be barred from the platform.</string>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YzA-hH-5Ue">
+                                                <rect key="frame" x="56" y="290.5" width="302" height="30"/>
+                                                <state key="normal" title="I have read and agree to these Terms of Use"/>
+                                                <connections>
+                                                    <action selector="acceptTOC:" destination="bBU-dZ-l17" eventType="touchUpInside" id="BSA-Be-bH1"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="mZb-Tt-bcV" secondAttribute="trailing" constant="40" id="97n-ec-zFM"/>
+                                            <constraint firstItem="rJi-2w-Vml" firstAttribute="leading" secondItem="ZSh-zh-gh1" secondAttribute="leading" id="XL8-Ji-2dR"/>
+                                            <constraint firstItem="mZb-Tt-bcV" firstAttribute="leading" secondItem="ZSh-zh-gh1" secondAttribute="leading" constant="40" id="jQK-Ct-1Dp"/>
+                                            <constraint firstAttribute="trailing" secondItem="rJi-2w-Vml" secondAttribute="trailing" id="oNL-L6-hwo"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="ZSh-zh-gh1" firstAttribute="leading" secondItem="99v-og-txa" secondAttribute="leading" id="5ry-RT-op1"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZSh-zh-gh1" secondAttribute="trailing" id="6D0-zt-nyF"/>
+                                    <constraint firstItem="ZSh-zh-gh1" firstAttribute="top" secondItem="99v-og-txa" secondAttribute="top" constant="20" id="HzB-JW-HRo"/>
+                                    <constraint firstAttribute="bottom" secondItem="ZSh-zh-gh1" secondAttribute="bottom" id="IND-XT-7BJ"/>
+                                    <constraint firstItem="ZSh-zh-gh1" firstAttribute="width" secondItem="99v-og-txa" secondAttribute="width" id="j9L-Xi-8Um"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="99v-og-txa" firstAttribute="top" secondItem="MVF-uA-iDR" secondAttribute="top" id="9ig-XW-gBh"/>
+                            <constraint firstItem="99v-og-txa" firstAttribute="leading" secondItem="Un5-Br-Cdj" secondAttribute="leading" id="Eg2-JF-Bb7"/>
+                            <constraint firstItem="MVF-uA-iDR" firstAttribute="bottom" secondItem="99v-og-txa" secondAttribute="bottom" constant="-100" id="PYf-NW-UFx"/>
+                            <constraint firstItem="MVF-uA-iDR" firstAttribute="trailing" secondItem="99v-og-txa" secondAttribute="trailing" id="d4b-oc-VEy"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="MVF-uA-iDR"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Wi1-DS-YIs"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eil-mG-mP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2657" y="-585"/>
+        </scene>
+    </scenes>
+</document>

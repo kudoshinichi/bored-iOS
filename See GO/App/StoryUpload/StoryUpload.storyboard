@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YoG-IN-RMC">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.43"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Add Squawk-->
+        <scene sceneID="f01-Ie-2ij">
+            <objects>
+                <viewController id="YoG-IN-RMC" customClass="StoryUploadController" customModule="See_GO" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kUd-yS-IvB">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="aGl-4M-HgF">
+                                <rect key="frame" x="16" y="64" width="382" height="432"/>
+                                <subviews>
+                                    <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="343" placeholderIntrinsicHeight="350" image="addImage" translatesAutoresizingMaskIntoConstraints="NO" id="cVa-Y7-ffT">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="350"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="350" id="uRU-Vc-QTI"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="9fZ-b8-gdd" appends="YES" id="wLf-kT-RBM"/>
+                                        </connections>
+                                    </imageView>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Insert hook." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n92-Pg-exX">
+                                        <rect key="frame" x="0.0" y="358" width="382" height="16"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6TG-2H-05P">
+                                        <rect key="frame" x="0.0" y="382" width="382" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="2XL-vu-bPx"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                    </textView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="n92-Pg-exX" secondAttribute="trailing" id="1nZ-oY-XOv"/>
+                                    <constraint firstAttribute="trailing" secondItem="6TG-2H-05P" secondAttribute="trailing" id="6gN-8n-cLS"/>
+                                    <constraint firstItem="6TG-2H-05P" firstAttribute="leading" secondItem="aGl-4M-HgF" secondAttribute="leading" id="8gi-q4-frF"/>
+                                    <constraint firstItem="n92-Pg-exX" firstAttribute="leading" secondItem="aGl-4M-HgF" secondAttribute="leading" id="Ncq-Pa-0n0"/>
+                                    <constraint firstAttribute="trailing" secondItem="cVa-Y7-ffT" secondAttribute="trailing" id="Ow8-YW-n98"/>
+                                    <constraint firstItem="cVa-Y7-ffT" firstAttribute="leading" secondItem="aGl-4M-HgF" secondAttribute="leading" id="Thb-7O-XwV"/>
+                                    <constraint firstItem="cVa-Y7-ffT" firstAttribute="top" secondItem="aGl-4M-HgF" secondAttribute="top" id="qXT-9K-43p"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="aGl-4M-HgF" firstAttribute="leading" secondItem="nFD-im-Rjn" secondAttribute="leading" constant="16" id="9Ho-3v-tv3"/>
+                            <constraint firstItem="aGl-4M-HgF" firstAttribute="top" secondItem="nFD-im-Rjn" secondAttribute="top" constant="20" id="NZT-uZ-kRA"/>
+                            <constraint firstItem="nFD-im-Rjn" firstAttribute="trailing" secondItem="aGl-4M-HgF" secondAttribute="trailing" constant="16" id="dfA-Du-N1T"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="nFD-im-Rjn"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add Squawk" id="y2h-O0-1rF">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="h2k-V0-ShH">
+                            <connections>
+                                <action selector="cancelSquawk:" destination="YoG-IN-RMC" id="Acb-59-rCF"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Squawk" id="5hT-1s-n2F">
+                            <connections>
+                                <action selector="addSquawk:" destination="YoG-IN-RMC" id="5Fb-2A-pk2"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="captionTextView" destination="6TG-2H-05P" id="nCt-d0-8TW"/>
+                        <outlet property="hookText" destination="n92-Pg-exX" id="ezR-gx-jSj"/>
+                        <outlet property="photoImageView" destination="cVa-Y7-ffT" id="WiD-Mt-4aw"/>
+                        <segue destination="h0j-VT-3X3" kind="unwind" identifier="squawkBackToMap" unwindAction="unwindToMainScreenWithSegue:" id="Zv3-Gy-xoS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iF0-Pe-yyl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="h0j-VT-3X3" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer id="9fZ-b8-gdd">
+                    <connections>
+                        <action selector="selectImageFromPhotoLibrary:" destination="YoG-IN-RMC" id="pqV-oT-13R"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="4507.5" y="-685.56338028169012"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="addImage" width="320" height="320"/>
+    </resources>
+</document>
