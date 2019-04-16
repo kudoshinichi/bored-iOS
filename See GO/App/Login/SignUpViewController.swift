@@ -16,41 +16,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, GIDSignInUIDe
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var passwordText: UITextField!
 
-    var handle: AuthStateDidChangeListenerHandle?
     
     // Database
     var userRef : DatabaseReference!
     var featuresRef: DatabaseReference!
-    struct userItem {
-        let admin: Bool
-        let username: String
-        let uid: String
-        let flagothers: Int
-        
-        func toAnyObject() -> Any {
-            return [
-                "Admin": admin,
-                "Username": username,
-                "UID": uid,
-                "FlagOthers": flagothers,
-            ]
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
-        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            if user != nil {
-                print("User is signed in.")
-            } else {
-                print("User is signed out.")
-            }
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        Auth.auth().removeStateDidChangeListener(handle!)
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

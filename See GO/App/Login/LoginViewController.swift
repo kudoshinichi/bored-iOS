@@ -112,7 +112,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func actuallyLogIn(email: String) {
         
-        Auth.auth().signIn(withEmail: email, password: passwordText.text!) { (user, error) in
+        Auth.auth().signIn(withEmail: email, password: passwordText.text!) { [weak self] (user, error) in
             if (error != nil) {
                 
                 if let errCode = AuthErrorCode(rawValue: error!._code) {
@@ -122,22 +122,22 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     case AuthErrorCode.invalidEmail:
                         let alert = UIAlertController(title: "Invalid Email", message: "Invalid email format. Try again?", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
-                        self.present(alert, animated: true)
+                        self?.present(alert, animated: true)
                         
                     case AuthErrorCode.userNotFound:
                         let alert = UIAlertController(title: "User Not Found", message: "User does not exist or may have been deleted. Try signing up?", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
-                        self.present(alert, animated: true)
+                        self?.present(alert, animated: true)
                         
                     case AuthErrorCode.userDisabled:
                         let alert = UIAlertController(title: "User Disabled", message: "Contact us with this error.", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
-                        self.present(alert, animated: true)
+                        self?.present(alert, animated: true)
                         
                     case AuthErrorCode.wrongPassword:
                         let alert = UIAlertController(title: "Wrong Password", message: "Try again? Or try 'Forgot Your Password'?", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
-                        self.present(alert, animated: true)
+                        self?.present(alert, animated: true)
                         
                     default:
                         print("Create User Error: \(String(describing: error))")
@@ -146,7 +146,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 }
                 
             } else {
-                self.performSegue(withIdentifier: "LoginToMap", sender: nil)
+                self?.navigationController?.popViewController(animated: true)
                 print ("cool")
             }
         }

@@ -21,40 +21,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     //Google Sign In + Database
     var uid: String = ""
     var email: String = ""
-    struct userItem {
-        let admin: Bool
-        let uid: String
-        
-        func toAnyObject() -> Any {
-            return [
-                "Admin": admin,
-                "UID": uid,
-            ]
-        }
-    }
     var userRef : DatabaseReference!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         // Override point for customization after application launch.
-        GMSServices.provideAPIKey("AIzaSyAGchByNHI_1ZdxX6fxju2Tdj3Y6iJPvwk")
+        GMSServices.provideAPIKey(Constants.APIkey)
         
         // Use Firebase library to configure APIs
         FirebaseApp.configure()
-        
-        let user = Auth.auth().currentUser;
-        let userSignedIn: Bool = (user != nil)
-        
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        
-        if userSignedIn{
-            let mapScreen = storyBoard.instantiateViewController(withIdentifier: "MapViewNavControl")
-            self.window?.rootViewController = mapScreen
-            
-        } else {
-            let signupScreen = storyBoard.instantiateViewController(withIdentifier: "SignUpVC")
-            self.window?.rootViewController = signupScreen
-        }
         
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
@@ -66,9 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     //Google Sign In
     func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any])
         -> Bool {
-            return GIDSignIn.sharedInstance().handle(url,
-                                                     sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
-                                                     annotation: [:])
+            return GIDSignIn.sharedInstance().handle(url, sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: [:])
             
     }
     
@@ -107,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                         print(self.email)
                     }
                     
-                    let thisUser = userItem(admin: false, uid: self.uid)
+                    let thisUser = userItem(admin: false, username: "name", uid: self.uid, flagothers: 0)
                     self.userRef = Database.database().reference(withPath: "users")
                     self.userRef.child(self.uid).updateChildValues(thisUser.toAnyObject() as! [AnyHashable : Any])
                     

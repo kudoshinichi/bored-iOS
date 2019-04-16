@@ -17,6 +17,8 @@
 		4CD59D0F224C531600A9579A /* UserProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D0E224C531600A9579A /* UserProfile.storyboard */; };
 		4CD59D11224C548800A9579A /* TOC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D10224C548800A9579A /* TOC.storyboard */; };
 		4CD59D13224C554D00A9579A /* StoryUpload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD59D12224C554D00A9579A /* StoryUpload.storyboard */; };
+		4CF54ACD22656E5600BF70D4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF54ACC22656E5600BF70D4 /* User.swift */; };
+		4CF54ACF226572E500BF70D4 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF54ACE226572E500BF70D4 /* AppConstants.swift */; };
 		DF72B71CBFCF21A10C415D98 /* Pods_See_GOTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81F94A753EAFCCE326FC39E0 /* Pods_See_GOTests.framework */; };
 		FE01AD7D20F972EF00705CE1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE01AD7C20F972EF00705CE1 /* LoginViewController.swift */; };
 		FE01AD7F20F9734900705CE1 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE01AD7E20F9734900705CE1 /* SignUpViewController.swift */; };
@@ -84,6 +86,8 @@
 		4CD59D0E224C531600A9579A /* UserProfile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserProfile.storyboard; sourceTree = "<group>"; };
 		4CD59D10224C548800A9579A /* TOC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TOC.storyboard; sourceTree = "<group>"; };
 		4CD59D12224C554D00A9579A /* StoryUpload.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = StoryUpload.storyboard; sourceTree = "<group>"; };
+		4CF54ACC22656E5600BF70D4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		4CF54ACE226572E500BF70D4 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		503C43F97B824A4F57838D8D /* Pods-See GO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GO.debug.xcconfig"; path = "Target Support Files/Pods-See GO/Pods-See GO.debug.xcconfig"; sourceTree = "<group>"; };
 		81F94A753EAFCCE326FC39E0 /* Pods_See_GOTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_See_GOTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83504505166FE422665929EF /* Pods-See GOTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-See GOTests.debug.xcconfig"; path = "Target Support Files/Pods-See GOTests/Pods-See GOTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -214,6 +218,7 @@
 			children = (
 				FEBD7FD522409F560006E7A4 /* Bridging-Header.h */,
 				FEAD425820C6901400E25996 /* AppDelegate.swift */,
+				4CF54ACE226572E500BF70D4 /* AppConstants.swift */,
 				4CD59D04224C4E9400A9579A /* Main */,
 				4CB57A37224CE7FC00665B76 /* Login */,
 				4CD59D01224C4E5F00A9579A /* Map */,
@@ -330,6 +335,7 @@
 				FE9DFF4020CA60BE00279C6B /* Story.swift */,
 				FEF546D520D65FB5004B2313 /* StoryTableViewCell.swift */,
 				FE9D5AA82104C4D1003FDF8D /* SearchFooter.swift */,
+				4CF54ACC22656E5600BF70D4 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -735,6 +741,7 @@
 			files = (
 				FEE308B22241D5010050C3D5 /* GMUSimpleClusterAlgorithm.m in Sources */,
 				FEAD425920C6901400E25996 /* AppDelegate.swift in Sources */,
+				4CF54ACF226572E500BF70D4 /* AppConstants.swift in Sources */,
 				FEE308BB2241D5010050C3D5 /* GMUPolygon.m in Sources */,
 				FEF546D820D66653004B2313 /* StoryTableViewController.swift in Sources */,
 				FEE308B02241D5010050C3D5 /* GMUGridBasedClusterAlgorithm.m in Sources */,
@@ -761,6 +768,7 @@
 				FEE308B92241D5010050C3D5 /* GMUGeometryCollection.m in Sources */,
 				FE8EA78420FB4020005ED431 /* UserProfileViewController.swift in Sources */,
 				FEE308C32241D5010050C3D5 /* GMUGeoJSONParser.m in Sources */,
+				4CF54ACD22656E5600BF70D4 /* User.swift in Sources */,
 				FEE308AD2241D5010050C3D5 /* GQTPointQuadTree.m in Sources */,
 				FEF546D620D65FB5004B2313 /* StoryTableViewCell.swift in Sources */,
 				FEE308BC2241D5010050C3D5 /* GMUStyleMap.m in Sources */,
