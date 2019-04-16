@@ -68,7 +68,7 @@ class SettingsViewController: UIViewController {
         do {
             try firebaseAuth.signOut()
             
-            self.performSegue(withIdentifier: "LogOutToSignUp", sender: self)
+            print("sign out")
             
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
